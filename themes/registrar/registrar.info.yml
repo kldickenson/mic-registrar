@@ -1,5 +1,5 @@
-name: ZURB Foundation Sub-theme Starter
-description: "Custom sub-theme, inherits from the Foundation base theme read <a href=\"http://foundation.zurb.com/docs/index.php\">framework documentation</a>"
+name: registrar
+description: "A Foundation 6 sub-theme, inherits from the Foundation base theme read <a href=\"http://foundation.zurb.com/docs/index.php\">framework documentation</a>"
 core: 8.x
 type: theme
 base theme: zurb_foundation
@@ -10,7 +10,7 @@ base theme: zurb_foundation
 # Uncomment these lines and change "STARTER" to your theme name if you
 # need to add custom CSS or JS
 libraries:
- - STARTER/global
+ - STARATER/global
 
 # Regions are output in the page.html.twig
 
