@@ -76,6 +76,14 @@ $print-transparent-backgrounds: true;
 
 @include add-foundation-colors;
 
+// - - - - -  UM Registrar custom variables - - - - - -
+$um-blue: #00274c; /* rgb(0, 39, 76) */
+$um-maize: #ffcb05; /* rgb(255, 203, 5) */
+$um-gray: #e8e7e1; /* rgb(232, 231, 225) */
+$um-cream: #f3f3f0; /* rgb(243, 243, 240) */
+
+
+
 // 2. Breakpoints
 // --------------
 

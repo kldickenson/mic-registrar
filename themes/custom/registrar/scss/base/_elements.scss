@@ -5,6 +5,11 @@
 // - Also, before adding styles be sure to modify variables in the
 //   "base/_common.scss" file. You may not need to write any code.
 
+body {
+  background-color: $um-blue;
+}
+
+
 // Headings
 //------------------------------------------
 // h1, h2, h3,

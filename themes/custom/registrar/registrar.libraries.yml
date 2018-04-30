@@ -1,5 +1,5 @@
 global:
-  version: VERSION
+  version: 0.9
   css:
     base:
       css/registrar.css: {}

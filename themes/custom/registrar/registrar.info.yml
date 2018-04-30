@@ -10,7 +10,7 @@ base theme: zurb_foundation
 # Uncomment these lines and change "STARTER" to your theme name if you
 # need to add custom CSS or JS
 libraries:
- - STARATER/global
+ - registrar/global
 
 # Regions are output in the page.html.twig
 
