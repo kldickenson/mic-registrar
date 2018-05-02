@@ -1,1 +1,22 @@
 // Non-modular or client styles for .l-header region.
+.container-header {
+  background: $um-blue;
+  .block-ro-branding {
+    float: left;
+    width: 75%;
+  }
+  #block-ro-utilitymenu {
+    float: right;
+    width: 25%;
+  }
+  .search-block-form {
+    float: right;
+    width: 25%;
+  }
+  .menu {
+    a {
+      color: $um-maize;
+     }
+  }
+
+}

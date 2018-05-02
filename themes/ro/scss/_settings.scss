@@ -76,6 +76,15 @@ $print-transparent-backgrounds: true;
 
 @include add-foundation-colors;
 
+/* - - - - - UM Registrar's Office specific variables - - - - - */
+$um-blue:rgb(0,39,76); /* #00274c */
+$um-blue-lt:rgb(45,104,183); /* #2d68b7 */
+$um-maize:rgb(255,203,5); /* #ffcb05 */
+$um-gray: rgb(84,84,84); /* #545454 */
+$um-gray-md:rgb(221,222,219); /* #dddedb */
+$um-gray-lt:rgb(232,231,225); /* #e8e7e1 */
+$um-cream:rgb(243,243,240); /* #f3f3f0 */
+
 // 2. Breakpoints
 // --------------
 
