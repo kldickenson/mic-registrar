@@ -1,7 +1,0 @@
-global:
-  version: VERSION
-  css:
-    base:
-      css/registrar.css: {}
-  js:
-    js/registrar.js: {}

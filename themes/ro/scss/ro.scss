@@ -59,7 +59,7 @@ $flex: false;
 
 // Styling for elements.
 // Optional.
-// @import 'base/elements';
+@import 'base/elements';
 
 // Layout
 // Each section of the document has it's own partial seperated out to improve
@@ -72,6 +72,8 @@ $flex: false;
 // Modules
 // @import 'modules/block';
 // @import 'modules/button';
+@import 'modules/menu_block';
+@import 'modules/search';
 
 // States
 // @import 'states/collapse';

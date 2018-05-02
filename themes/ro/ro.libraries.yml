@@ -1,0 +1,7 @@
+global:
+  version: 1.0
+  css:
+    base:
+      css/ro.css: {}
+  js:
+    js/ro.js: {}

@@ -79,28 +79,29 @@
           </div>
         {% endif %}
       {% endif %}
-
-      <header class="row" role="banner" aria-label="{{ 'Site header'|t }}">
-        {% if linked_site_name or linked_logo %}
-          <div class="large-2 columns">
-            {% if linked_logo %}
-              {{ linked_logo }}
-            {% endif %}
-          </div>
-          <div class="left large-4 columns">
-            {% if is_front %}
-              <h1 id="site-name">{{ linked_site_name }}</h1>
-            {% else %}
-              <div id="site-name">{{ linked_site_name }}</div>
-            {% endif %}
-          </div>
-        {% endif %}
-        {% if page.header %}
-          <div class="large-12 columns">
-            {{ page.header }}
-          </div>
-        {% endif %}
-      </header>
+      <div class="container-header">
+        <header class="row" role="banner" aria-label="{{ 'Site header'|t }}">
+          {% if linked_site_name or linked_logo %}
+            <div class="large-2 columns">
+              {% if linked_logo %}
+                {{ linked_logo }}
+              {% endif %}
+            </div>
+            <div class="left large-4 columns">
+              {% if is_front %}
+                <h1 id="site-name">{{ linked_site_name }}</h1>
+              {% else %}
+                <div id="site-name">{{ linked_site_name }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if page.header %}
+            <div class="large-12 columns">
+              {{ page.header }}
+            </div>
+          {% endif %}
+        </header>
+      </div>
 
       <div class="row">
         {% if show_account_info %}
@@ -178,6 +179,7 @@
         {% endif %}
       </div>
       {% if page.footer_first or page.footer_middle or page.footer_last %}
+      <div class="container-footer">
         <footer class="row">
           {% if page.footer_first %}
             <div id="footer-first" class="large-4 columns">
@@ -195,6 +197,7 @@
             </div>
           {% endif %}
         </footer>
+      </div>
       {% endif %}
       <div class="bottom-bar panel">
         <div class="row">
