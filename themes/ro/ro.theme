@@ -5,13 +5,13 @@
 /**
  * Implements hook_preprocess_block()
  */
-function registrar_preprocess_block(&$variables) {
+function ro_preprocess_block(&$variables) {
 }
 
 /**
  * Implements template_preprocess_field().
  */
-function registrar_preprocess_field(&$variables, $hook) {
+function ro_preprocess_field(&$variables, $hook) {
 }
 
 /**
@@ -19,7 +19,7 @@ function registrar_preprocess_field(&$variables, $hook) {
  *
  * Adds additional classes
  */
-function registrar_preprocess_html(&$variables) {
+function ro_preprocess_html(&$variables) {
 }
 
 /**
@@ -27,7 +27,7 @@ function registrar_preprocess_html(&$variables) {
  *
  * Add template suggestions and classes
  */
-function registrar_preprocess_node(&$variables) {
+function ro_preprocess_node(&$variables) {
 }
 
 /**
@@ -35,10 +35,10 @@ function registrar_preprocess_node(&$variables) {
  *
  * Add convenience variables and template suggestions
  */
-function registrar_preprocess_page(&$variables) {
+function ro_preprocess_page(&$variables) {
 }
 
 /**
  * Implements template_preprocess_views_view().
  */
-function registrar_preprocess_views_view(&$variables) {}
+function ro_preprocess_views_view(&$variables) {}
