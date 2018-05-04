@@ -3,5 +3,6 @@ global:
   css:
     base:
       css/ro.css: {}
+      css/fontawesome.css: {}
   js:
     js/ro.js: {}
