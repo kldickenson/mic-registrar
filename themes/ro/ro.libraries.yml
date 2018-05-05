@@ -2,10 +2,6 @@ global:
   version: 1.0
   css:
     base:
-      css/fa-brands.css: {}
-      css/fa-regular.css: {}
-      css/fa-solid.css: {}
-      css/fontawesome.css: {}
       css/ro.css: {}
  js:
     js/ro.js: {}
