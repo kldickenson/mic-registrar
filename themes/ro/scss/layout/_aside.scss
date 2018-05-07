@@ -1,1 +1,8 @@
 // Non-modular or client styles for asides or sidebars.
+.sidebar {
+  .menu.dropdown {
+    li {
+      display: inline-block;
+    }
+  }
+}

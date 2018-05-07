@@ -5,6 +5,10 @@
 // - Also, before adding styles be sure to modify variables in the
 //   "base/_common.scss" file. You may not need to write any code.
 
+body {
+  font-family: $um-ro-font;
+  font-weight: 600;
+}
 
 // Headings
 //------------------------------------------

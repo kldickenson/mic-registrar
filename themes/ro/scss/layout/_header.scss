@@ -8,14 +8,86 @@
     margin-top: 1.5rem;
     width: 75%;
 
-    a:last-child {
-      display: none;
+    a {
+      &:last-child {
+        display: none;
+      }
     }
   }
 
-  #block-ro-utilitymenu {
+  .menu {
+    a {
+      color: $um-maize;
+      font-family: $um-ro-font;
+      text-transform: uppercase;
+     }
+  }
+
+  .block-ro-utilitymenu {
     float: right;
+    margin-top: 1rem;
+    position: relative;
     width: 25%;
+
+    .menu {
+      float: right;
+
+      a {
+        font-family: $um-ro-utility-font;
+        font-weight: 600;
+        padding: 0 .5rem;
+      }
+
+      li {
+        border-left: 1px solid $um-maize;
+        display: inline-block;
+        font-size: 12px;
+        height: 1em;
+        line-height: 100%;
+        width: inherit;
+
+        &:first-child {
+          border: 0;
+        }
+
+        &:last-child {
+
+          a {
+            padding-right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .block-ro-main-menu {
+    li {
+      border-right: 1px solid $um-blue-lt;
+      font-size: 13px;
+      font-weight: 700;
+
+      &:last-child {
+        border: 0;
+      }
+    }
+
+    a {
+      color: $white;
+
+      &.is-active {
+        background: $um-maize;
+        color: $um-blue;
+      }
+
+      // &[href="/"] {
+
+      //   &::after {
+      //     content: '&#xf015';
+      //     font-family: $um-fontawesome;
+      //     text-transform: lowercase;
+      //   }
+      // }
+    }
   }
 
   .search-block-form {
@@ -28,13 +100,14 @@
     }
 
     .form-control {
-      height: 2em;
+      height: 1.5rem;
       margin-bottom: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
+      // position: absolute;
+      // right: 0;
+      // top: 0;
+      z-index: 10;
 
-      &[placeholder] {
+      &::placeholder {
         color: $black;
       }
     }
@@ -42,18 +115,15 @@
     .submit-button {
       // background: transparent;
       // display: inline-block;
-      border: 0;
+      border-left: 0;
+      box-shadow: inset 0 1px 2px $um-gray-lt;
       font-size: 1em;
-      height: 2em;
+      height: 1.5rem;
       position: absolute;
       right: 0;
-      width: 2em;
+      top: 0;
+      width: 1.75rem;
+      z-index: 20;
     }
-  }
-
-  .menu {
-    a {
-      color: $um-maize;
-     }
   }
 }

@@ -7,5 +7,5 @@ global:
       css/fa-regular.css: {}
       css/fontawesome.css: {}
       css/ro.css: {}
- js:
+  js:
     js/ro.js: {}
