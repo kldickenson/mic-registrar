@@ -66,6 +66,12 @@
       font-size: 13px;
       font-weight: 700;
 
+      // &::after {
+      //   color: $um-blue-lt;
+      //   content: '|';
+      //   vertical-align: center;
+      // }
+
       &:last-child {
         border: 0;
       }
