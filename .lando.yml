@@ -1,6 +1,0 @@
-name: registrars-office
-recipe: pantheon
-config:
-  framework: drupal8
-  site: registrars-office
-  id: 58fc3e04-c49b-4cc4-984f-ffbcd2d499a7
