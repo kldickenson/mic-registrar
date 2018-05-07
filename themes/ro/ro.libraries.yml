@@ -2,6 +2,10 @@ global:
   version: 1.0
   css:
     base:
+      css/fa-base.css: {}
+      css/fa-solid.css: {}
+      css/fa-regular.css: {}
+      css/fontawesome.css: {}
       css/ro.css: {}
  js:
     js/ro.js: {}
