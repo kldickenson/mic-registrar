@@ -102,7 +102,6 @@
           {% endif %}
         </header>
       </div>
-
       <div class="row">
         {% if show_account_info %}
           <div class="{{ site_slogan ? 'large-6' : 'large-4 columns large-offset-8' }} columns hide-for-small">
@@ -178,34 +177,34 @@
           </div>
         {% endif %}
       </div>
-      {% if page.footer_first or page.footer_middle or page.footer_last %}
       <div class="container-footer">
-        <footer class="row">
-          {% if page.footer_first %}
-            <div id="footer-first" class="large-4 columns">
-              {{ page.footer_first }}
+        {% if page.footer_first or page.footer_middle or page.footer_last %}
+          <footer class="row">
+            {% if page.footer_first %}
+              <div id="footer-first" class="large-4 columns">
+                {{ page.footer_first }}
+              </div>
+            {% endif %}
+            {% if page.footer_middle %}
+              <div id="footer-middle" class="large-4 columns">
+                {{ page.footer_middle }}
+              </div>
+            {% endif %}
+            {% if page.footer_last %}
+              <div id="footer-last" class="large-4 columns">
+                {{ page.footer_last }}
+              </div>
+            {% endif %}
+          </footer>
+        {% endif %}
+        <div class="bottom-bar panel">
+          <div class="row">
+            <div class="large-12 columns">
+            &copy; {{ "now"|date('Y') }} {{ site_name }} {{ 'All rights reserved.'|t }}
             </div>
-          {% endif %}
-          {% if page.footer_middle %}
-            <div id="footer-middle" class="large-4 columns">
-              {{ page.footer_middle }}
-            </div>
-          {% endif %}
-          {% if page.footer_last %}
-            <div id="footer-last" class="large-4 columns">
-              {{ page.footer_last }}
-            </div>
-          {% endif %}
-        </footer>
-      </div>
-      {% endif %}
-      <div class="bottom-bar panel">
-        <div class="row">
-          <div class="large-12 columns">
-          &copy; {{ "now"|date('Y') }} {{ site_name }} {{ 'All rights reserved.'|t }}
           </div>
         </div>
-      </div>
+    </div>
     </div>
   </div>
 </div>
