@@ -150,11 +150,6 @@
     "share"
   ],
   [
-    "eye",
-    "far",
-    null
-  ],
-  [
     "eye-slash",
     "far",
     null
@@ -1150,14 +1145,14 @@
     "taxi"
   ],
   [
+    "spotify",
+    "fab",
+    null
+  ],
+  [
     "envelope-o",
     "far",
     "envelope"
-  ],
-  [
-    "deviantart",
-    "fab",
-    null
   ],
   [
     "soundcloud",
@@ -1881,13 +1876,13 @@
   ],
   [
     "commenting",
-    "far",
-    "comment-dots"
+    null,
+    "comment-alt"
   ],
   [
     "commenting-o",
     "far",
-    "comment-dots"
+    "comment-alt"
   ],
   [
     "houzz",
@@ -2300,7 +2295,7 @@
     null
   ],
   [
-    "spotify",
+    "deviantart",
     "fab",
     null
   ]

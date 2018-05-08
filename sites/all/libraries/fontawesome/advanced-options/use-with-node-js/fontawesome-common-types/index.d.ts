@@ -13,7 +13,95 @@ export interface IconDefinition extends IconLookup {
 export interface IconPack {
   [key: string]: IconDefinition;
 }
-export type IconName = '500px' | 
+export type IconName = 'address-book' | 
+  'address-card' | 
+  'arrow-alt-circle-down' | 
+  'arrow-alt-circle-left' | 
+  'arrow-alt-circle-right' | 
+  'arrow-alt-circle-up' | 
+  'bell' | 
+  'bell-slash' | 
+  'bookmark' | 
+  'building' | 
+  'calendar' | 
+  'calendar-alt' | 
+  'calendar-check' | 
+  'calendar-minus' | 
+  'calendar-plus' | 
+  'calendar-times' | 
+  'caret-square-down' | 
+  'caret-square-left' | 
+  'caret-square-right' | 
+  'caret-square-up' | 
+  'chart-bar' | 
+  'check-circle' | 
+  'check-square' | 
+  'circle' | 
+  'clipboard' | 
+  'clock' | 
+  'clone' | 
+  'closed-captioning' | 
+  'comment' | 
+  'comment-alt' | 
+  'comments' | 
+  'compass' | 
+  'copy' | 
+  'copyright' | 
+  'credit-card' | 
+  'dot-circle' | 
+  'edit' | 
+  'envelope' | 
+  'envelope-open' | 
+  'eye-slash' | 
+  'file' | 
+  'file-alt' | 
+  'file-archive' | 
+  'file-audio' | 
+  'file-code' | 
+  'file-excel' | 
+  'file-image' | 
+  'file-pdf' | 
+  'file-powerpoint' | 
+  'file-video' | 
+  'file-word' | 
+  'flag' | 
+  'folder' | 
+  'folder-open' | 
+  'frown' | 
+  'futbol' | 
+  'gem' | 
+  'hand-lizard' | 
+  'hand-paper' | 
+  'hand-peace' | 
+  'hand-point-down' | 
+  'hand-point-left' | 
+  'hand-point-right' | 
+  'hand-point-up' | 
+  'hand-pointer' | 
+  'hand-rock' | 
+  'hand-scissors' | 
+  'hand-spock' | 
+  'handshake' | 
+  'hdd' | 
+  'heart' | 
+  'hospital' | 
+  'hourglass' | 
+  'id-badge' | 
+  'id-card' | 
+  'image' | 
+  'images' | 
+  'keyboard' | 
+  'lemon' | 
+  'life-ring' | 
+  'lightbulb' | 
+  'list-alt' | 
+  'map' | 
+  'meh' | 
+  'minus-square' | 
+  'money-bill-alt' | 
+  'moon' | 
+  'newspaper' | 
+  '500px' | 
   'accessible-icon' | 
   'accusoft' | 
   'adn' | 
@@ -72,105 +160,37 @@ export type IconName = '500px' |
   'codepen' | 
   'codiepie' | 
   'connectdevelop' | 
-  'address-book' | 
-  'address-card' | 
-  'arrow-alt-circle-down' | 
-  'arrow-alt-circle-left' | 
-  'arrow-alt-circle-right' | 
-  'arrow-alt-circle-up' | 
-  'bell' | 
-  'bell-slash' | 
-  'bookmark' | 
-  'building' | 
-  'calendar' | 
-  'calendar-alt' | 
-  'calendar-check' | 
-  'calendar-minus' | 
-  'calendar-plus' | 
-  'calendar-times' | 
-  'caret-square-down' | 
-  'caret-square-left' | 
-  'caret-square-right' | 
-  'caret-square-up' | 
-  'chart-bar' | 
-  'check-circle' | 
-  'check-square' | 
-  'circle' | 
-  'clipboard' | 
-  'clock' | 
-  'clone' | 
-  'closed-captioning' | 
-  'comment' | 
-  'comment-alt' | 
-  'comment-dots' | 
-  'comments' | 
-  'compass' | 
-  'copy' | 
-  'copyright' | 
-  'credit-card' | 
-  'dot-circle' | 
-  'edit' | 
-  'envelope' | 
-  'envelope-open' | 
-  'eye' | 
-  'eye-slash' | 
-  'file' | 
-  'file-alt' | 
-  'file-archive' | 
-  'file-audio' | 
-  'file-code' | 
-  'file-excel' | 
-  'file-image' | 
-  'file-pdf' | 
-  'file-powerpoint' | 
-  'file-video' | 
-  'file-word' | 
-  'flag' | 
-  'folder' | 
-  'folder-open' | 
-  'font-awesome-logo-full' | 
-  'frown' | 
-  'futbol' | 
-  'gem' | 
-  'hand-lizard' | 
-  'hand-paper' | 
-  'hand-peace' | 
-  'hand-point-down' | 
-  'hand-point-left' | 
-  'hand-point-right' | 
-  'hand-point-up' | 
-  'hand-pointer' | 
-  'hand-rock' | 
-  'hand-scissors' | 
-  'hand-spock' | 
-  'handshake' | 
-  'hdd' | 
-  'heart' | 
-  'hospital' | 
-  'hourglass' | 
-  'id-badge' | 
-  'id-card' | 
-  'image' | 
-  'images' | 
-  'keyboard' | 
-  'lemon' | 
-  'life-ring' | 
-  'lightbulb' | 
+  'object-group' | 
+  'object-ungroup' | 
+  'paper-plane' | 
+  'pause-circle' | 
+  'play-circle' | 
+  'plus-square' | 
+  'question-circle' | 
+  'registered' | 
+  'save' | 
+  'share-square' | 
+  'smile' | 
+  'snowflake' | 
+  'square' | 
+  'star' | 
+  'star-half' | 
+  'sticky-note' | 
+  'stop-circle' | 
+  'sun' | 
+  'thumbs-down' | 
+  'thumbs-up' | 
+  'times-circle' | 
+  'trash-alt' | 
+  'user' | 
+  'user-circle' | 
+  'window-close' | 
+  'window-maximize' | 
+  'window-minimize' | 
+  'window-restore' | 
   'contao' | 
   'cpanel' | 
   'creative-commons' | 
-  'creative-commons-by' | 
-  'creative-commons-nc' | 
-  'creative-commons-nc-eu' | 
-  'creative-commons-nc-jp' | 
-  'creative-commons-nd' | 
-  'creative-commons-pd' | 
-  'creative-commons-pd-alt' | 
-  'creative-commons-remix' | 
-  'creative-commons-sa' | 
-  'creative-commons-sampling' | 
-  'creative-commons-sampling-plus' | 
-  'creative-commons-share' | 
   'css3' | 
   'css3-alt' | 
   'cuttlefish' | 
@@ -193,7 +213,6 @@ export type IconName = '500px' |
   'drupal' | 
   'dyalog' | 
   'earlybirds' | 
-  'ebay' | 
   'edge' | 
   'elementor' | 
   'ember' | 
@@ -209,7 +228,6 @@ export type IconName = '500px' |
   'facebook-square' | 
   'firefox' | 
   'first-order' | 
-  'first-order-alt' | 
   'firstdraft' | 
   'flickr' | 
   'flipboard' | 
@@ -217,7 +235,6 @@ export type IconName = '500px' |
   'font-awesome' | 
   'font-awesome-alt' | 
   'font-awesome-flag' | 
-  'font-awesome-logo-full' | 
   'fonticons' | 
   'fonticons-fi' | 
   'fort-awesome' | 
@@ -226,8 +243,32 @@ export type IconName = '500px' |
   'foursquare' | 
   'free-code-camp' | 
   'freebsd' | 
-  'fulcrum' | 
-  'galactic-republic' | 
+  'get-pocket' | 
+  'gg' | 
+  'gg-circle' | 
+  'git' | 
+  'git-square' | 
+  'github' | 
+  'github-alt' | 
+  'github-square' | 
+  'gitkraken' | 
+  'gitlab' | 
+  'gitter' | 
+  'glide' | 
+  'glide-g' | 
+  'gofore' | 
+  'goodreads' | 
+  'goodreads-g' | 
+  'google' | 
+  'google-drive' | 
+  'google-play' | 
+  'google-plus' | 
+  'google-plus-g' | 
+  'google-plus-square' | 
+  'google-wallet' | 
+  'gratipay' | 
+  'grav' | 
+  'gripfire' | 
   'address-book' | 
   'address-card' | 
   'adjust' | 
@@ -336,68 +377,6 @@ export type IconName = '500px' |
   'check' | 
   'check-circle' | 
   'check-square' | 
-  'list-alt' | 
-  'map' | 
-  'meh' | 
-  'minus-square' | 
-  'money-bill-alt' | 
-  'moon' | 
-  'newspaper' | 
-  'object-group' | 
-  'object-ungroup' | 
-  'paper-plane' | 
-  'pause-circle' | 
-  'play-circle' | 
-  'plus-square' | 
-  'question-circle' | 
-  'registered' | 
-  'save' | 
-  'share-square' | 
-  'smile' | 
-  'snowflake' | 
-  'square' | 
-  'star' | 
-  'star-half' | 
-  'sticky-note' | 
-  'stop-circle' | 
-  'sun' | 
-  'thumbs-down' | 
-  'thumbs-up' | 
-  'times-circle' | 
-  'trash-alt' | 
-  'user' | 
-  'user-circle' | 
-  'window-close' | 
-  'window-maximize' | 
-  'window-minimize' | 
-  'window-restore' | 
-  'galactic-senate' | 
-  'get-pocket' | 
-  'gg' | 
-  'gg-circle' | 
-  'git' | 
-  'git-square' | 
-  'github' | 
-  'github-alt' | 
-  'github-square' | 
-  'gitkraken' | 
-  'gitlab' | 
-  'gitter' | 
-  'glide' | 
-  'glide-g' | 
-  'gofore' | 
-  'goodreads' | 
-  'goodreads-g' | 
-  'google' | 
-  'google-drive' | 
-  'google-play' | 
-  'google-plus' | 
-  'google-plus-g' | 
-  'google-plus-square' | 
-  'google-wallet' | 
-  'gratipay' | 
-  'grav' | 
-  'gripfire' | 
   'grunt' | 
   'gulp' | 
   'hacker-news' | 
@@ -415,15 +394,12 @@ export type IconName = '500px' |
   'ioxhost' | 
   'itunes' | 
   'itunes-note' | 
-  'java' | 
-  'jedi-order' | 
   'jenkins' | 
   'joget' | 
   'joomla' | 
   'js' | 
   'js-square' | 
   'jsfiddle' | 
-  'keybase' | 
   'keycdn' | 
   'kickstarter' | 
   'kickstarter-k' | 
@@ -437,6 +413,33 @@ export type IconName = '500px' |
   'linkedin' | 
   'linkedin-in' | 
   'linode' | 
+  'linux' | 
+  'lyft' | 
+  'magento' | 
+  'maxcdn' | 
+  'medapps' | 
+  'medium' | 
+  'medium-m' | 
+  'medrt' | 
+  'meetup' | 
+  'microsoft' | 
+  'mix' | 
+  'mixcloud' | 
+  'mizuni' | 
+  'modx' | 
+  'monero' | 
+  'napster' | 
+  'nintendo-switch' | 
+  'node' | 
+  'node-js' | 
+  'npm' | 
+  'ns8' | 
+  'nutritionix' | 
+  'odnoklassniki' | 
+  'odnoklassniki-square' | 
+  'opencart' | 
+  'openid' | 
+  'opera' | 
   'chess' | 
   'chess-bishop' | 
   'chess-board' | 
@@ -547,37 +550,6 @@ export type IconName = '500px' |
   'flask' | 
   'folder' | 
   'folder-open' | 
-  'font' | 
-  'linux' | 
-  'lyft' | 
-  'magento' | 
-  'mandalorian' | 
-  'mastodon' | 
-  'maxcdn' | 
-  'medapps' | 
-  'medium' | 
-  'medium-m' | 
-  'medrt' | 
-  'meetup' | 
-  'microsoft' | 
-  'mix' | 
-  'mixcloud' | 
-  'mizuni' | 
-  'modx' | 
-  'monero' | 
-  'napster' | 
-  'nintendo-switch' | 
-  'node' | 
-  'node-js' | 
-  'npm' | 
-  'ns8' | 
-  'nutritionix' | 
-  'odnoklassniki' | 
-  'odnoklassniki-square' | 
-  'old-republic' | 
-  'opencart' | 
-  'openid' | 
-  'opera' | 
   'optin-monster' | 
   'osi' | 
   'page4' | 
@@ -588,17 +560,60 @@ export type IconName = '500px' |
   'periscope' | 
   'phabricator' | 
   'phoenix-framework' | 
-  'phoenix-squadron' | 
   'php' | 
   'pied-piper' | 
   'pied-piper-alt' | 
-  'pied-piper-hat' | 
   'pied-piper-pp' | 
   'pinterest' | 
   'pinterest-p' | 
   'pinterest-square' | 
   'playstation' | 
-  'font-awesome-logo-full' | 
+  'product-hunt' | 
+  'pushed' | 
+  'python' | 
+  'qq' | 
+  'quinscape' | 
+  'quora' | 
+  'ravelry' | 
+  'react' | 
+  'readme' | 
+  'rebel' | 
+  'red-river' | 
+  'reddit' | 
+  'reddit-alien' | 
+  'reddit-square' | 
+  'rendact' | 
+  'renren' | 
+  'replyd' | 
+  'resolving' | 
+  'rocketchat' | 
+  'rockrms' | 
+  'safari' | 
+  'sass' | 
+  'schlix' | 
+  'scribd' | 
+  'searchengin' | 
+  'sellcast' | 
+  'sellsy' | 
+  'servicestack' | 
+  'shirtsinbulk' | 
+  'simplybuilt' | 
+  'sistrix' | 
+  'skyatlas' | 
+  'skype' | 
+  'slack' | 
+  'slack-hash' | 
+  'slideshare' | 
+  'snapchat' | 
+  'snapchat-ghost' | 
+  'snapchat-square' | 
+  'soundcloud' | 
+  'speakap' | 
+  'spotify' | 
+  'stack-exchange' | 
+  'stack-overflow' | 
+  'staylinked' | 
+  'font' | 
   'football-ball' | 
   'forward' | 
   'frown' | 
@@ -698,54 +713,10 @@ export type IconName = '500px' |
   'medkit' | 
   'meh' | 
   'mercury' | 
-  'product-hunt' | 
-  'pushed' | 
-  'python' | 
-  'qq' | 
-  'quinscape' | 
-  'quora' | 
-  'r-project' | 
-  'ravelry' | 
-  'react' | 
-  'readme' | 
-  'rebel' | 
-  'red-river' | 
-  'reddit' | 
-  'reddit-alien' | 
-  'reddit-square' | 
-  'rendact' | 
-  'renren' | 
-  'replyd' | 
-  'researchgate' | 
-  'resolving' | 
-  'rocketchat' | 
-  'rockrms' | 
-  'safari' | 
-  'sass' | 
-  'schlix' | 
-  'scribd' | 
-  'searchengin' | 
-  'sellcast' | 
-  'sellsy' | 
-  'servicestack' | 
-  'shirtsinbulk' | 
-  'simplybuilt' | 
-  'sistrix' | 
-  'sith' | 
-  'skyatlas' | 
-  'skype' | 
-  'slack' | 
-  'slack-hash' | 
-  'slideshare' | 
-  'snapchat' | 
-  'snapchat-ghost' | 
-  'snapchat-square' | 
-  'soundcloud' | 
-  'speakap' | 
-  'spotify' | 
-  'stack-exchange' | 
-  'stack-overflow' | 
-  'staylinked' | 
+  'microchip' | 
+  'microphone' | 
+  'microphone-slash' | 
+  'minus' | 
   'steam' | 
   'steam-square' | 
   'steam-symbol' | 
@@ -758,19 +729,59 @@ export type IconName = '500px' |
   'stumbleupon-circle' | 
   'superpowers' | 
   'supple' | 
-  'teamspeak' | 
   'telegram' | 
   'telegram-plane' | 
   'tencent-weibo' | 
   'themeisle' | 
-  'trade-federation' | 
   'trello' | 
   'tripadvisor' | 
   'tumblr' | 
-  'microchip' | 
-  'microphone' | 
-  'microphone-slash' | 
-  'minus' | 
+  'tumblr-square' | 
+  'twitch' | 
+  'twitter' | 
+  'twitter-square' | 
+  'typo3' | 
+  'uber' | 
+  'uikit' | 
+  'uniregistry' | 
+  'untappd' | 
+  'usb' | 
+  'ussunnah' | 
+  'vaadin' | 
+  'viacoin' | 
+  'viadeo' | 
+  'viadeo-square' | 
+  'viber' | 
+  'vimeo' | 
+  'vimeo-square' | 
+  'vimeo-v' | 
+  'vine' | 
+  'vk' | 
+  'vnv' | 
+  'vuejs' | 
+  'weibo' | 
+  'weixin' | 
+  'whatsapp' | 
+  'whatsapp-square' | 
+  'whmcs' | 
+  'wikipedia-w' | 
+  'windows' | 
+  'wordpress' | 
+  'wordpress-simple' | 
+  'wpbeginner' | 
+  'wpexplorer' | 
+  'wpforms' | 
+  'xbox' | 
+  'xing' | 
+  'xing-square' | 
+  'y-combinator' | 
+  'yahoo' | 
+  'yandex' | 
+  'yandex-international' | 
+  'yelp' | 
+  'yoast' | 
+  'youtube' | 
+  'youtube-square' | 
   'minus-circle' | 
   'minus-square' | 
   'mobile' | 
@@ -815,7 +826,6 @@ export type IconName = '500px' |
   'plus-square' | 
   'podcast' | 
   'poo' | 
-  'portrait' | 
   'pound-sign' | 
   'power-off' | 
   'prescription-bottle' | 
@@ -871,53 +881,6 @@ export type IconName = '500px' |
   'sliders-h' | 
   'smile' | 
   'smoking' | 
-  'tumblr-square' | 
-  'twitch' | 
-  'twitter' | 
-  'twitter-square' | 
-  'typo3' | 
-  'uber' | 
-  'uikit' | 
-  'uniregistry' | 
-  'untappd' | 
-  'usb' | 
-  'ussunnah' | 
-  'vaadin' | 
-  'viacoin' | 
-  'viadeo' | 
-  'viadeo-square' | 
-  'viber' | 
-  'vimeo' | 
-  'vimeo-square' | 
-  'vimeo-v' | 
-  'vine' | 
-  'vk' | 
-  'vnv' | 
-  'vuejs' | 
-  'weibo' | 
-  'weixin' | 
-  'whatsapp' | 
-  'whatsapp-square' | 
-  'whmcs' | 
-  'wikipedia-w' | 
-  'windows' | 
-  'wolf-pack-battalion' | 
-  'wordpress' | 
-  'wordpress-simple' | 
-  'wpbeginner' | 
-  'wpexplorer' | 
-  'wpforms' | 
-  'xbox' | 
-  'xing' | 
-  'xing-square' | 
-  'y-combinator' | 
-  'yahoo' | 
-  'yandex' | 
-  'yandex-international' | 
-  'yelp' | 
-  'yoast' | 
-  'youtube' | 
-  'youtube-square' | 
   'snowflake' | 
   'sort' | 
   'sort-alpha-down' | 
@@ -1007,29 +970,12 @@ export type IconName = '500px' |
   'unlock-alt' | 
   'upload' | 
   'user' | 
-  'user-alt' | 
-  'user-alt-slash' | 
-  'user-astronaut' | 
-  'user-check' | 
   'user-circle' | 
-  'user-clock' | 
-  'user-cog' | 
-  'user-edit' | 
-  'user-friends' | 
-  'user-graduate' | 
-  'user-lock' | 
   'user-md' | 
-  'user-minus' | 
-  'user-ninja' | 
   'user-plus' | 
   'user-secret' | 
-  'user-shield' | 
-  'user-slash' | 
-  'user-tag' | 
-  'user-tie' | 
   'user-times' | 
   'users' | 
-  'users-cog' | 
   'utensil-spoon' | 
   'utensils' | 
   'venus' | 
