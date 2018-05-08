@@ -1,8 +1,34 @@
 // Non-modular or client styles for asides or sidebars.
 .sidebar {
   .menu.dropdown {
+    margin-top: 2rem;
+
     li {
-      display: inline-block;
+      display: block;
+      &:first-child {
+        border-top: 1px solid $um-gray-md;
+      }
+      >.menu {
+
+        a {
+          padding-left: 2em;
+          color: $um-blue-lt;
+          text-transform: capitalize;
+        }
+      }
     }
+    a {
+      border-bottom: 1px solid $um-gray-md;
+      color: $black;
+      font-size: 13px;
+      padding: 1em;
+      text-transform: uppercase;
+
+      &.is-active {
+        background: $um-gray-md;
+
+      }
+    }
+
   }
 }
