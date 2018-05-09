@@ -153,6 +153,14 @@
       </div>
       {% endif %}
 
+      {% if page.page_top %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{ page.page_top }}
+        </div>
+      </div>
+      {% endif %}
+
       <div class="row">
         <main id="main" class="{{ main_grid }} columns" role="main">
           {% if page.highlighted %}

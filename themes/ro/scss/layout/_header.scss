@@ -7,9 +7,12 @@
   float: left;
   margin-bottom: 2rem;
   margin-top: 1.5rem;
-  width: 75%;
+  // width: 75%;
 
   a {
+    display: inline-block;
+    min-height: 46px;
+
     &:last-child {
       display: none;
     }
