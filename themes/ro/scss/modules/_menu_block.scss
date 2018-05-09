@@ -52,11 +52,12 @@
     font-size: 13px;
     font-weight: 700;
 
-    // &::after {
-    //   color: $um-blue-lt;
-    //   content: '|';
-    //   vertical-align: center;
-    // }
+    &.menu-item--active-trail {
+      a {
+        background: $um-maize;
+        color: $um-blue;
+      }
+    }
 
     &:last-child {
       border: 0;
@@ -69,16 +70,8 @@
     &.is-active {
       background: $um-maize;
       color: $um-blue;
-    }
+      }
 
-    // &[href="/"] {
-
-    //   &::after {
-    //     content: '&#xf015';
-    //     font-family: $um-fontawesome;
-    //     text-transform: lowercase;
-    //   }
-    // }
   }
 }
 
