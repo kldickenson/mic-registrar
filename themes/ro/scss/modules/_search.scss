@@ -1,0 +1,36 @@
+.search-block-form {
+  float: right;
+  width: 25%;
+
+  .input-group {
+    display: block;
+    position: relative;
+  }
+
+  .form-control {
+    height: 1.5rem;
+    margin-bottom: 0;
+    // position: absolute;
+    // right: 0;
+    // top: 0;
+    z-index: 10;
+
+    &::placeholder {
+      color: $black;
+    }
+  }
+
+  .submit-button {
+    // background: transparent;
+    // display: inline-block;
+    border-left: 0;
+    box-shadow: inset 0 1px 2px $um-gray-lt;
+    font-size: 1em;
+    height: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1.75rem;
+    z-index: 20;
+  }
+}
