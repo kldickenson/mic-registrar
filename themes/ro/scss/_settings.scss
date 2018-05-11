@@ -79,6 +79,7 @@ $print-transparent-backgrounds: true;
 /* - - - - - UM Registrar's Office specific variables - - - - - */
 // colors
 $um-blue:rgb(0,39,76); /* #00274c */
+$um-blue-md:rgb(30, 70, 123); /* #1e467b */
 $um-blue-lt:rgb(45,104,183); /* #2d68b7 */
 $um-maize:rgb(255,203,5); /* #ffcb05 */
 $um-gray: rgb(84,84,84); /* #545454 */
@@ -90,6 +91,7 @@ $white: #fff;
 // font families
 $um-ro-font: 'Raleway', sans-serif;
 $um-ro-utility-font: 'Roboto', sans-serif;
+$um-font-pg-title: 'Myriad Pro', sans-serif;
 $um-fontawesome: 'Font Awesome 5 free';
 
 // 2. Breakpoints

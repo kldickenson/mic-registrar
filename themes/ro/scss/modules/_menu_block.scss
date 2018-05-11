@@ -1,4 +1,4 @@
-
+/* MENUS */
 .dropdown {
   a {
     font-family: $um-ro-font;
@@ -46,8 +46,8 @@
 }
 
 // Main menu
-.block-ro-main-menu {
-  li {
+.block-mainnavigation-4 {
+  .menu-item {
     border-right: 1px solid $um-blue-lt;
     font-size: 13px;
     font-weight: 700;
@@ -79,7 +79,7 @@
 .block-ro-mainnavigation-3 {
   margin-top: 2rem;
 
-  li {
+  .menu-item {
     display: block;
 
     &:first-child {

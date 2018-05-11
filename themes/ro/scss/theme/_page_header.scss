@@ -1,0 +1,26 @@
+.container-pg-header {
+  background: rgba($um-blue-md, .2) url(../images/ro/pg-header-dots-fade.png) 50% top no-repeat;
+
+  .block-pagetitle {
+    color: $black;
+    font: 30px $um-font-pg-title;
+  }
+
+  .block-needhelp-2 {
+
+    .block-title {
+      color: $um-blue;
+      font: 24px $um-font-pg-title;
+    }
+
+    h4 {
+      color: $um-blue-md;
+      font: 700 16px $um-ro-font;
+    }
+
+    p {
+      color: $black;
+      font: regular 14px $um-ro-utility-font;
+    }
+  }
+}

@@ -153,6 +153,16 @@
       </div>
       {% endif %}
 
+      {% if page.content_header %}
+      <div class="container-pg-header">
+        <div class="pg-header row">
+          <div class="large-12 columns">
+            {{ page.content_header }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
       <div class="row">
         <main id="main" class="{{ main_grid }} columns" role="main">
           {% if page.highlighted %}
