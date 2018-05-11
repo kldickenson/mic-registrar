@@ -1,26 +1,62 @@
 .container-pg-header {
-  background: rgba($um-blue-md, .2) url(../images/ro/pg-header-dots-fade.png) 50% top no-repeat;
+  background: rgba($um-blue-md, .2) url('../images/ro/pg-header-dots-fade.png') 50% top no-repeat;
+  padding: 3rem 0 0;
 
-  .block-pagetitle {
-    color: $black;
-    font: 30px $um-font-pg-title;
+  .section-title {
+    color: $um-blue-md;
+    display: inline-block;
+    font: $font-bold 14px $um-ro-font;
+    left: 0;
+    padding-left: .9375rem;
+    position: absolute;
+    top: 0;
+    text-transform: uppercase;
+  }
+
+  .block-ro-page-title {
+    h1 {
+      color: $black;
+      font: 30px $um-font-pg-title;
+      padding-top: 2rem;
+    }
   }
 
   .block-needhelp-2 {
 
     .block-title {
       color: $um-blue;
-      font: 24px $um-font-pg-title;
+      font: $font-regular 24px $um-font-pg-title;
+      padding-left: 1.5em;
+      margin-bottom: 0;
     }
 
     h4 {
       color: $um-blue-md;
-      font: 700 16px $um-ro-font;
+      font: $font-semi-bold 16px $um-ro-utility-font;
+      margin-bottom: 0;
     }
 
     p {
       color: $black;
-      font: regular 14px $um-ro-utility-font;
+      font: 14px/1.4 $um-ro-utility-font;
+    }
+
+    a {
+      font: $font-semi-bold 16px/1 $um-ro-font
+    }
+
+    .fa {
+      color: $red;
+      display: block;
+      float: left;
+      font-size: 18px;
+      margin-bottom: 4em;
+      margin-right: .5em;
+    }
+
+    .fa-envelope {
+      font-size: 16px;
+      margin-bottom: 0;
     }
   }
 }
