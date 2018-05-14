@@ -2,10 +2,9 @@
   "name": "ro",
   "version": "1.0.0",
   "devDependencies": {
-    "extend": "^3.0.0",
     "del": "^2.2.0",
-    "foundation-sites": "~6.3.1",
-    "motion-ui": "~1.2.2",
+    "extend": "^3.0.0",
+    "foundation-sites": "^6.4.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",
@@ -16,6 +15,7 @@
     "gulp-shell": "^0.5.2",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
+    "motion-ui": "~1.2.2",
     "node-sass-import-once": "^1.2.0",
     "rimraf": "*"
   },
