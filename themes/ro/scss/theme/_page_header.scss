@@ -1,6 +1,6 @@
 .container-pg-header {
   background: rgba($um-blue-md, .2) url('../images/ro/pg-header-dots-fade.png') 50% top no-repeat;
-  padding: 3rem 0 0;
+  padding: 1rem 0 0;
 
   .section-title {
     color: $um-blue-md;
@@ -9,8 +9,8 @@
     left: 0;
     padding-left: .9375rem;
     position: absolute;
-    top: 0;
     text-transform: uppercase;
+    top: 0;
   }
 
   .block-ro-page-title {
@@ -26,8 +26,8 @@
     .block-title {
       color: $um-blue;
       font: $font-regular 24px $um-font-pg-title;
-      padding-left: 1.5em;
       margin-bottom: 0;
+      padding-left: 1em;
     }
 
     h4 {
@@ -42,7 +42,7 @@
     }
 
     a {
-      font: $font-semi-bold 16px/1 $um-ro-font
+      font: $font-semi-bold 16px/1 $um-ro-font;
     }
 
     .fa {

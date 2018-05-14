@@ -9,10 +9,12 @@
 
 // Utility menu
 .block-ro-utilitymenu {
-  float: right;
+  // float: right;
   margin-top: 1rem;
-  position: relative;
-  width: 25%;
+  position: absolute;
+  right: 0;
+  top: .55rem;
+  z-index: 200;
 
   .menu {
     float: right;
