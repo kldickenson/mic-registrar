@@ -79,7 +79,7 @@
           </div>
         {% endif %}
       {% endif %}
-      <div class="container-header">
+      <div class="container-header grid-container">
         <header class="row" role="banner" aria-label="{{ 'Site header'|t }}">
           {% if linked_site_name or linked_logo %}
             <div class="large-2 columns">
@@ -102,7 +102,7 @@
           {% endif %}
         </header>
       </div>
-      <div class="row">
+      <div class="row grid-x">
         {% if show_account_info %}
           <div class="{{ site_slogan ? 'large-6' : 'large-4 columns large-offset-8' }} columns hide-for-small">
             <p>
@@ -154,9 +154,9 @@
       {% endif %}
 
       {% if page.content_header %}
-      <div class="container-pg-header">
+      <div class="container-pg-header grid-container">
         <div class="pg-header row">
-          <div class="large-12 columns">
+          <div class="large-12 columns grid-x">
             {{ page.content_header }}
           </div>
         </div>
