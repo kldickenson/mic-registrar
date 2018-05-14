@@ -2,15 +2,18 @@
   background: rgba($um-blue-md, .2) url('../images/ro/pg-header-dots-fade.png') 50% top no-repeat;
   padding: 1rem 0 0;
 
+  .grid-x {
+    position: relative;
+  }
   .section-title {
     color: $um-blue-md;
     display: inline-block;
     font: $font-bold 14px $um-ro-font;
     left: 0;
-    padding-left: .9375rem;
     position: absolute;
     text-transform: uppercase;
     top: 0;
+    width: auto;
   }
 
   .block-ro-page-title {
