@@ -163,8 +163,8 @@
       </div>
       {% endif %}
 
-      <div class="row">
-        <main id="main" class="{{ main_grid }} columns" role="main">
+      <div class="row grid-x align-top align-justify">
+        <main id="main" class="{{ main_grid }} cell large-order-2" role="main">
           {% if page.highlighted %}
             {% spaceless %}
               {{ page.highlighted }}
@@ -177,31 +177,31 @@
           </section>
         </main>
         {% if page.sidebar_first %}
-          <div id="sidebar-first" class="{{ sidebar_first_grid }} columns sidebar ">
+          <div id="sidebar-first" class="{{ sidebar_first_grid }} cell sidebar large-order-1 ">
             {{ page.sidebar_first }}
           </div>
         {% endif %}
         {% if page.sidebar_second %}
-          <div id="sidebar-second" class="{{ sidebar_sec_grid }} columns sidebar">
+          <div id="sidebar-second" class="{{ sidebar_sec_grid }} cell sidebar large-order-3">
             {{ page.sidebar_second }}
           </div>
         {% endif %}
       </div>
       <div class="container-footer">
         {% if page.footer_first or page.footer_middle or page.footer_last %}
-          <footer class="row">
+          <footer class="row grid-x">
             {% if page.footer_first %}
-              <div id="footer-first" class="large-4 columns">
+              <div id="footer-first" class="large-4 cell">
                 {{ page.footer_first }}
               </div>
             {% endif %}
             {% if page.footer_middle %}
-              <div id="footer-middle" class="large-4 columns">
+              <div id="footer-middle" class="large-4 cell">
                 {{ page.footer_middle }}
               </div>
             {% endif %}
             {% if page.footer_last %}
-              <div id="footer-last" class="large-4 columns">
+              <div id="footer-last" class="large-4 cell">
                 {{ page.footer_last }}
               </div>
             {% endif %}
