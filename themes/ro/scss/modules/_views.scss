@@ -1,0 +1,37 @@
+// Calendar Page View
+.bef-exposed-form {
+
+  fieldset {
+    width: 40%;
+    float: left;
+  }
+
+  .js-form-item-field-term-target-id {
+    width: 50%;
+    float: left;
+
+    label {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+
+  .fieldset-legend {
+    font-weight: bold;
+  }
+
+  .fieldset-wrapper {
+    width: 50%;
+  }
+
+  select{
+    width: 75%;
+    font-size: .875rem;
+  }
+
+  .form-actions {
+    clear: both;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+}
