@@ -163,53 +163,56 @@
       </div>
       {% endif %}
 
-      <div class="row grid-x align-top align-justify">
-        <main id="main" class="{{ main_grid }} cell large-order-2" role="main">
-          {% if page.highlighted %}
-            {% spaceless %}
-              {{ page.highlighted }}
-            {% endspaceless %}
+      <div class="grid-container">
+        <div class="row grid-x align-top align-justify">
+          <main id="main" class="cell medium-8 medium-order-2" role="main">
+            {% if page.highlighted %}
+              {% spaceless %}
+                {{ page.highlighted }}
+              {% endspaceless %}
+            {% endif %}
+            <a id="main-content"></a>
+            {% if breadcrumb %} {{ breadcrumb }} {% endif %}
+            <section>
+              {{ page.content }}
+            </section>
+          </main>
+          {% if page.sidebar_first %}
+            <div id="sidebar-first" class="sidebar cell medium-3 medium-order-1">
+              {{ page.sidebar_first }}
+            </div>
           {% endif %}
-          <a id="main-content"></a>
-          {% if breadcrumb %} {{ breadcrumb }} {% endif %}
-          <section>
-            {{ page.content }}
-          </section>
-        </main>
-        {% if page.sidebar_first %}
-          <div id="sidebar-first" class="{{ sidebar_first_grid }} cell sidebar large-order-1 ">
-            {{ page.sidebar_first }}
-          </div>
-        {% endif %}
-        {% if page.sidebar_second %}
-          <div id="sidebar-second" class="{{ sidebar_sec_grid }} cell sidebar large-order-3">
-            {{ page.sidebar_second }}
-          </div>
-        {% endif %}
+          {% if page.sidebar_second %}
+            <div id="sidebar-second" class="sidebar cell">
+              {{ page.sidebar_second }}
+            </div>
+          {% endif %}
+        </div>
       </div>
+
       <div class="container-footer grid-container">
         {% if page.footer_first or page.footer_middle or page.footer_last %}
           <footer class="row grid-x">
             {% if page.footer_first %}
-              <div id="footer-first" class="large-4 cell">
+              <div id="footer-first" class="cell medium-4">
                 {{ page.footer_first }}
               </div>
             {% endif %}
             {% if page.footer_middle %}
-              <div id="footer-middle" class="large-4 cell">
+              <div id="footer-middle" class="cell medium-4">
                 {{ page.footer_middle }}
               </div>
             {% endif %}
             {% if page.footer_last %}
-              <div id="footer-last" class="large-4 cell">
+              <div id="footer-last" class="cell medium-4">
                 {{ page.footer_last }}
               </div>
             {% endif %}
           </footer>
         {% endif %}
-        <div class="bottom-bar panel">
-          <div class="row">
-            <div class="large-12 columns">
+        <div class="bottom-bar panel grid-container">
+          <div class="row grid-x">
+            <div class="cell large-12">
             &copy; {{ "now"|date('Y') }} {{ site_name }} {{ 'All rights reserved.'|t }}
             </div>
           </div>
