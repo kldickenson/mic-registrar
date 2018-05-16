@@ -190,7 +190,7 @@
         </div>
       </div>
 
-      <div class="container-footer grid-container">
+      <div class="container-footer">
         {% if page.footer_first or page.footer_middle or page.footer_last %}
           <footer class="row grid-x">
             {% if page.footer_first %}
@@ -213,7 +213,9 @@
         <div class="bottom-bar panel grid-container">
           <div class="row grid-x">
             <div class="cell large-12">
-            &copy; {{ "now"|date('Y') }} {{ site_name }} {{ 'All rights reserved.'|t }}
+              <a href="http://umich.edu"><img src="/sites/default/files/2018-05/2color-transparent-140x154.png" alt="University of Michigan" class="um-badge" /></a>
+             <p class="footer-site-name">{{ site_name }}</p>
+              <p>&copy; {{ "now"|date('Y') }} The <a href="http://regents.umich.edu/">Regents</a> of the University of Michigan</p>
             </div>
           </div>
         </div>

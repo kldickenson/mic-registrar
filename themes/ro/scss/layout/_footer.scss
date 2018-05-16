@@ -3,7 +3,28 @@
   background: $um-blue;
   color: $white;
 
+
+  .um-badge {
+    float: left;
+    margin-right: 2rem;
+  }
   a {
     color: $um-maize;
+  }
+
+  p {
+    text-transform: uppercase;
+    font-size: .5rem;
+    vertical-align: bottom;
+
+    &.footer-site-name {
+      color:$um-maize;
+      font-size: .7rem;
+      margin-bottom: .5rem;
+    }
+
+    a {
+      color: $white;
+    }
   }
 }
