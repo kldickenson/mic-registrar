@@ -111,3 +111,35 @@
     }
   }
 }
+
+// Footer menu
+.block-footermenu {
+  background: $um-blue-lt;
+  float: right;
+  padding: 2rem 1rem 1rem;
+
+  a {
+    color: $white;
+    font-family: $um-ro-utility-font;
+    font-weight: 600;
+    padding: 0 .5rem;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+
+  .menu-item {
+    border-left: 1px solid $white;
+    display: inline-block;
+    font-size: 12px;
+    height: 1em;
+    line-height: 100%;
+    width: inherit;
+
+    &:first-child {
+      border: 0;
+    }
+  }
+}
