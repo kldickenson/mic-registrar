@@ -2,13 +2,13 @@
 .bef-exposed-form {
 
   fieldset {
-    width: 50%;
     float: left;
+    width: 50%;
   }
 
   .js-form-item-field-term-target-id {
-    width: 50%;
     float: left;
+    width: 50%;
 
     label {
       font-size: 1rem;
@@ -24,15 +24,15 @@
     width: 50%;
   }
 
-  select{
-    width: 75%;
+  select {
     font-size: .875rem;
+    width: 75%;
   }
 
   .form-actions {
     clear: both;
-    padding-top: 1.5rem;
     padding-bottom: 1rem;
+    padding-top: 1.5rem;
   }
 
   .button {
