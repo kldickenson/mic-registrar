@@ -2,7 +2,7 @@
 .bef-exposed-form {
 
   fieldset {
-    width: 40%;
+    width: 50%;
     float: left;
   }
 
@@ -33,5 +33,9 @@
     clear: both;
     padding-top: 1.5rem;
     padding-bottom: 1rem;
+  }
+
+  .button.success {
+    background-color: $um-blue-lt;
   }
 }
