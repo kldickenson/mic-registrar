@@ -9,7 +9,7 @@
   .section-title {
     color: $um-blue-md;
     display: inline-block;
-    font: $font-bold 14px $um-ro-font;
+    font: $font-bold .875rem $um-ro-font;
     left: 0;
     position: absolute;
     text-transform: uppercase;
@@ -19,24 +19,29 @@
   .block-ro-page-title {
     h1 {
       color: $black;
-      font: 30px $um-font-pg-title;
+      font: 1.5625rem $um-font-pg-title;
       padding-top: 2rem;
     }
   }
 
   .block-needhelp-2 {
+    border-left: 1px solid $medium-gray;
+    margin-bottom: 1rem;
+    padding-left: 4rem;
 
     .block-title {
       color: $um-blue;
-      font: $font-regular 24px $um-font-pg-title;
-      margin-bottom: 0;
+      font: $font-regular 1.5rem $um-font-pg-title;
+      margin-bottom: .75rem;
       padding-left: 1em;
+      text-transform: uppercase;
     }
 
     h4 {
       color: $um-blue-md;
-      font: $font-semi-bold 16px $um-ro-utility-font;
+      font: $font-semi-bold 1rem $um-ro-font;
       margin-bottom: 0;
+      text-transform: uppercase;
     }
 
     p {
