@@ -1,5 +1,16 @@
 .grid-container {
+  flex: 1 0 auto;
   [role=main] {
     padding: 3rem 0;
   }
+}
+
+.off-canvas-wrapper {
+  overflow: visible;
+}
+
+.off-canvas-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
