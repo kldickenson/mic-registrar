@@ -9,7 +9,6 @@
 
 // Utility menu
 .block-ro-utilitymenu {
-  // float: right;
   margin-top: 1rem;
   position: absolute;
   right: 0;
@@ -22,14 +21,17 @@
     a {
       color: $um-maize;
       font-family: $um-ro-utility-font;
-      font-weight: 600;
+      font-weight: 400;
       padding: 0 .5rem;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     li {
       border-left: 1px solid $um-maize;
       display: inline-block;
-      font-size: 12px;
+      font-size: .75rem;
       height: 1em;
       line-height: 100%;
       width: inherit;
@@ -54,11 +56,13 @@
     border-right: 1px solid $um-blue-lt;
     font-size: .8125rem;
     padding: .7rem 3rem 1.5rem;
+    transition: border .2s ease-in-out;
 
     &:first-child {
       border-right: 1px solid $um-blue-lt;
       padding-left: 0;
       a {
+
         &:hover {
           color: $um-maize;
         }
@@ -66,7 +70,7 @@
     }
 
     &:last-child {
-      border: 0;
+      border-right: 0;
     }
 
     a {
@@ -74,13 +78,20 @@
       font-weight: $font-semi-bold;
       padding: 0;
       transition: all .2s ease-in-out;
+
+      &:hover {
+        color: $um-maize;
+      }
     }
 
     &--active-trail {
       background: $um-maize;
-      border: 0;
+      border-right: 0;
+      border-top: 4px solid rgba($um-blue-lt, 0);
+
       a {
         color: $um-blue;
+
         &:hover {
           color: lighten($um-blue, 15%);
         }
