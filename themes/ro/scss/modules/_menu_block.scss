@@ -4,7 +4,7 @@
     font-family: $um-ro-font;
     text-decoration: none;
     text-transform: uppercase;
-   }
+  }
 }
 
 // Utility menu
@@ -52,28 +52,40 @@
 .block-mainnavigation-4 {
   .menu-item {
     border-right: 1px solid $um-blue-lt;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: .8125rem;
+    padding: .7rem 3rem 1.5rem;
 
-    &.menu-item--active-trail {
+    &:first-child {
+      border-right: 1px solid $um-blue-lt;
+      padding-left: 0;
       a {
-        background: $um-maize;
-        color: $um-blue;
+        &:hover {
+          color: $um-maize;
+        }
       }
     }
 
     &:last-child {
       border: 0;
     }
-  }
 
-  a {
-    color: $white;
+    a {
+      padding: 0;
+      color: $white;
+      font-weight: $font-semi-bold;
+      transition: all .2s ease-in-out;
+    }
 
-    &.is-active {
+    &--active-trail {
+      border: 0;
       background: $um-maize;
-      color: $um-blue;
+      a {
+        color: $um-blue;
+        &:hover {
+          color: lighten($um-blue, 15%);
+        }
       }
+    }
   }
 }
 
