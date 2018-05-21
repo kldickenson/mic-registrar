@@ -4,17 +4,15 @@
 // - Be sure to load after "foundation" import.
 // - Also, before adding styles be sure to modify variables in the
 //   "base/_common.scss" file. You may not need to write any code.
-
 body {
-  font-family: $um-ro-font;
-  font-weight: 600;
+  font-family: $body-font-family;
+  font-weight: 400;
 }
 
 // Headings
 //------------------------------------------
 // h1, h2, h3,
 // h4, h5, h6 {}
-
 // Anchors
 //-----------------------------------------------------------------------------
 a {
@@ -23,11 +21,9 @@ a {
 }
 
 // a:focus {}
-
 // a.active,
 // a:active,
 // a:hover {}
-
 // Form Input
 //-----------------------------------------------------------------------------
 // input[type="text"],
@@ -45,7 +41,6 @@ a {
 // input[type="url"],
 // textarea {
 // }
-
 // input[type="text"],
 // input[type="password"],
 // input[type="date"],
@@ -60,7 +55,5 @@ a {
 // input[type="time"],
 // input[type="url"],
 // textarea {
-
 // }
-
 // select {}

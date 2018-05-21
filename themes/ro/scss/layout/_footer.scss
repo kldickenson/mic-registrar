@@ -3,6 +3,7 @@
   background: $um-blue;
   color: $white;
   padding-bottom: 1rem;
+  flex-shrink: 0;
 
   .um-badge {
     margin-right: 2rem;
