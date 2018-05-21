@@ -70,15 +70,15 @@
     }
 
     a {
-      padding: 0;
       color: $white;
       font-weight: $font-semi-bold;
+      padding: 0;
       transition: all .2s ease-in-out;
     }
 
     &--active-trail {
-      border: 0;
       background: $um-maize;
+      border: 0;
       a {
         color: $um-blue;
         &:hover {
@@ -145,7 +145,7 @@
   .menu-item {
     border-left: 1px solid $white;
     display: inline-block;
-    font-size: 12px;
+    font-size: .8125rem;
     height: 1em;
     line-height: 100%;
     width: inherit;
