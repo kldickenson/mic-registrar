@@ -1,5 +1,6 @@
 .container-pg-header {
   background: rgba($um-blue-md, .2) url('../images/ro/pg-header-dots-fade.png') 50% top no-repeat;
+  padding: 2rem 0;
 
   .grid-x {
     position: relative;
@@ -25,7 +26,6 @@
 
   .block-needhelp-2 {
     border-left: 1px solid $black-26;
-    margin: 1rem 0;
     padding-left: 4rem;
 
     .block-title {
