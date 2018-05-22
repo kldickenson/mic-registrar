@@ -107,30 +107,38 @@
   .menu-item {
     display: block;
     width: 100%;
+    border-top: 1px solid $um-gray-md;
 
-    &:first-child {
-      border-top: 1px solid $um-gray-md;
+    &:nth-child(1) {
+      border-top: 0;
     }
 
     >.menu {
-
-      a {
-        color: $um-blue-lt;
-        padding-left: 3em;
-        text-transform: capitalize;
+      .menu-item {
+        border-top: 0;
+        a {
+          color: $um-blue-lt;
+          padding-left: 3em;
+          text-transform: capitalize;
+        }
       }
     }
   }
 
   a {
-    border-bottom: 1px solid $um-gray-md;
     color: $black;
-    font-size: 13px;
+    font-size: .8125rem;
+    font-weight: 700;
     padding: 1em;
     text-transform: uppercase;
 
     &.is-active {
-      background: $um-gray-md;
+      background: $light-gray;
+    }
+
+    &:hover {
+    	text-decoration: underline;
+    	background: $light-gray;
     }
   }
 }
