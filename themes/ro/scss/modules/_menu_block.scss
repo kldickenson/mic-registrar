@@ -23,6 +23,7 @@
       font-family: $um-ro-utility-font;
       font-weight: 400;
       padding: 0 .5rem;
+
       &:hover {
         text-decoration: underline;
       }
@@ -52,14 +53,26 @@
 
 // Main menu
 .block-mainnavigation-4 {
+  margin: 1em;
+  position: relative;
+  .menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: -1px;
+  }
   .menu-item {
     border-right: 1px solid $um-blue-lt;
+    flex-basis: auto;
+    flex-grow: 1;
     font-size: .8125rem;
-    padding: .7rem 1.45rem 1.5rem;
+    margin: .25em 0;
+    padding: 0 1em;
+    text-align: center;
     transition: border .2s ease-in-out;
 
     &:first-child {
-      border-right: 1px solid $um-blue-lt;
       padding-left: 0;
       a {
 
@@ -87,7 +100,7 @@
     &--active-trail {
       background: $um-maize;
       border-right: 0;
-      border-top: 4px solid rgba($um-blue-lt, 0);
+      position: relative;
 
       a {
         color: $um-blue;
@@ -95,6 +108,26 @@
         &:hover {
           color: lighten($um-blue, 15%);
         }
+      }
+
+      &::before,
+      &::after {
+        background: $um-maize;
+        content: '';
+        display: inline-block;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+
+      &::before {
+        height: 1rem;
+        top: -1rem;
+      }
+
+      &::after {
+        bottom: -1.2rem;
+        height: 1.25rem;
       }
     }
   }
@@ -105,9 +138,9 @@
   margin-top: 2rem;
 
   .menu-item {
+    border-top: 1px solid $um-gray-md;
     display: block;
     width: 100%;
-    border-top: 1px solid $um-gray-md;
 
     &:nth-child(1) {
       border-top: 0;
@@ -137,8 +170,8 @@
     }
 
     &:hover {
-    	text-decoration: underline;
-    	background: $light-gray;
+      background: $light-gray;
+      text-decoration: underline;
     }
   }
 }
@@ -149,7 +182,7 @@
   padding: 2rem 1rem 1rem;
 
   .menu {
-  	  justify-content: center;
+    justify-content: center;
   }
 
   a {
