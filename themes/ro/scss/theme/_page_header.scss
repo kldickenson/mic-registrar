@@ -19,7 +19,8 @@
   .block-ro-page-title {
     h1 {
       color: $black;
-      font: 1.5625rem $um-font-pg-title;
+      font-size: 1.875rem;
+      font-family: $um-font-pg-title;
       margin: 0;
     }
   }
