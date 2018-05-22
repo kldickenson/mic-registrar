@@ -146,14 +146,13 @@
 // Footer menu
 .block-footermenu {
   background: $um-blue-lt;
-  float: right;
   padding: 2rem 1rem 1rem;
 
   a {
     color: $white;
     font-family: $um-ro-utility-font;
     font-weight: 600;
-    padding: 0 .5rem;
+    padding: 0 .25rem;
 
     &:hover,
     &:focus {
