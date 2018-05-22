@@ -195,17 +195,17 @@
           {% if page.footer_first or page.footer_middle or page.footer_last %}
             <footer class="grid-x">
               {% if page.footer_first %}
-                <div id="footer-first" class="cell medium-4">
+                <div id="footer-first" class="cell auto">
                   {{ page.footer_first }}
                 </div>
               {% endif %}
               {% if page.footer_middle %}
-                <div id="footer-middle" class="cell medium-4">
+                <div id="footer-middle" class="cell auto">
                   {{ page.footer_middle }}
                 </div>
               {% endif %}
               {% if page.footer_last %}
-                <div id="footer-last" class="cell medium-4 align-self-right">
+                <div id="footer-last" class="cell medium-5 align-self-right">
                   {{ page.footer_last }}
                 </div>
               {% endif %}

@@ -148,11 +148,15 @@
   background: $um-blue-lt;
   padding: 2rem 1rem 1rem;
 
+  .menu {
+  	  justify-content: center;
+  }
+
   a {
     color: $white;
-    font-family: $um-ro-utility-font;
+    font-family: $um-ro-font;
     font-weight: 600;
-    padding: 0 .25rem;
+    padding: 0 .5rem;
 
     &:hover,
     &:focus {
@@ -163,7 +167,7 @@
   .menu-item {
     border-left: 1px solid $white;
     display: inline-block;
-    font-size: .8125rem;
+    font-size: .75rem;
     height: 1em;
     line-height: 100%;
     width: inherit;
