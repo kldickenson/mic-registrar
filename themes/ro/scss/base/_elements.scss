@@ -16,8 +16,11 @@ body {
 // Anchors
 //-----------------------------------------------------------------------------
 a {
-  font-weight: $font-regular;
+  font-weight: 400;
   text-decoration: underline;
+  &:hover {
+    font-weight: 700;
+  }
 }
 
 // a:focus {}
