@@ -47,24 +47,25 @@
 
     p {
       color: $black;
-      font: 14px/1.4 $um-ro-utility-font;
+      font: .875rem/1.4 $um-ro-utility-font;
+      margin-bottom: 0;
     }
 
     a {
-      font: $font-semi-bold 16px/1;
+      font: $font-semi-bold 1rem/1;
     }
 
     .fa {
       color: $red;
       display: block;
       float: left;
-      font-size: 18px;
-      margin-bottom: 4em;
+      font-size: 1.125rem;
+      margin-bottom: 3em;
       margin-right: .5em;
     }
 
     .fa-envelope {
-      font-size: 16px;
+      font-size: 1rem;
       margin-bottom: 0;
       + a {
         font-family: $um-ro-font;
