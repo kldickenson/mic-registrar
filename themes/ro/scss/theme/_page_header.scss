@@ -51,7 +51,7 @@
     }
 
     a {
-      font: $font-semi-bold 16px/1 $um-ro-font;
+      font: $font-semi-bold 16px/1;
     }
 
     .fa {
@@ -66,6 +66,10 @@
     .fa-envelope {
       font-size: 16px;
       margin-bottom: 0;
+      + a {
+        font-family: $um-ro-font;
+        font-weight: $font-semi-bold;
+      }
     }
   }
 }
