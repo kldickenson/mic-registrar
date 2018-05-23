@@ -192,23 +192,9 @@
 
       <div class="container-footer">
         <div class="grid-container">
-          {% if page.footer_first or page.footer_middle or page.footer_last %}
+          {% if page.footer %}
             <footer class="grid-x">
-              {% if page.footer_first %}
-                <div id="footer-first" class="cell auto">
-                  {{ page.footer_first }}
-                </div>
-              {% endif %}
-              {% if page.footer_middle %}
-                <div id="footer-middle" class="cell auto">
-                  {{ page.footer_middle }}
-                </div>
-              {% endif %}
-              {% if page.footer_last %}
-                <div id="footer-last" class="cell medium-5 align-self-right">
-                  {{ page.footer_last }}
-                </div>
-              {% endif %}
+              {{ page.footer }}
             </footer>
           {% endif %}
           <div class="bottom-bar panel grid-x align-bottom">
