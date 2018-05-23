@@ -8,14 +8,15 @@
 }
 
 .block-ro-branding {
-  float: left;
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
   margin-top: 1.5rem;
-  // width: 75%;
 
   a {
     display: inline-block;
-    min-height: 46px;
+
+    img {
+      width: 66.66%;
+    }
 
     &:last-child {
       display: none;
