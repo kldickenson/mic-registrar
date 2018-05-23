@@ -25,16 +25,18 @@ a {
 }
 
 h6 {
-	font-weight: 700;
-	text-transform: uppercase;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-ul, ol {
-	margin-left: 2.25rem;
+ul,
+ol {
+  margin-left: 2.25rem;
 }
 
-label {
-	font-size: .75rem;
+[type='checkbox']+label,
+[type='radio']+label {
+  margin-right: 0;
 }
 
 // a:focus {}
