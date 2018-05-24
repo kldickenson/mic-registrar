@@ -1,6 +1,5 @@
 // Specific to the calendar
 // section for now. 
-.section-calendars,
 .path-calendars {
 
   .button {
@@ -10,7 +9,7 @@
     background: $white;
     background: linear-gradient(0deg, rgba(247, 247, 247, 1) 0%, rgba(247, 247, 247, 0) 100%);
 
-    &:focus, 
+    &:focus,
     &:hover {
       background: rgb(230, 230, 230);
       background: linear-gradient(0deg, rgba(230, 230, 230, 1) 0%, rgba(230, 230, 230, 0) 100%);
@@ -21,15 +20,15 @@
 .search-form {
 
   .button {
-  	color: $black;
-  	border: 1px solid $medium-gray;
+    color: $black;
+    border: 1px solid $medium-gray;
     border-radius: 3px;
     box-shadow: inset 0px 11px 0 -10px $white,
     inset 0px -11px 0 -10px $white;
     background: $white;
     background: linear-gradient(0deg, rgba(247, 247, 247, 1) 0%, rgba(247, 247, 247, 0) 100%);
 
-    &:focus, 
+    &:focus,
     &:hover {
       background: rgb(230, 230, 230);
       background: linear-gradient(0deg, rgba(230, 230, 230, 1) 0%, rgba(230, 230, 230, 0) 100%);
