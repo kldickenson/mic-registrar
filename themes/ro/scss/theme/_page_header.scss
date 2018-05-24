@@ -21,8 +21,8 @@
   .block-ro-page-title {
     h1 {
       color: $black;
-      font-size: 1.875rem;
       font-family: $um-font-pg-title;
+      font-size: 1.875rem;
       line-height: 1;
       margin: 0;
     }
@@ -62,8 +62,12 @@
       margin-bottom: 0;
     }
 
-    a {
-      font: $font-semi-bold 1rem/1;
+    .help-email {
+      padding-top: .5rem;
+
+      a {
+        font: $font-semi-bold 1rem/1 $um-ro-font;
+      }
     }
 
     .fa {
