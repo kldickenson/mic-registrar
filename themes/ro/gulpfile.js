@@ -129,3 +129,18 @@ gulp.task('lint:sass', function () {
     }))
     .pipe($.sassLint.format());
 });
+
+gulp.task('copy', function() {
+  gulp.src('node_modules/foundation-sites/dist/css/*.css')
+    .pipe($.copy('css', {prefix: 4}));
+  gulp.src('node_modules/foundation-sites/dist/js/*.js')
+    .pipe($.copy('js', {prefix: 4}));
+  gulp.src('node_modules/motion-ui/dist/*.css')
+    .pipe($.copy('css', {prefix: 3}));
+  gulp.src('node_modules/motion-ui/dist/*.js')
+    .pipe($.copy('js', {prefix: 3}));
+  var activity = "Stylesheets and scripts from /node_modules/foundation-sites/dist and";
+  activity += " node_modules/motion-ui/dist copied to /css and /js.";
+  gutil.log(activity);
+});
+
