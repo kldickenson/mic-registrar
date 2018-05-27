@@ -2,20 +2,11 @@ global:
   version: 1.0
   css:
     base:
-      ../zurb_foundation/css/foundation.min.css: {}
-      ../zurb_foundation/css/motion-ui.min.css: {}
-      ../zurb_foundation/css/zurb_foundation.css: {}
+      css/fa-brands.css: {}
       css/fa-solid.css: {}
       css/fa-regular.css: {}
       css/fontawesome.css: {}
       css/ro.css: {}
   js:
     js/ro.js: {}
-    ../zurb_foundation/js/foundation_init.js: {}
-    ../zurb_foundation/js/foundation.js: {}
-    ../zurb_foundation/js/foundation.min.js: {}
-    ../zurb_foundation/js/motion-ui.js: {}
-    ../zurb_foundation/js/motion-ui.min.js: {}
-    ../zurb_foundation/js/status_in_reveal.js: {}
-    ../zurb_foundation/js/alert_close.js: {}
 
