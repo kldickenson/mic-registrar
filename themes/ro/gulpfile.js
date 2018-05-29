@@ -7,7 +7,7 @@ var $          = require('gulp-load-plugins')(),
   fs         = require('fs'),
   gulp       = require('gulp'),
   importOnce = require('node-sass-import-once'),
-  concat = require('gulp-concat'); // added by Karen
+  gulpCopy = require('gulp-copy');
 
 var options = {};
 
@@ -136,12 +136,17 @@ gulp.task('lint:sass', function () {
 });
 
 // importing Foundation 6 JS with concat -- added by KLD
-gulp.task('copy', function () {
-  gulp.src(['npm_modules/foundation-sites/dist/js/*min.js', 'npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
-      .pipe(gulp.dest('js/vendor'));
-});
-gulp.task('concat:js', function() {
-  return gulp.src(['./js/vendor/what-input.min.js','./js/vendor/motion-ui.min.js','./js/vendor/foundation.min.js'])
-    .pipe(concat('vendor.all.js'))
-    .pipe(gulp.dest('./js/'));
-});
+// gulp.task('copy', function () {
+//   gulp.src(['npm_modules/foundation-sites/dist/js/*min.js', 'npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
+//       .pipe(gulpCopy('js/vendor'),{prefix:3});
+// });
+// gulp.task('concat:js', function() {
+//   return gulp.src(['./js/vendor/what-input.min.js','./js/vendor/motion-ui.min.js','./js/vendor/foundation.min.js'])
+//     .pipe(concat('vendor.all.js'))
+//     .pipe(gulp.dest('./js/'));
+// });
+
+// gulp.task('copy:test', function () {
+//   gulp.src(['node_modules/foundation-sites/dist/js/*min.js','npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
+//       .pipe(gulp.dest('folder-two'));
+// });
