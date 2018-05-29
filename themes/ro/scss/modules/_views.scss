@@ -40,3 +40,16 @@
     border: 1px solid $medium-gray;
   }
 }
+
+blockquote {
+  font-size: 1.5625rem;
+  font-family: $um-ro-font;
+  line-height: 1.1;
+  text-align: center;
+  margin-bottom: 2rem;
+  h6 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-top: .75rem;
+  }
+}
