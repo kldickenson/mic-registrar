@@ -11,7 +11,7 @@ global:
       css/ro.css: {}
   js:
     js/vendor/foundation.min.js: {}
-    js/vendor/mostion-ui.min.js: {}
+    js/vendor/motion-ui.min.js: {}
     js/vendor/what-input.min.js: {}
     js/ro.js: {}
 
