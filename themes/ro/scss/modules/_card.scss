@@ -1,0 +1,32 @@
+// Custom card styles
+// ------------------
+.card {
+  h4 {
+    font-size: 1.5625rem;
+    font-family: $um-ro-font;
+  }
+  .fas:not(.fa-inverse) {
+    color: $um-blue;
+  }
+  .card-divider {
+    text-align: center;
+    font-family: $um-ro-font;
+    a {
+      color: $white;
+      font-weight: 700;
+      text-decoration: none;
+      width: 100%;
+      display: inline-block;
+      .fas {
+        color: $white;
+        font-size: inherit;
+        transition: color .2s ease-in-out;
+      }
+      &:hover {
+        .fas {
+          color: $um-maize;
+        }
+      }
+    }
+  }
+}

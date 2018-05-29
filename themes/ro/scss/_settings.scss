@@ -192,7 +192,7 @@ $defnlist-margin-bottom: 1rem;
 $defnlist-term-weight: $global-weight-bold;
 $defnlist-term-margin-bottom: 0.3rem;
 $blockquote-color: $black;
-$blockquote-padding: rem-calc(9 20 0 19);
+$blockquote-padding: 0;
 $blockquote-border: 0;
 $cite-font-size: rem-calc(13);
 $cite-color: $dark-gray;
@@ -319,10 +319,10 @@ $callout-link-tint: 30%;
 // 14. Card
 // --------
 
-$card-background: $white;
+$card-background: $light-gray;
 $card-font-color: $body-font-color;
-$card-divider-background: $light-gray;
-$card-border: 1px solid $light-gray;
+$card-divider-background: $um-blue-lt;
+$card-border: 1px solid transparent;
 $card-shadow: none;
 $card-border-radius: $global-radius;
 $card-padding: $global-padding;
