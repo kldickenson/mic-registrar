@@ -1,0 +1,13 @@
+// Custom table styles
+// -------------------
+table {
+  border: 1px solid $medium-gray;
+  border-collapse: inherit;
+  border-radius: 5px;
+  border-spacing: 0;
+  margin-bottom: 2rem;
+
+  th {
+    text-align: left;
+  }
+}
