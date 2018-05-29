@@ -6,8 +6,8 @@ global:
       css/fa-solid.css: {}
       css/fa-regular.css: {}
       css/fontawesome.css: {}
-      css/vendor/foundation.min.css: {}
       css/vendor/motion-ui.min.css: {}
+      css/vendor/foundation.min.css: {}
       css/ro.css: {}
   js:
     js/vendor/foundation.min.js: {}
