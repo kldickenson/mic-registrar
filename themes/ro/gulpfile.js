@@ -1,13 +1,13 @@
 'use strict';
 
 // Load Gulp and tools we will use.
-var $          = require('gulp-load-plugins')(),
+var $        = require('gulp-load-plugins')(),
   del        = require('del'),
   extend     = require('extend'),
   fs         = require('fs'),
   gulp       = require('gulp'),
   importOnce = require('node-sass-import-once'),
-  gulpCopy = require('gulp-copy');
+  gulpCopy   = require('gulp-copy');
 
 var options = {};
 
@@ -27,7 +27,7 @@ options.theme = {
   root       : options.rootPath.theme,
   scss       : options.rootPath.theme + 'scss/',
   css        : options.rootPath.theme + 'css/',
-  js        : options.rootPath.theme + 'js/' // added by KLD
+  js         : options.rootPath.theme + 'js/' // added by KLD
 };
 
 // Define the node-scss configuration.
