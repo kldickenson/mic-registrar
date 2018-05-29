@@ -8,10 +8,12 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.1.0",
     "gulp-load-plugins": "^1.2.2",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.2.3",
     "gulp-sass": "^2.3.1",
-    "gulp-sass-lint": "^1.1.1",
+    "gulp-sass-lint": "^1.4.0",
     "gulp-shell": "^0.5.2",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
@@ -25,5 +27,9 @@
     "watch": "gulp watch",
     "postinstall": "node_modules/.bin/rimraf node_modules/**/*.info"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.1.0"
+  }
 }

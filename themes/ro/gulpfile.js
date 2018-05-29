@@ -4,9 +4,10 @@
 var $          = require('gulp-load-plugins')(),
   del        = require('del'),
   extend     = require('extend'),
-  fs         = require("fs"),
+  fs         = require('fs'),
   gulp       = require('gulp'),
-  importOnce = require('node-sass-import-once');
+  importOnce = require('node-sass-import-once'),
+  concat = require('gulp-concat'); // added by Karen
 
 var options = {};
 
@@ -66,6 +67,9 @@ gulp.task('default', ['build']);
 
 // Build everything.
 gulp.task('build', ['sass', 'drush:cc', 'lint']);
+
+// Add Foundation JS. Added by Karen
+gulp.task('foundation', ['copy', 'concat:js']);
 
 // Default watch task.
 // @todo needs to add a javascript watch task.
@@ -131,17 +135,13 @@ gulp.task('lint:sass', function () {
     .pipe($.sassLint.format());
 });
 
-// importing Foundation 6 CSS & JS -- added by KLD
-gulp.task('copy', function() {
-  gulp.src('node_modules/foundation-sites/dist/css/*.css')
-    .pipe($.copy('css', {prefix: 4}));
-  gulp.src('node_modules/foundation-sites/dist/js/*.js')
-    .pipe($.copy('js', {prefix: 4}));
-  gulp.src('node_modules/motion-ui/dist/*.css')
-    .pipe($.copy('css', {prefix: 3}));
-  gulp.src('node_modules/motion-ui/dist/*.js')
-    .pipe($.copy('js', {prefix: 3}));
-  var activity = "Stylesheets and scripts from /node_modules/foundation-sites/dist and";
-  activity += " node_modules/motion-ui/dist copied to /css and /js.";
-  gutil.log(activity);
+// importing Foundation 6 JS with concat -- added by KLD
+gulp.task('copy', function () {
+  gulp.src(['npm_modules/foundation-sites/dist/js/*min.js', 'npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
+      .pipe(gulp.dest('js/vendor'));
+});
+gulp.task('concat:js', function() {
+  return gulp.src(['./js/vendor/what-input.min.js','./js/vendor/motion-ui.min.js','./js/vendor/foundation.min.js'])
+    .pipe(concat('vendor.all.js'))
+    .pipe(gulp.dest('./js/'));
 });

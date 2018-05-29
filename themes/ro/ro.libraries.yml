@@ -6,7 +6,12 @@ global:
       css/fa-solid.css: {}
       css/fa-regular.css: {}
       css/fontawesome.css: {}
+      css/vendor/foundations.min.css: {}
+      css/vendor/motion-ui.min.css: {}
       css/ro.css: {}
   js:
+    js/vendor/foundation.min.js: {}
+    js/vendor/mostion-ui.min.js: {}
+    js/vendor/what-input.min.js: {}
     js/ro.js: {}
 
