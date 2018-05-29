@@ -89,3 +89,12 @@ blockquote {
     margin-top: .75rem;
   }
 }
+
+figcaption {
+  background-color: $um-gray-lt;
+  font-size: .875rem;
+  font-family: $um-ro-utility-font;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding: .625rem;
+}
