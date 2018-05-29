@@ -55,6 +55,8 @@ $flex: true;
 // Optional.
 // @import 'base/common';
 
+@import 'states/animate';
+
 // Drupal specific styles (to fix Drupalisms).
 @import 'base/drupal';
 

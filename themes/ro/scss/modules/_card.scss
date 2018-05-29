@@ -1,5 +1,6 @@
 // Custom card styles
 // ------------------
+
 .card {
   h4 {
     font-size: 1.5625rem;
@@ -21,10 +22,12 @@
         color: $white;
         font-size: inherit;
         transition: color .2s ease-in-out;
+        @extend .animated;
       }
       &:hover {
         .fas {
           color: $um-maize;
+          animation-name: bounceOutRight;
         }
       }
     }
