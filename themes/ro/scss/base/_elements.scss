@@ -76,7 +76,6 @@ ol {
 // textarea {
 // }
 // select {}
-
 blockquote {
   font-size: 1.5625rem;
   font-family: $um-ro-font;
@@ -99,6 +98,41 @@ figcaption {
   padding: .625rem;
 }
 
-ul, ol {
+ul,
+ol {
   margin-bottom: 1.5rem;
+}
+
+.region-highlighted {
+  &.callout {
+    padding: 0;
+    border: 0;
+  }
+}
+
+.block-local-tasks-block {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  .button-group {
+    .button {
+      text-decoration: none;
+      &:hover {
+        font-weight: normal;
+      }
+      &:first-child {
+        border-top-left-radius: .5rem;
+        border-bottom-left-radius: .5rem;
+      }
+      &:last-child {
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+      }
+    }
+  }
+}
+
+.content-moderation-entity-moderation-form {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  .entity-moderation-form {
+    border-radius: .5rem;
+  }
 }
