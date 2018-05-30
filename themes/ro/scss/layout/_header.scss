@@ -16,6 +16,9 @@
 
     img {
       width: 66.66%;
+      @include breakpoint(small only) {
+        width: 100%;
+      }
     }
 
     &:last-child {

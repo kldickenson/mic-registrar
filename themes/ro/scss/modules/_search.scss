@@ -2,6 +2,9 @@
   // float: right;
   // width: 25%;
   padding-top: 2.8rem;
+  @include breakpoint(small only) {
+    padding-top: .5rem;
+  }
 
   .input-group {
     display: block;

@@ -14,9 +14,18 @@
   right: 0;
   top: .55rem;
   z-index: 200;
+  @include breakpoint(small only) {
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: static;
+  }
 
   .menu {
     float: right;
+    @include breakpoint(small only) {
+      float: none;
+    }
 
     a {
       color: $um-maize;
@@ -77,6 +86,10 @@
     @include breakpoint(medium only) {
       font-size: .6875rem;
     }
+    @include breakpoint(small only) {
+      margin: .25rem 0;
+      padding: .25rem 0;
+    }
 
     &:first-child {
       padding-left: 0;
@@ -107,6 +120,9 @@
       background: $um-maize;
       border-right: 0;
       position: relative;
+      @include breakpoint(small only) {
+        position: static;
+      }
 
       a {
         color: $um-blue;
@@ -124,6 +140,10 @@
         left: 0;
         position: absolute;
         width: 100%;
+        @include breakpoint(small only) {
+          display: none;
+          position: static;
+        }
       }
 
       &::before {
