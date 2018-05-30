@@ -10,4 +10,8 @@ table {
   th {
     text-align: left;
   }
+
+  &.cols-0 {
+    @extend .table-scroll;
+  }
 }

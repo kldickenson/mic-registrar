@@ -8,8 +8,7 @@
 
   .um-badge {
     margin-right: 2rem;
-    width: 140px;
-    // may need to update this for mobile times
+    width: 140px; // may need to update this for mobile times
   }
 
   a {
@@ -31,6 +30,12 @@
     a {
       color: $white;
       font-weight: bold;
+    }
+  }
+
+  .block-footermenu {
+    @include breakpoint(medium down) {
+      margin-bottom: 1rem;
     }
   }
 }

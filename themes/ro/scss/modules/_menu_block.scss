@@ -214,9 +214,3 @@
     }
   }
 }
-
-@include breakpoint(small only) {
-  .bottom-bar {
-    margin-top: 1rem;
-  }
-}

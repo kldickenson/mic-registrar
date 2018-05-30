@@ -4,11 +4,19 @@
   fieldset {
     float: left;
     width: 50%;
+    @include breakpoint(small only) {
+      float: none;
+      width: 100%;
+    }
   }
 
   .js-form-item-field-term-target-id {
     float: left;
     width: 50%;
+    @include breakpoint(small only) {
+      float: none;
+      width: 100%;
+    }
 
     label {
       font-size: 1rem;
