@@ -28,7 +28,7 @@ regions:
   footer: 'Footer'
   left_off_canvas: 'Left off canvas'
   right_off_canvas: 'Right off canvas'
-  regions_hidden:
+regions_hidden:
   page_top: 'Page Top'
   page_bottom: 'Page bottom'
 
