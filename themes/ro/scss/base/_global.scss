@@ -1,5 +1,8 @@
 .content-well {
   main {
     padding: 3rem 0;
+    @include breakpoint(small only) {
+    	padding-bottom: 0;
+    }
   }
 }

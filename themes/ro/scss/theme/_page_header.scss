@@ -28,6 +28,9 @@
 // NEED HELP BLOCK
   .block-needhelp-2,
   .block-needhelp {
+    @include breakpoint(small only) {
+      margin-top: 1.5rem;
+    }
 
     .block-title {
       color: $um-blue;

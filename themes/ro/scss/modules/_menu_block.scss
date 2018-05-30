@@ -136,6 +136,9 @@
 // Sidebar Section menu
 .block-ro-mainnavigation-3 {
   margin-top: 2rem;
+  @include breakpoint(small only) {
+    margin-top: 0;
+  }
 
   .menu-item {
     border-top: 1px solid $um-gray-md;
@@ -209,5 +212,11 @@
     &:first-child {
       border: 0;
     }
+  }
+}
+
+@include breakpoint(small only) {
+  .bottom-bar {
+    margin-top: 1rem;
   }
 }
