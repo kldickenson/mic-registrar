@@ -6,8 +6,15 @@
     font-size: 1.5625rem;
     font-family: $um-ro-font;
   }
-  .fas:not(.fa-inverse) {
-    color: $um-blue;
+  .icon-wrapper {
+    border-radius: .5rem;
+    background-color: $um-blue;
+    padding: .625rem;
+    width: 3.4375rem;
+    text-align: center;
+    i {
+      color: $white;
+    }
   }
   .card-divider {
     text-align: center;
