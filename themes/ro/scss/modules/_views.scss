@@ -30,6 +30,9 @@
 
   .fieldset-wrapper {
     width: 50%;
+    @include breakpoint(medium only) {
+      width: 70%;
+    }
   }
 
   select {
