@@ -8,7 +8,11 @@
 
   .um-badge {
     margin-right: 2rem;
-    width: 140px; // may need to update this for mobile times
+    width: 140px;
+    @include breakpoint(small only) {
+      margin-right: 1rem;
+      width: 3.75rem;
+    }
   }
 
   a {
@@ -20,6 +24,9 @@
     font-weight: bold;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
+    @include breakpoint(small only) {
+      margin-bottom: 0;
+    }
 
     &.footer-site-name {
       color: $um-maize;
