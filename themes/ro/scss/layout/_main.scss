@@ -1,1 +1,20 @@
 // Non-modular or client styles for the .l-content region.
+
+.align-left {
+	margin-right: 1rem;
+}
+
+.align-right {
+	margin-left: 1rem;
+}
+
+.align-left,
+.align-right {
+	width: 44.4444%;
+	@include breakpoint(small only) {
+		float: none;
+		width: 100%;
+		margin: 0;
+		margin-bottom: 1rem;
+	}
+}
