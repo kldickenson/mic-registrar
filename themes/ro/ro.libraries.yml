@@ -8,7 +8,10 @@ global:
       css/fontawesome.css: {}
       css/ro.css: {}
   js:
-    js/vendor/foundation.min.js: {}
-    js/vendor/motion-ui.min.js: {}
+    # for production, change to foundation.min.js
+    js/vendor/foundation.js: {}
+    # for production, change to motion-ui.min.js
+    js/vendor/motion-ui.js: {}
+    js/vendor/npm.js: {}
     js/ro.js: {}
 

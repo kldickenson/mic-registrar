@@ -69,7 +69,7 @@ gulp.task('default', ['build']);
 gulp.task('build', ['sass', 'drush:cc', 'lint']);
 
 // Add Foundation JS. Added by Karen
-gulp.task('foundation', ['copy', 'concat:js']);
+gulp.task('foundation', ['copy']);
 
 // Default watch task.
 // @todo needs to add a javascript watch task.
@@ -135,18 +135,18 @@ gulp.task('lint:sass', function () {
     .pipe($.sassLint.format());
 });
 
-// importing Foundation 6 JS with concat -- added by KLD
-// gulp.task('copy', function () {
-//   gulp.src(['npm_modules/foundation-sites/dist/js/*min.js', 'npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
-//       .pipe(gulpCopy('js/vendor'),{prefix:3});
-// });
-// gulp.task('concat:js', function() {
-//   return gulp.src(['./js/vendor/what-input.min.js','./js/vendor/motion-ui.min.js','./js/vendor/foundation.min.js'])
-//     .pipe(concat('vendor.all.js'))
-//     .pipe(gulp.dest('./js/'));
-// });
+// importing Foundation 6 JS -- added by KLD
+gulp.task('copy', function() {
+  // gulp.src('node_modules/foundation-sites/dist/css/*.css')
+  //   .pipe($.copy('css', {prefix: 4}));
+  gulp.src('node_modules/foundation-sites/dist/js/*.js')
+    .pipe($.copy('js/vendor', {prefix: 4}));
+  // gulp.src('node_modules/motion-ui/dist/*.css')
+  //   .pipe($.copy('css', {prefix: 3}));
+  gulp.src('node_modules/motion-ui/dist/*.js')
+    .pipe($.copy('js/vendor', {prefix: 3}));
+  var activity = "Scripts from /node_modules/foundation-sites/dist and";
+  activity += " node_modules/motion-ui/dist copied to /js/vendor.";
+  console.log(activity);
+});
 
-// gulp.task('copy:test', function () {
-//   gulp.src(['node_modules/foundation-sites/dist/js/*min.js','npm_modules/motion-ui/dist/*min.js','npm_modules/what-input/dist/*min.js'])
-//       .pipe(gulp.dest('folder-two'));
-// });
