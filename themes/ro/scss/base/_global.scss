@@ -1,8 +1,35 @@
+html {
+	height: 100%;
+	background-color: $um-blue;
+}
+// Stick footer to the bottom of the browser
+// window if the content doesn't push it
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.off-canvas-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .grid-container.content-well {
+    width: 100%;
+  }
+
+  .container-footer {
+    margin-top: auto;
+    width: 100%;
+  }
+}
+
 .content-well {
   main {
     padding: 3rem 0;
     @include breakpoint(small only) {
-    	padding-bottom: 0;
+      padding-bottom: 0;
     }
   }
 }
