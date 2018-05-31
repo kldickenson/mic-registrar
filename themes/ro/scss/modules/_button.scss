@@ -1,5 +1,5 @@
 // Specific to the calendar
-// section for now. 
+// section for now.
 .path-calendars {
 
   .button {
@@ -13,6 +13,19 @@
     &:hover {
       background: rgb(230, 230, 230);
       background: linear-gradient(0deg, rgba(230, 230, 230, 1) 0%, rgba(230, 230, 230, 0) 100%);
+    }
+  }
+
+  .google-add {
+    // border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: $um-blue-lt;
+
+    &:focus,
+    &:hover {
+      background: $um-blue;
+      color: $white;
     }
   }
 }
