@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function shortcode_theme() {
+  return array(
+    // Quote.
+    'shortcode_quote' => array(
+      'variables' => array('author' => NULL, 'class' => NULL, 'text' => ''),
+    ),
+    // Image
+    'shortcode_img' => array(
+      'variables' => array('src' => NULL, 'alt' => NULL, 'class' => ''),
+    ),
+    // Button
+    'shortcode_button' => array(
+      'variables' => array('url' => NULL, 'attributes' => array(), 'text' => ''),
+    ),
+    // Dropcap
+    'shortcode_dropcap' => array(
+      'variables' => array('class' => NULL, 'text' => ''),
+    ),
+    // Item
+    'shortcode_item' => array(
+      'variables' => array('type' => 'div', 'attributes' => array(), 'text' => ''),
+    ),
+    // Clear
+    'shortcode_clear' => array(
+      'variables' => array('type' => 'div', 'attributes' => array(), 'text' => ''),
+    ),
+    // Link
+    'shortcode_link' => array(
+      'variables' => array('url' => NULL, 'attributes' => array(), 'text' => ''),
+    ),
+  );
+}
