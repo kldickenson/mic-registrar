@@ -1,0 +1,13 @@
+name: 'Shortcode'
+type: module
+description: 'Provides shortcodes filter framework and API (like WP shortcodes)'
+# core: 8.x
+dependencies:
+  - filter
+package: 'Input filters'
+
+# Information added by Drupal.org packaging script on 2017-02-17
+version: '8.x-1.0-rc1'
+core: '8.x'
+project: 'shortcode'
+datestamp: 1487350085
