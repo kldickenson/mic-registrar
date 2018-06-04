@@ -129,6 +129,10 @@
     }
     .event-title {
       padding: .5rem 1rem;
+      p {
+      	margin: 0;
+      	display: inline;
+      }
       @include xy-cell(12,
       $gutters: 0);
       &:after {
@@ -151,12 +155,6 @@
       padding: .85rem 2.25rem;
       text-decoration: none;
       transition: all .2s ease-in-out;
-      &:after {
-        display: inline;
-        font-family: $um-fontawesome;
-        font-size: 1.25rem;
-        padding-left: .5rem;
-      }
     }
   }
 }
