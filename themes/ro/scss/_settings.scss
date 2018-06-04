@@ -106,6 +106,7 @@ $font-bold: 900;
 // font families
 $um-ro-font: 'Raleway', sans-serif;
 $um-ro-utility-font: 'Roboto', sans-serif;
+$um-ro-condensed-font: 'Roboto Condensed', sans-serif;
 $um-font-pg-title: 'Raleway', sans-serif;
 $um-fontawesome: 'Font Awesome 5 Free';
 
@@ -120,7 +121,7 @@ $breakpoints: (
   xxlarge: 1440px,
 );
 $print-breakpoint: large;
-$breakpoint-classes: (small medium large);
+$breakpoint-classes: (small medium large xlarge xxlarge);
 
 // 3. The Grid
 // -----------
