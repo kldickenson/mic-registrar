@@ -21,6 +21,8 @@ regions:
   page_top: 'Page top'
   page_bottom: 'Page bottom'
   highlighted: Highlighted
+  homepage_top: 'Homepage Top (Dates)'
+  homepage_bottom: 'Homepage Bottom (Staff, Reports)'
   content_header: 'Content Header'
   content: Content
   sidebar_first: 'Left Sidebar'
