@@ -2,37 +2,37 @@
 // ------------
 .container-pg-highlighted {
   background-image: url('/sites/default/files/2018-06/ro-homepage.jpg');
-  background-image: url(/sites/default/files/2018-06/ro-homepage.jpg);
+  background-position: center -150px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center -150px;
   @include breakpoint(xxlarge only) {
     background-position: center -200px;
   }
   @include breakpoint(medium down) {
     background-position: center;
   }
+
   .region-highlighted {
     @extend .align-justify;
-    @include xy-grid();
-    position: static;
-    border-radius: 0;
+    @include xy-grid;
     background-color: transparent;
+    border-radius: 0;
     margin: 0 auto;
-    padding: 2rem 0;
     max-width: $global-width;
+    padding: 2rem 0;
+    position: static;
 
     section {
       position: static;
 
       &#block-views-block-homepage-block-1 {
         @include xy-cell(7);
+        background-color: rgba($um-blue, .88);
+        color: $um-maize;
         font-family: $um-ro-font;
         font-size: 1.25rem;
-        color: $um-maize;
-        padding: 2rem;
         height: fit-content;
-        background-color: rgba($um-blue, .88);
+        padding: 2rem;
         @include breakpoint(medium down) {
           @include xy-cell(5);
         }
@@ -40,35 +40,42 @@
           @include xy-cell(12);
         }
       }
+            
       &#block-views-block-homepage-block-2 {
         @include xy-cell(4);
-        font-family: $um-ro-condensed-font;
-        margin-bottom: 2rem;
-        padding: 1rem;
         background-color: rgba($um-blue-lt, .95);
         color: $white;
+        font-family: $um-ro-condensed-font;
         height: fit-content;
+        margin-bottom: 2rem;
+        padding: 1rem;
+
         .block-title {
-          text-transform: uppercase;
+          color: $um-maize;
           font-family: $um-ro-font;
           font-size: 1.75rem;
-          color: $um-maize;
+          text-transform: uppercase;
         }
+
         ul {
           list-style-type: none;
           margin: 0;
           padding: 0;
+
           li {
-            padding: .75rem 0;
             border-bottom: 1px solid $um-maize;
+            padding: .75rem 0;
+
             &:last-child {
               border-bottom: 0;
             }
           }
         }
+
         p {
           margin-bottom: 0;
         }
+
         @include breakpoint(medium down) {
           @include xy-cell(7);
         }
