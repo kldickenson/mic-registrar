@@ -93,6 +93,8 @@
   .block-title {
     color: $um-blue;
     font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
     text-align: center;
     text-transform: uppercase;
   }
@@ -115,6 +117,10 @@
     background-color: $um-gray-lt;
     font-size: 1.125rem;
     text-align: center;
+    @include breakpoint(medium down) {
+      @include xy-cell(6);
+      margin-bottom: 1.25rem;
+    }
     @include breakpoint(small only) {
       @include xy-cell(12);
     }
@@ -130,8 +136,8 @@
     .event-title {
       padding: .5rem 1rem;
       p {
-      	margin: 0;
-      	display: inline;
+        margin: 0;
+        display: inline;
       }
       @include xy-cell(12,
       $gutters: 0);
