@@ -1,6 +1,5 @@
 // Index styles
 // ------------
-
 // Lead section
 // ------------
 .container-pg-highlighted {
@@ -80,6 +79,83 @@
         @include breakpoint(small only) {
           @include xy-cell(12);
         }
+      }
+    }
+  }
+}
+
+// Important Dates section
+// -----------------------
+.important-dates {
+  padding: 3rem 0;
+  font-family: $um-ro-font;
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .important-date-listing {
+    font-weight: 800;
+    @include xy-grid-container;
+    footer {
+      text-align: center;
+    }
+  }
+  .grid-x {
+    @extend .align-stretch;
+    margin-bottom: 2rem;
+  }
+  .important-date {
+    @include xy-cell(3);
+    @include xy-grid();
+    @extend .align-stretch;
+    background-color: $um-gray-lt;
+    font-size: 1.125rem;
+    text-align: center;
+    @include breakpoint(small only) {
+      @include xy-cell(12);
+    }
+    .event-date {
+      color: $um-maize;
+      background-color: $um-blue-lt;
+      padding: .5rem 1rem;
+      text-transform: uppercase;
+      @include xy-cell(12,
+      $gutters: 0);
+      @extend .align-self-top;
+    }
+    .event-title {
+      padding: .5rem 1rem;
+      @include xy-cell(12,
+      $gutters: 0);
+      &:after {
+        content: '\f0a9';
+        display: inline;
+        font-family: $um-fontawesome;
+        font-size: 1.125rem;
+        padding-left: .5rem;
+      }
+    }
+  }
+  footer {
+    a {
+      @include button;
+      background-color: $um-blue;
+      color: $white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: inline-block;
+      padding: .85rem 2.25rem;
+      text-decoration: none;
+      transition: all .2s ease-in-out;
+      &:after {
+        display: inline;
+        font-family: $um-fontawesome;
+        font-size: 1.25rem;
+        padding-left: .5rem;
       }
     }
   }
