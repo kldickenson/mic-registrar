@@ -11,6 +11,7 @@
   .region-highlighted {
     @extend .align-justify;
     @include xy-grid;
+    @include xy-gutters($gutters: 0, $gutter-type: padding);
     background-color: transparent;
     border-radius: 0;
     margin: 0 auto;
@@ -22,7 +23,7 @@
       position: static;
 
       &#block-views-block-homepage-block-1 {
-        @include xy-cell(7);
+        @include xy-cell(7, $gutters: 0);
         background-attachment: fixed;
         background-color: rgba($um-blue, .88);
         color: $um-maize;
@@ -39,7 +40,7 @@
       }
 
       &#block-views-block-homepage-block-2 {
-        @include xy-cell(4);
+        @include xy-cell(4, $gutters: 0);
         background-color: rgba($um-blue-lt, .95);
         color: $white;
         font-family: $um-ro-condensed-font;
