@@ -363,7 +363,7 @@
       }
 
       &:hover {
-      	
+
         .fas {
           color: $um-maize;
           animation-name: bounceOutRight;
@@ -377,10 +377,12 @@
   }
 }
 
-.path-frontpage .field-wrapper.body.field.field-node--body.field-name-body.field-type-text-with-summary.field-label-hidden.quickedit-field .field-items {
+.path-frontpage article#node-59.contextual-region {
   display: none;
   opacity: 0;
   visibility: hidden;
   line-height: 0;
   color: $white;
+  margin: 0;
+  padding: 0;
 }
