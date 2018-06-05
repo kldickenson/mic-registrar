@@ -155,13 +155,13 @@
 
       @include xy-cell(12,
       $gutters: 0);
-      &::after {
-        content: '\f0a9';
-        display: inline;
-        font-family: $um-fontawesome;
-        font-size: 1.125rem;
-        padding-left: .5rem;
-      }
+      // &::after {
+      //   content: '\f0a9';
+      //   display: inline;
+      //   font-family: $um-fontawesome;
+      //   font-size: 1.125rem;
+      //   padding-left: .5rem;
+      // }
     }
   }
 
@@ -309,9 +309,6 @@
     // @include xy-grid();
     @extend .align-center;
 
-    .cell.medium-8 {
-    	// @extend .align-justify;
-    }
   }
 
   .map-marker {
