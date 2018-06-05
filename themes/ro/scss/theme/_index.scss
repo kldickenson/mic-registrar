@@ -276,18 +276,19 @@
   }
 }
 
-
-
 // Faculty and Staff Services section
 // ----------------------------------
 .container-pg-homepage-bottom>div {
   @include xy-grid;
   @extend .align-middle;
-  padding: 3rem 0;
+  padding: 2rem 0;
+  max-width: $global-width;
+  margin: 0 auto;
 }
 
 .block-facultystaffservices {
-  @include xy-cell(8);
+  @include xy-cell(8,
+  $gutters: 0);
 
   .block-title {
     color: $um-blue;
@@ -297,29 +298,89 @@
     text-align: center;
     text-transform: uppercase;
   }
+
   .menu {
     @include xy-grid-layout(2,
     '.menu-item');
+
     .menu-item {
       a {
+
         &.section-link {
           margin-top: 0;
         }
       }
     }
   }
+
+  @include breakpoint(small only) {
+    @include xy-cell(12);
+  }
 }
 
 .block-reports {
-  @include xy-cell(4);
+  @include xy-cell(4,
+  $gutters: 0);
   @include card-container;
+
   .block-title,
   .field-items {
     @include card-section;
   }
+
   .block-title {
-  	margin-bottom: 0;
-  	padding-bottom: 0;
+    color: $um-blue;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    text-align: center;
+    text-transform: uppercase;
   }
-  .field-items {}
+
+  .reports--footer {
+    @include card-divider;
+    text-align: center;
+    font-family: $um-ro-font;
+    padding: 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+      background-color: darken($card-divider-background, 5%);
+    }
+
+    a {
+      color: $white;
+      display: inline-block;
+      font-weight: 700;
+      padding: 1rem 0;
+      text-decoration: none;
+      width: 100%;
+
+      .fas {
+        color: $white;
+        font-size: inherit;
+        padding-left: .5rem;
+        transition: color .2s ease-in-out;
+        @extend .animated;
+      }
+
+      &:hover {
+      	
+        .fas {
+          color: $um-maize;
+          animation-name: bounceOutRight;
+        }
+      }
+    }
+  }
+
+  @include breakpoint(small only) {
+    @include xy-cell(12);
+  }
+}
+
+.path-frontpage .field-wrapper.body.field.field-node--body.field-name-body.field-type-text-with-summary.field-label-hidden.quickedit-field .field-items {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  line-height: 0;
+  color: $white;
 }
