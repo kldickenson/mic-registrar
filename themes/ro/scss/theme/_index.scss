@@ -214,7 +214,10 @@
     text-align: center;
     text-transform: uppercase;
   }
+}
 
+.block-facultystaffservices,
+.student-menu {
   .menu {
     @include xy-grid;
     @include xy-grid-layout(3,
@@ -230,6 +233,7 @@
     .menu-item {
       a {
         @include button;
+        border: 0;
         font-family: $um-ro-font;
         font-size: 1.125rem;
         font-weight: 800;
@@ -270,4 +274,52 @@
       }
     }
   }
+}
+
+
+
+// Faculty and Staff Services section
+// ----------------------------------
+.container-pg-homepage-bottom>div {
+  @include xy-grid;
+  @extend .align-middle;
+  padding: 3rem 0;
+}
+
+.block-facultystaffservices {
+  @include xy-cell(8);
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .menu {
+    @include xy-grid-layout(2,
+    '.menu-item');
+    .menu-item {
+      a {
+        &.section-link {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.block-reports {
+  @include xy-cell(4);
+  @include card-container;
+  .block-title,
+  .field-items {
+    @include card-section;
+  }
+  .block-title {
+  	margin-bottom: 0;
+  	padding-bottom: 0;
+  }
+  .field-items {}
 }
