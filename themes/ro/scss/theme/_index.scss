@@ -218,6 +218,10 @@
     @include xy-grid-layout(3,
     '.menu-item');
     @extend .align-center;
+    @include breakpoint(small only) {
+      @include xy-grid-layout(1,
+      '.menu-item');
+    }
     max-width: $global-width;
     margin: 0 auto;
 
