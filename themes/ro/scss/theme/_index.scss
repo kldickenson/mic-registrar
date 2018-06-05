@@ -66,7 +66,7 @@
             border-bottom: 1px solid $um-maize;
             padding: .75rem 0;
 
-            &:last-child {
+            &::last-child {
               border-bottom: 0;
             }
           }
@@ -91,8 +91,8 @@
 // Important Dates section
 // -----------------------
 .important-dates {
-  padding: 3rem 0;
   font-family: $um-ro-font;
+  padding: 3rem 0;
 
   .block-title {
     color: $um-blue;
@@ -104,16 +104,19 @@
   }
 
   .important-date-listing {
-    font-weight: 800;
     @include xy-grid-container;
+    font-weight: 800;
+
     footer {
       text-align: center;
     }
   }
+
   .grid-x {
     @extend .align-stretch;
     margin-bottom: 2rem;
   }
+
   .important-date {
     @include xy-cell(3);
     @include xy-grid();
@@ -121,16 +124,19 @@
     background-color: $um-gray-lt;
     font-size: 1.125rem;
     text-align: center;
+
     @include breakpoint(medium down) {
       @include xy-cell(6);
       margin-bottom: 1.25rem;
     }
+
     @include breakpoint(small only) {
       @include xy-cell(12);
     }
+
     .event-date {
-      color: $um-maize;
       background-color: $um-blue-lt;
+      color: $um-maize;
       font-size: 1rem;
       padding: .5rem 1rem;
       text-transform: uppercase;
@@ -138,15 +144,18 @@
       $gutters: 0);
       @extend .align-self-top;
     }
+
     .event-title {
       padding: .5rem 1rem;
+
       p {
-        margin: 0;
         display: inline;
+        margin: 0;
       }
+
       @include xy-cell(12,
       $gutters: 0);
-      &:after {
+      &::after {
         content: '\f0a9';
         display: inline;
         font-family: $um-fontawesome;
@@ -155,42 +164,49 @@
       }
     }
   }
+
   footer {
+
     a {
       @include button;
       background-color: $um-blue;
       border: 0;
       color: $white;
+      display: inline-block;
       font-size: 1.25rem;
       font-weight: 700;
-      display: inline-block;
       padding: .85rem 2.25rem;
       position: relative;
       text-decoration: none;
       transition: all .2s ease-in-out;
+
       .fas {
         color: $white;
         font-size: inherit;
         transition: color .2s ease-in-out;
         @extend .animated;
       }
-      &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 0;
-        height: 3px;
+
+      &::after {
         background-color: $um-maize;
+        bottom: 0;
+        content: '';
+        height: 3px;
+        left: 0;
+        position: absolute;
         transition: .2s;
+        width: 0;
       }
+
       &:hover,
       &:focus {
+
         .fas {
-          color: $um-maize;
           animation-name: bounceOutRight;
+          color: $um-maize;
         }
-        &:after {
+
+        &::after {
           width: 100%;
         }
       }
@@ -227,8 +243,8 @@
       @include xy-grid-layout(1,
       '.menu-item');
     }
-    max-width: $global-width;
     margin: 0 auto;
+    max-width: $global-width;
 
     .menu-item {
       a {
@@ -241,32 +257,37 @@
         text-transform: none;
         width: 100%;
         transition: all .2s ease-in;
+
         .fa {
           color: $white;
           font-size: inherit;
           transition: color .2s ease-in;
           @extend .animated;
         }
-        &:after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 0;
-          height: 3px;
+
+        &::after {
           background-color: $um-maize;
-          transition: all .2s ease-in;
+          bottom: 0;
+          content: '';
+          height: 3px;
+          left: 0;
+          position: absolute;
+          transition: .2s;
+          width: 0;
         }
+
         &:hover,
         &:focus {
           .fa {
             color: $um-maize;
             animation-name: bounceOutRight;
           }
-          &:after {
+
+          &::after {
             width: 100%;
           }
         }
+
         &.section-link {
           background-color: $um-gray;
           margin-top: 2rem;
@@ -365,8 +386,8 @@
       &:hover {
 
         .fas {
-          color: $um-maize;
           animation-name: bounceOutRight;
+          color: $um-maize;
         }
       }
     }
@@ -378,11 +399,11 @@
 }
 
 .path-frontpage article#node-59 {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  line-height: 0;
   color: $white;
+  display: none;
+  line-height: 0;
   margin: 0;
+  opacity: 0;
   padding: 0;
+  visibility: hidden;
 }
