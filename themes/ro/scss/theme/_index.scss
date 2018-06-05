@@ -157,11 +157,13 @@
     a {
       @include button;
       background-color: $um-blue;
+      border: 0;
       color: $white;
       font-size: 1.25rem;
       font-weight: 700;
       display: inline-block;
       padding: .85rem 2.25rem;
+      position: relative;
       text-decoration: none;
       transition: all .2s ease-in-out;
       .fas {
@@ -170,10 +172,24 @@
         transition: color .2s ease-in-out;
         @extend .animated;
       }
-      &:hover {
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 3px;
+        background-color: $um-maize;
+        transition: .2s;
+      }
+      &:hover,
+      &:focus {
         .fas {
           color: $um-maize;
           animation-name: bounceOutRight;
+        }
+        &:after {
+          width: 100%;
         }
       }
     }
@@ -211,19 +227,34 @@
         font-family: $um-ro-font;
         font-size: 1.125rem;
         font-weight: 800;
+        position: relative;
         text-transform: none;
         width: 100%;
-        transition: all .2s ease-in-out;
+        transition: all .2s ease-in;
         .fa {
           color: $white;
           font-size: inherit;
-          transition: color .2s ease-in-out;
+          transition: color .2s ease-in;
           @extend .animated;
         }
-        &:hover {
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 3px;
+          background-color: $um-maize;
+          transition: all .2s ease-in;
+        }
+        &:hover,
+        &:focus {
           .fa {
             color: $um-maize;
             animation-name: bounceOutRight;
+          }
+          &:after {
+            width: 100%;
           }
         }
         &.section-link {

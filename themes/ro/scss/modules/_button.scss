@@ -58,7 +58,7 @@ article {
     font-weight: 700;
     color: $white;
     text-decoration: none;
-    transition: all .2s ease-in-out;
+    transition: all .2s ease-in;
     &:after {
       content: '';
       position: absolute;
@@ -67,7 +67,7 @@ article {
       width: 0;
       height: 3px;
       background-color: $um-maize;
-      transition: .25s;
+      transition: all .2s ease-in;
     }
 
     &.primary {
@@ -87,7 +87,7 @@ article {
 
     i {
       padding-left: .625rem;
-      transition: all .2s ease-in-out;
+      transition: all .2s ease-in;
     }
 
     &:hover {
