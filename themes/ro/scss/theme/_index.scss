@@ -37,6 +37,10 @@
           @include xy-cell(12);
           margin-bottom: 1rem;
         }
+
+        p {
+        	margin-bottom: 0;
+        }
       }
 
       &#block-views-block-homepage-block-2 {
@@ -66,8 +70,9 @@
             border-bottom: 1px solid $um-maize;
             padding: .75rem 0;
 
-            &::last-child {
+            &.last {
               border-bottom: 0;
+              padding-bottom: 0;
             }
           }
         }
