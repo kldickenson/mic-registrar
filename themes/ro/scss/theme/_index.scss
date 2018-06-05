@@ -297,6 +297,51 @@
   }
 }
 
+// Hours and Locations
+// -------------------
+.path-frontpage #block-views-block-need-help-block-1 {
+  background-color: $um-gray-lt;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fefeff' fill-opacity='.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  padding: 3rem 0;
+
+  .contextual-region {
+    @include xy-grid-container(55rem);
+    // @include xy-grid();
+    @extend .align-center;
+
+    .cell.medium-8 {
+    	// @extend .align-justify;
+    }
+  }
+
+  .map-marker {
+    a {
+      color: $red;
+      &:hover {
+        color: $um-blue;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h4 {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
 // Faculty and Staff Services section
 // ----------------------------------
 .container-pg-homepage-bottom>div {
