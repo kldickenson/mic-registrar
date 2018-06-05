@@ -129,6 +129,7 @@
     .event-date {
       color: $um-maize;
       background-color: $um-blue-lt;
+      font-size: 1rem;
       padding: .5rem 1rem;
       text-transform: uppercase;
       @include xy-cell(12,
@@ -163,6 +164,73 @@
       padding: .85rem 2.25rem;
       text-decoration: none;
       transition: all .2s ease-in-out;
+      .fas {
+        color: $white;
+        font-size: inherit;
+        transition: color .2s ease-in-out;
+        @extend .animated;
+      }
+      &:hover {
+        .fas {
+          color: $um-maize;
+          animation-name: bounceOutRight;
+        }
+      }
+    }
+  }
+}
+
+// Student Services
+// ----------------
+.student-menu {
+  background: $um-blue url('/sites/default/files/2018-06/ro-studentservices.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 3rem 0;
+
+  .block-title {
+    color: $um-maize;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .menu {
+    @include xy-grid;
+    @include xy-grid-layout(3,
+    '.menu-item');
+    @extend .align-center;
+    max-width: $global-width;
+    margin: 0 auto;
+
+    .menu-item {
+      a {
+        @include button;
+        font-family: $um-ro-font;
+        font-size: 1.125rem;
+        font-weight: 800;
+        text-transform: none;
+        width: 100%;
+        transition: all .2s ease-in-out;
+        .fa {
+          color: $white;
+          font-size: inherit;
+          transition: color .2s ease-in-out;
+          @extend .animated;
+        }
+        &:hover {
+          .fa {
+            color: $um-maize;
+            animation-name: bounceOutRight;
+          }
+        }
+        &.section-link {
+          background-color: $um-gray;
+          margin-top: 2rem;
+        }
+      }
     }
   }
 }
