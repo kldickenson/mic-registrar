@@ -1,6 +1,8 @@
+$pg-header-blue: rgb(213, 225, 241);
+
 .container-pg-header {
-  background: rgb(213, 225, 241);
-  background-image: linear-gradient(0deg, rgba(213, 225, 241, 1) 0%, rgba(213, 225, 241, .8) 25%, rgba(213, 225, 241, 0) 100%), url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fefeff' fill-opacity='.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  background: $pg-header-blue;
+  background-image: linear-gradient(0deg, rgba($pg-header-blue, 1) 0%, rgba($pg-header-blue, .8) 25%, rgba($pg-header-blue, 0) 100%), url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fefeff' fill-opacity='.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
   padding: 2rem 0;
 
   .grid-x {

@@ -45,16 +45,6 @@ $flex: true;
 
 // Components
 
-
-// Import our mixins early so they can be used by other partials.
-// Optional.
-//@import 'base/mixins';
-
-// Common file is where you place common utility classes to extend or
-// parametrics.
-// Optional.
-// @import 'base/common';
-
 @import 'states/animate';
 
 // Drupal specific styles (to fix Drupalisms).
@@ -83,12 +73,9 @@ $flex: true;
 @import 'modules/table';
 @import 'modules/views';
 
-// States
-// @import 'states/collapse';
-
 // Themes
-// @import 'theme/button-light';
 @import 'theme/page_header';
+@import 'theme/index';
 
 // Older IE support
 // @import 'vendor/ie';

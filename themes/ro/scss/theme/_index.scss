@@ -1,0 +1,273 @@
+// Index styles
+// ------------
+// Lead section
+// ------------
+.container-pg-highlighted {
+  background-image: url('/sites/default/files/2018-06/ro-homepage.jpg');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .region-highlighted {
+    @extend .align-justify;
+    @include xy-grid;
+    background-color: transparent;
+    border-radius: 0;
+    margin: 0 auto;
+    max-width: $global-width;
+    padding: 2rem 0;
+    position: static;
+
+    section {
+      position: static;
+
+      &#block-views-block-homepage-block-1 {
+        @include xy-cell(7);
+        background-attachment: fixed;
+        background-color: rgba($um-blue, .88);
+        color: $um-maize;
+        font-family: $um-ro-font;
+        font-size: 1.25rem;
+        height: fit-content;
+        padding: 2rem;
+        @include breakpoint(medium down) {
+          @include xy-cell(5);
+        }
+        @include breakpoint(small only) {
+          @include xy-cell(12);
+          margin-bottom: 1rem;
+        }
+      }
+
+      &#block-views-block-homepage-block-2 {
+        @include xy-cell(4);
+        background-color: rgba($um-blue-lt, .95);
+        color: $white;
+        font-family: $um-ro-condensed-font;
+        height: fit-content;
+        margin-bottom: 2rem;
+        padding: 1rem;
+
+        .block-title {
+          color: $um-maize;
+          font-family: $um-ro-font;
+          font-size: 1.75rem;
+          line-height: 1;
+          margin-bottom: .25rem;
+          text-transform: uppercase;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+
+          li {
+            border-bottom: 1px solid $um-maize;
+            padding: .75rem 0;
+
+            &:last-child {
+              border-bottom: 0;
+            }
+          }
+        }
+
+        p {
+          margin-bottom: 0;
+        }
+
+        @include breakpoint(medium down) {
+          @include xy-cell(7);
+        }
+        @include breakpoint(small only) {
+          @include xy-cell(12);
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+// Important Dates section
+// -----------------------
+.important-dates {
+  padding: 3rem 0;
+  font-family: $um-ro-font;
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .important-date-listing {
+    font-weight: 800;
+    @include xy-grid-container;
+    footer {
+      text-align: center;
+    }
+  }
+  .grid-x {
+    @extend .align-stretch;
+    margin-bottom: 2rem;
+  }
+  .important-date {
+    @include xy-cell(3);
+    @include xy-grid();
+    @extend .align-stretch;
+    background-color: $um-gray-lt;
+    font-size: 1.125rem;
+    text-align: center;
+    @include breakpoint(medium down) {
+      @include xy-cell(6);
+      margin-bottom: 1.25rem;
+    }
+    @include breakpoint(small only) {
+      @include xy-cell(12);
+    }
+    .event-date {
+      color: $um-maize;
+      background-color: $um-blue-lt;
+      font-size: 1rem;
+      padding: .5rem 1rem;
+      text-transform: uppercase;
+      @include xy-cell(12,
+      $gutters: 0);
+      @extend .align-self-top;
+    }
+    .event-title {
+      padding: .5rem 1rem;
+      p {
+        margin: 0;
+        display: inline;
+      }
+      @include xy-cell(12,
+      $gutters: 0);
+      &:after {
+        content: '\f0a9';
+        display: inline;
+        font-family: $um-fontawesome;
+        font-size: 1.125rem;
+        padding-left: .5rem;
+      }
+    }
+  }
+  footer {
+    a {
+      @include button;
+      background-color: $um-blue;
+      border: 0;
+      color: $white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: inline-block;
+      padding: .85rem 2.25rem;
+      position: relative;
+      text-decoration: none;
+      transition: all .2s ease-in-out;
+      .fas {
+        color: $white;
+        font-size: inherit;
+        transition: color .2s ease-in-out;
+        @extend .animated;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 3px;
+        background-color: $um-maize;
+        transition: .2s;
+      }
+      &:hover,
+      &:focus {
+        .fas {
+          color: $um-maize;
+          animation-name: bounceOutRight;
+        }
+        &:after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Student Services
+// ----------------
+.student-menu {
+  background-image: url('/sites/default/files/2018-06/ro-studentservices.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 3rem 0;
+
+  .block-title {
+    color: $um-maize;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .menu {
+    @include xy-grid;
+    @include xy-grid-layout(3,
+    '.menu-item');
+    @extend .align-center;
+    @include breakpoint(small only) {
+      @include xy-grid-layout(1,
+      '.menu-item');
+    }
+    max-width: $global-width;
+    margin: 0 auto;
+
+    .menu-item {
+      a {
+        @include button;
+        font-family: $um-ro-font;
+        font-size: 1.125rem;
+        font-weight: 800;
+        position: relative;
+        text-transform: none;
+        width: 100%;
+        transition: all .2s ease-in;
+        .fa {
+          color: $white;
+          font-size: inherit;
+          transition: color .2s ease-in;
+          @extend .animated;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 3px;
+          background-color: $um-maize;
+          transition: all .2s ease-in;
+        }
+        &:hover,
+        &:focus {
+          .fa {
+            color: $um-maize;
+            animation-name: bounceOutRight;
+          }
+          &:after {
+            width: 100%;
+          }
+        }
+        &.section-link {
+          background-color: $um-gray;
+          margin-top: 2rem;
+        }
+      }
+    }
+  }
+}
