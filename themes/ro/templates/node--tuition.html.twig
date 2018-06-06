@@ -79,16 +79,15 @@
 
   {# We hide the comments and links now so that we can render them later. #}
   <div{{ content_attributes }}>
-    {{ content|without('field_tags') }}
-  </div>
+    {# {{ content|without('field_tags') }} #}
 
-  {% if content.field_tags|length and not is_front %}
-    {{ content.field_school_college }}
-    {{ content.field_level_of_study }}
-    {{ content.field_full_half_term }} {{ content.field_year }}
+  {# {% if content.field_tags|length and not is_front %} #}
+    <h4>{{ content.field_school_college.0 }}<br />
+    {{ content.field_level_of_study.0 }}<br />
+    {{ content.field_full_half_term.0 }}, {{ content.field_year.0 }}</h4>
 
-    <h4>Lower Division ({{ content.field_low_credit_range }})</h4>
-    <table>
+    <h5>Lower Division ({{ content.field_low_credit_range.0 }})</h5>
+    <table class="unstriped stack">
       <thead>
         <tr>
           <th>Term</th>
@@ -98,24 +97,25 @@
       </thead>
       <tbody>
         <tr>
-          <th>Full Time ({{ content.field_full_credits }})</th>
-          <th>{{ content.field_low_full_resident }}</th>
-          <th> {{ content.field_low_full_non_res }}</th>
+          <th>Full Time ({{ content.field_full_credits.0 }}{{ node.field_full_credits.value }})</th>
+          <th>${{ node.field_low_full_resident.value }}</th>
+          <th>${{ node.field_low_full_non_res.value }}</th>
         </tr>
         <tr>
           <th>Part-Time First Hour</th>
-          <th>{{ content.field_low_part_time_resident }}</th>
-          <th>{ content.field_low_part_time_non_res }}</th>
+          <th>${{ node.field_low_part_time_resident.value }}</th>
+          <th>${{ node.field_low_part_time_non_res.value }}</th>
         </tr>
         <tr>
           <th>Part-Time Additional Hours</th>
-          <th>{{ content.field_low_part_add_resident }}</th>
-          <th>{{ content.field_low_part_add_non_res }}</th>
+          <th>${{ node.field_low_part_add_resident.value }}</th>
+          <th>${{ node.field_low_part_add_non_res.value }}</th>
         </tr>
       </tbody>
     </table>
-    <h4>Upper Division ({{ content.field_up_credit_range }})</h4>
-    <table>
+
+    <h5>Upper Division ({{ content.field_up_credit_range.0 }})</h5>
+    <table class="unstriped stack">
       <thead>
         <tr>
           <th>Term</th>
@@ -125,20 +125,22 @@
       </thead>
       <tbody>
         <tr>
-          <th>Full Time ({{ content.field_full_credits }})</th>
-          <th>{{ content.field_up_full_resident }}</th>
-          <th> {{ content.field_up_full_non_res }}</th>
+          <th>Full Time ({{ content.field_full_credits.0 }})</th>
+          <th>${{ node.field_up_full_resident.value }}</th>
+          <th>${{ node.field_up_full_non_res.value }}</th>
         </tr>
         <tr>
           <th>Part-Time First Hour</th>
-          <th>{{ content.field_up_part_time_resident }}</th>
-          <th>{ content.field_up_part_time_non_res }}</th>
+          <th>${{ node.field_up_part_time_resident.value }}</th>
+          <th>${{ node.field_up_part_time_non_res.value }}</th>
         </tr>
         <tr>
           <th>Part-Time Additional Hours</th>
-          <th>{{ content.field_up_part_add_resident }}</th>
-          <th>{{ content.field_up_part_add_non_res }}</th>
+          <th>${{ node.field_up_part_add_resident.value }}</th>
+          <th>${{ node.field_up_part_add_non_res.value }}</th>
         </tr>
       </tbody>
     </table>
-  </article>
+  {# {% endif %} #}
+</div>
+</article>
