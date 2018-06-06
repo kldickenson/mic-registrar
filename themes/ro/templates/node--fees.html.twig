@@ -74,65 +74,37 @@
     {# {{ content|without('field_tags') }} #}
 
   {# {% if content.field_tags|length and not is_front %} #}
-    <h2>{{ content.field_school_college.0 }}<br />
-    {{ content.field_level_of_study.0 }}<br />
-    {{ content.field_full_half_term.0 }}, {{ content.field_year.0 }}</h2>
-
-    <h5>Lower Division ({{ content.field_low_credit_range.0 }})</h5>
-    <table class="tuition unstriped stack">
-      <thead>
-        <tr>
-          <th>Term</th>
-          <th>Michigan Resident</th>
-          <th>Michigan Non-Resident</th>
-        </tr>
-      </thead>
+    <h5>Mandatory Fees</h5>
+    <table class="fees stack">
       <tbody>
         <tr>
-          <th>Full Time ({{ content.field_full_term_credits.0 }})</th>
-          <td>${{ node.field_low_full_resident.value }}</td>
-          <td>${{ node.field_low_full_non_res.value }}</td>
+          <td>{{ node.field_registration_fee.fieldDefinition.label }}</td>
+          <td>${{ node.field_registration_fee.value }}</td>
         </tr>
         <tr>
-          <th>Part-Time First Hour</th>
-          <td>${{ node.field_low_part_time_resident.value }}</td>
-          <td>${{ node.field_low_part_time_non_res.value }}</td>
+          <td>{{ node.field_csg_fee.fieldDefinition.label }}</td>
+          <td>${{ node.field_csg_fee.value }}</td>
         </tr>
         <tr>
-          <th>Part-Time Additional Hours</th>
-          <td>${{ node.field_low_part_add_resident.value }}</td>
-          <td>${{ node.field_low_part_add_non_res.value }}</td>
+          <td>{{ node.field_student_legal_services_fee.fieldDefinition.label }}</td>
+          <td>${{ node.field_student_legal_services_fee.value }}</td>
+        </tr>
+        <tr>
+          <td>{{ node.field_school_college_gov.fieldDefinition.label }}</td>
+          <td>${{ node.field_school_college_gov.value }}</td>
+        </tr>
+        <tr>
+          <td>{{ node.field_unions_sports_fee.fieldDefinition.label }}</td>
+          <td>${{ node.field_unions_sports_fee.value }}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td class="fees-sum">$(Sum of fees)</td>
         </tr>
       </tbody>
     </table>
-
-    <h5>Upper Division ({{ content.field_up_credit_range.0 }})</h5>
-    <table class="tuition unstriped stack">
-      <thead>
-        <tr>
-          <th>Term</th>
-          <th>Michigan Resident</th>
-          <th>Michigan Non-Resident</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Full Time ({{ content.field_full_term_credits.0 }})</th>
-          <td>${{ node.field_up_full_resident.value }}</td>
-          <td>${{ node.field_up_full_non_res.value }}</td>
-        </tr>
-        <tr>
-          <th>Part-Time First Hour</th>
-          <td>${{ node.field_up_part_time_resident.value }}</td>
-          <td>${{ node.field_up_part_time_non_res.value }}</td>
-        </tr>
-        <tr>
-          <th>Part-Time Additional Hours</th>
-          <td>${{ node.field_up_part_add_resident.value }}</td>
-          <td>${{ node.field_up_part_add_non_res.value }}</td>
-        </tr>
-      </tbody>
-    </table>
+    {{ content.field_disenrollment_fees }}
+    {{ content.field_late_registration_fees }}
   {# {% endif %} #}
-</div>
+  </div>
 </article>
