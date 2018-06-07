@@ -79,27 +79,27 @@
       <tbody>
         <tr>
           <td>{{ node.field_registration_fee.fieldDefinition.label }}</td>
-          <td>${{ node.field_registration_fee.value }}</td>
+          <td class="text-right">${{ node.field_registration_fee.value }}</td>
         </tr>
         <tr>
           <td>{{ node.field_csg_fee.fieldDefinition.label }}</td>
-          <td>${{ node.field_csg_fee.value }}</td>
+          <td class="text-right">${{ node.field_csg_fee.value }}</td>
         </tr>
         <tr>
           <td>{{ node.field_student_legal_services_fee.fieldDefinition.label }}</td>
-          <td>${{ node.field_student_legal_services_fee.value }}</td>
+          <td class="text-right">${{ node.field_student_legal_services_fee.value }}</td>
         </tr>
         <tr>
           <td>{{ node.field_school_college_gov.fieldDefinition.label }}</td>
-          <td>${{ node.field_school_college_gov.value }}</td>
+          <td class="text-right">${{ node.field_school_college_gov.value }}</td>
         </tr>
         <tr>
           <td>{{ node.field_unions_sports_fee.fieldDefinition.label }}</td>
-          <td>${{ node.field_unions_sports_fee.value }}</td>
+          <td class="text-right">${{ node.field_unions_sports_fee.value }}</td>
         </tr>
         <tr>
-          <td>Total</td>
-          <td class="fees-sum">${{ node.field_registration_fee.value + node.field_csg_fee.value + node.field_student_legal_services_fee.value + node.field_school_college_gov.value + node.field_unions_sports_fee.value }}</td>
+          <td class="text-right fees-sum">Total</td>
+          <td class="text-right fees-sum">${{ (node.field_registration_fee.value + node.field_csg_fee.value + node.field_student_legal_services_fee.value + node.field_school_college_gov.value + node.field_unions_sports_fee.value)|number_format(2, '.') }}</td>
         </tr>
       </tbody>
     </table>

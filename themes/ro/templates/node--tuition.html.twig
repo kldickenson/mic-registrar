@@ -83,25 +83,25 @@
       <thead>
         <tr>
           <th>Term</th>
-          <th>Michigan Resident</th>
-          <th>Michigan Non-Resident</th>
+          <th class="text-right">Michigan Resident</th>
+          <th class="text-right">Michigan Non-Resident</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>Full Time ({{ content.field_full_term_credits.0 }})</th>
-          <td>${{ node.field_low_full_resident.value }}</td>
-          <td>${{ node.field_low_full_non_res.value }}</td>
+          <td class="text-right">${{ node.field_low_full_resident.value }}</td>
+          <td class="text-right">${{ node.field_low_full_non_res.value|number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
           <th>Part-Time First Hour</th>
-          <td>${{ node.field_low_part_time_resident.value }}</td>
-          <td>${{ node.field_low_part_time_non_res.value }}</td>
+          <td class="text-right">${{ node.field_low_part_time_resident.value }}</td>
+          <td class="text-right">${{ node.field_low_part_time_non_res.value }}</td>
         </tr>
         <tr>
           <th>Part-Time Additional Hours</th>
-          <td>${{ node.field_low_part_add_resident.value }}</td>
-          <td>${{ node.field_low_part_add_non_res.value }}</td>
+          <td class="text-right">${{ node.field_low_part_add_resident.value }}</td>
+          <td class="text-right">${{ node.field_low_part_add_non_res.value }}</td>
         </tr>
       </tbody>
     </table>
@@ -111,31 +111,31 @@
       <thead>
         <tr>
           <th>Term</th>
-          <th>Michigan Resident</th>
-          <th>Michigan Non-Resident</th>
+          <th class="text-right">Michigan Resident</th>
+          <th class="text-right">Michigan Non-Resident</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>Full Time ({{ content.field_full_term_credits.0 }})</th>
-          <td>${{ node.field_up_full_resident.value }}</td>
-          <td>${{ node.field_up_full_non_res.value }}</td>
+          <td class="text-right">${{ node.field_up_full_resident.value }}</td>
+          <td class="text-right">${{ node.field_up_full_non_res.value }}</td>
         </tr>
         <tr>
           <th>Part-Time First Hour</th>
-          <td>${{ node.field_up_part_time_resident.value }}</td>
-          <td>${{ node.field_up_part_time_non_res.value }}</td>
+          <td class="text-right">${{ node.field_up_part_time_resident.value }}</td>
+          <td class="text-right">${{ node.field_up_part_time_non_res.value }}</td>
         </tr>
         <tr>
           <th>Part-Time Additional Hours</th>
-          <td>${{ node.field_up_part_add_resident.value }}</td>
-          <td>${{ node.field_up_part_add_non_res.value }}</td>
+          <td class="text-right">${{ node.field_up_part_add_resident.value }}</td>
+          <td class="text-right">${{ node.field_up_part_add_non_res.value }}</td>
         </tr>
       </tbody>
     </table>
   {# {% endif %} #}
   </div>
   <div class="fees">
-      {{ drupal_view('tuition_fees', 'block_1') }}
+    {{ drupal_view('tuition_fees', 'block_1') }}
   </div>
 </article>
