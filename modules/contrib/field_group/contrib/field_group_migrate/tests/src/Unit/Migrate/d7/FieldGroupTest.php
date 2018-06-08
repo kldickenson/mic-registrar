@@ -2,14 +2,14 @@
 
 namespace Drupal\Tests\field_group_migrate\Unit\Migrate\d7;
 
-use Drupal\Tests\migrate\Kernel\MigrateSqlSourceTestBase;
+use Drupal\Tests\migrate\Unit\MigrateSqlSourceTestCase;
 
 /**
  * Tests D7 field group source plugin.
  *
  * @group field_group
  */
-class FieldGroupTest extends MigrateSqlSourceTestBase {
+class FieldGroupTest extends MigrateSqlSourceTestCase {
 
   const PLUGIN_CLASS = 'Drupal\field_group_migrate\Plugin\migrate\source\d7\FieldGroup';
 

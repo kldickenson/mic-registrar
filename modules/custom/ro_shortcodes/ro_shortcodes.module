@@ -1,0 +1,78 @@
+/**
+ * Define our shortcodes and their titles, descriptions, and callback functions
+ *
+ * See comments below for explanation
+ */
+function ro_shortcodes_shortcode_info() {
+
+    $shortcodes['button'] = array(
+        'title' => t('Link Button'),  // The title of this shortcode, displayed in the Drupal backend for administrators to enable/disable shortcodes for input types
+        'description' => t('A simple button.'),  // Description shown along with the title in the Drupal backend
+        'process callback' => 'custom_shortcodes_shortcode_button', // Custom function that deals with the variables and html output
+        'tips callback' => 'custom_shortcodes_shortcode_button_tip' // Custom function that displays some help text to the user
+    );
+
+    // $shortcodes['second_shortcode'] = array();
+    // $shortcodes['third_shortcode'] = array();
+    // and so on...
+
+    return $shortcodes;
+}
+
+/**
+ * Define our variables (parameters) for each shortcode
+ */
+function ro_shortcodes_theme() {
+  return array(
+    'shortcode_button' => array(
+      'variables' => array('text' => '', 'link' => ''),
+    ),
+    // 'second_shortcode' => array(),
+    // 'third_shortcode' => array(),
+    // and so on...
+  );
+}
+
+/**
+ * Define our process callback function for our [button] shortcode. This
+ * takes in our shortcode attributes from the shortcode and if empty, sets the property
+ * to the default value stated in this function.  We then pass in our attributes to the
+ * theme() function which outputs the HTML.
+ *
+ * $attrs = shortcode_attrs(array(
+ *     'attribute' => 'default_value_goes_here'
+ * ),
+ */
+function ro_shortcodes_shortcode_button($attrs, $text) {
+  $attrs = shortcode_attrs(array(
+      'link' => 'http://mywebsite.com'
+    ),
+    $attrs
+  );
+
+  return theme('shortcode_button', array('link' => $attrs['link'], 'text' => $text));
+}
+
+/**
+* This function uses the attributes passed in to return the HTML of this shortcode.
+*/
+function theme_shortcode_button($vars) {
+return '<div class="button"><a href="' . $vars['link'] . '">' . $vars['text'] . '</a></div>';
+}
+
+/**
+* This function outputs some tips to the user beneath the WYSIWYG editor so they know
+* what the shortcode does and how to use it.
+*/
+function ro_shortcodes_shortcode_button_tip($format, $long) {
+$output = array();
+$output[] = '<p><strong>' . t('[button link="http://URLhere.com"]text[/button]') . '</strong> ';
+if ($long) {
+  $output[] = t('Outputs text that is displayed as a button, which links to a specified URL.') . '</p>';
+}
+else {
+  $output[] = t('Outputs text that links to a URL.') . '</p>';
+}
+
+return implode(' ', $output);
+}

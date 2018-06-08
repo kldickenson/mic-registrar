@@ -1,0 +1,10 @@
+name: Registrar Custom Shortcodes
+description: Provides custom shortcode tags to be used within site content.
+package: Shortcode
+
+type: module
+core: 8.x
+
+dependencies:
+  - filter:filter
+  - shortcode:shortcode

@@ -37,6 +37,10 @@
           @include xy-cell(12);
           margin-bottom: 1rem;
         }
+
+        p {
+        	margin-bottom: 0;
+        }
       }
 
       &#block-views-block-homepage-block-2 {
@@ -66,8 +70,9 @@
             border-bottom: 1px solid $um-maize;
             padding: .75rem 0;
 
-            &:last-child {
+            &.last {
               border-bottom: 0;
+              padding-bottom: 0;
             }
           }
         }
@@ -91,8 +96,8 @@
 // Important Dates section
 // -----------------------
 .important-dates {
-  padding: 3rem 0;
   font-family: $um-ro-font;
+  padding: 3rem 0;
 
   .block-title {
     color: $um-blue;
@@ -104,16 +109,19 @@
   }
 
   .important-date-listing {
-    font-weight: 800;
     @include xy-grid-container;
+    font-weight: 800;
+
     footer {
       text-align: center;
     }
   }
+
   .grid-x {
     @extend .align-stretch;
     margin-bottom: 2rem;
   }
+
   .important-date {
     @include xy-cell(3);
     @include xy-grid();
@@ -121,16 +129,19 @@
     background-color: $um-gray-lt;
     font-size: 1.125rem;
     text-align: center;
+
     @include breakpoint(medium down) {
       @include xy-cell(6);
       margin-bottom: 1.25rem;
     }
+
     @include breakpoint(small only) {
       @include xy-cell(12);
     }
+
     .event-date {
-      color: $um-maize;
       background-color: $um-blue-lt;
+      color: $um-maize;
       font-size: 1rem;
       padding: .5rem 1rem;
       text-transform: uppercase;
@@ -138,59 +149,69 @@
       $gutters: 0);
       @extend .align-self-top;
     }
+
     .event-title {
       padding: .5rem 1rem;
+
       p {
-        margin: 0;
         display: inline;
+        margin: 0;
       }
+
       @include xy-cell(12,
       $gutters: 0);
-      &:after {
-        content: '\f0a9';
-        display: inline;
-        font-family: $um-fontawesome;
-        font-size: 1.125rem;
-        padding-left: .5rem;
-      }
+      // &::after {
+      //   content: '\f0a9';
+      //   display: inline;
+      //   font-family: $um-fontawesome;
+      //   font-size: 1.125rem;
+      //   padding-left: .5rem;
+      // }
     }
   }
+
   footer {
+
     a {
       @include button;
       background-color: $um-blue;
       border: 0;
       color: $white;
+      display: inline-block;
       font-size: 1.25rem;
       font-weight: 700;
-      display: inline-block;
       padding: .85rem 2.25rem;
       position: relative;
       text-decoration: none;
       transition: all .2s ease-in-out;
+
       .fas {
         color: $white;
         font-size: inherit;
         transition: color .2s ease-in-out;
         @extend .animated;
       }
-      &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 0;
-        height: 3px;
+
+      &::after {
         background-color: $um-maize;
+        bottom: 0;
+        content: '';
+        height: 3px;
+        left: 0;
+        position: absolute;
         transition: .2s;
+        width: 0;
       }
+
       &:hover,
       &:focus {
+
         .fas {
-          color: $um-maize;
           animation-name: bounceOutRight;
+          color: $um-maize;
         }
-        &:after {
+
+        &::after {
           width: 100%;
         }
       }
@@ -214,7 +235,10 @@
     text-align: center;
     text-transform: uppercase;
   }
+}
 
+.block-facultystaffservices,
+.student-menu {
   .menu {
     @include xy-grid;
     @include xy-grid-layout(3,
@@ -224,12 +248,13 @@
       @include xy-grid-layout(1,
       '.menu-item');
     }
-    max-width: $global-width;
     margin: 0 auto;
+    max-width: $global-width;
 
     .menu-item {
       a {
         @include button;
+        border: 0;
         font-family: $um-ro-font;
         font-size: 1.125rem;
         font-weight: 800;
@@ -237,32 +262,37 @@
         text-transform: none;
         width: 100%;
         transition: all .2s ease-in;
+
         .fa {
           color: $white;
           font-size: inherit;
           transition: color .2s ease-in;
           @extend .animated;
         }
-        &:after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 0;
-          height: 3px;
+
+        &::after {
           background-color: $um-maize;
-          transition: all .2s ease-in;
+          bottom: 0;
+          content: '';
+          height: 3px;
+          left: 0;
+          position: absolute;
+          transition: .2s;
+          width: 0;
         }
+
         &:hover,
         &:focus {
           .fa {
             color: $um-maize;
             animation-name: bounceOutRight;
           }
-          &:after {
+
+          &::after {
             width: 100%;
           }
         }
+
         &.section-link {
           background-color: $um-gray;
           margin-top: 2rem;
@@ -270,4 +300,157 @@
       }
     }
   }
+}
+
+// Hours and Locations
+// -------------------
+.path-frontpage #block-views-block-need-help-block-1 {
+  background-color: $um-gray-lt;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fefeff' fill-opacity='.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  padding: 3rem 0;
+
+  .contextual-region {
+    @include xy-grid-container(55rem);
+    // @include xy-grid();
+    @extend .align-center;
+
+  }
+
+  .map-marker {
+    a {
+      color: $red;
+      &:hover {
+        color: $um-blue;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h4 {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+// Faculty and Staff Services section
+// ----------------------------------
+.container-pg-homepage-bottom>div {
+  @include xy-grid;
+  @extend .align-middle;
+  padding: 2rem 0;
+  max-width: $global-width;
+  margin: 0 auto;
+}
+
+.block-facultystaffservices {
+  @include xy-cell(8,
+  $gutters: 0);
+
+  .block-title {
+    color: $um-blue;
+    font-family: $um-ro-font;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .menu {
+    @include xy-grid-layout(2,
+    '.menu-item');
+
+    .menu-item {
+      a {
+
+        &.section-link {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  @include breakpoint(small only) {
+    @include xy-cell(12);
+  }
+}
+
+.block-reports {
+  @include xy-cell(4,
+  $gutters: 0);
+  @include card-container;
+
+  .block-title,
+  .field-items {
+    @include card-section;
+  }
+
+  .block-title {
+    color: $um-blue;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .reports--footer {
+    @include card-divider;
+    text-align: center;
+    font-family: $um-ro-font;
+    padding: 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+      background-color: darken($card-divider-background, 5%);
+    }
+
+    a {
+      color: $white;
+      display: inline-block;
+      font-weight: 700;
+      padding: 1rem 0;
+      text-decoration: none;
+      width: 100%;
+
+      .fas {
+        color: $white;
+        font-size: inherit;
+        padding-left: .5rem;
+        transition: color .2s ease-in-out;
+        @extend .animated;
+      }
+
+      &:hover {
+
+        .fas {
+          animation-name: bounceOutRight;
+          color: $um-maize;
+        }
+      }
+    }
+  }
+
+  @include breakpoint(small only) {
+    @include xy-cell(12);
+  }
+}
+
+.path-frontpage article#node-59 {
+  color: $white;
+  display: none;
+  line-height: 0;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  visibility: hidden;
 }
