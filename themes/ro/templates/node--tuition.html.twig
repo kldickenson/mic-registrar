@@ -85,7 +85,7 @@
     {% endif %}
 
   {# Program #1 Section #}
-    <h5>{{ node.field_pgrm1_name.value }} <span class="h6">({{ node.field_pgrm1_notes.value }})</span></h5>
+    <h5>{{ node.field_pgrm1_name.value }} {% if node.field_pgrm1_notes.value %}<span class="h6">({{ node.field_pgrm1_notes.value }})</span>{% endif %}</h5>
     <table class="tuition unstriped stack">
       <thead>
         <tr>
@@ -142,7 +142,8 @@
     </table>
   {# / Program #1 Section #}
   {# Program #2 Section #}
-  <h5>{{ node.field_pgrm1_name.value }} <span class="h6">({{ node.field_pgrm1_notes.value }})</span></h5>
+  {% if node.field_pgrm2_part_resident.value %}
+  <h5>{{ node.field_pgrm2_name.value }} {% if node.field_pgrm2_notes.value %}<span class="h6">({{ node.field_pgrm2_notes.value }})</span>{% endif %}</h5>
   <table class="tuition unstriped stack">
     <thead>
       <tr>
@@ -152,53 +153,171 @@
       </tr>
     </thead>
     <tbody>
-      {% if node.field_pgrm1_full_resident.value %}
+      {% if node.field_pgrm2_full_resident.value %}
       <tr>
-        <th>Full Time ({{ node.field_pgrm1_full_range.value }})</th>
-        <td class="text-right">${{ node.field_pgrm1_full_resident.value|number_format(0, '.', ',') }}</td>
-        <td class="text-right">${{ node.field_pgrm1_full_nonres.value|number_format(0, '.', ',') }}</td>
+        <th>Full Time {% if node.field_pgrm2_full_range.value %}({{ node.field_pgrm2_full_range.value }}){% endif%}</th>
+        <td class="text-right">${{ node.field_pgrm2_full_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_full_nonres.value|number_format(0, '.', ',') }}</td>
       </tr>
       {% endif %}
       <tr>
         <th>Part-Time First Hour</th>
-        <td class="text-right">${{ node.field_pgrm1_part_resident.value|number_format(0, '.', ',') }}</td>
-        <td class="text-right">${{ node.field_pgrm1_part_nonres.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_part_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_part_nonres.value|number_format(0, '.', ',') }}</td>
       </tr>
       <tr>
         <th>Part-Time Additional Hours</th>
-        <td class="text-right">${{ node.field_pgrm1_addhrs_resident.value|number_format(0, '.', ',') }}</td>
-        <td class="text-right">${{ node.field_pgrm1_addhrs_nonres.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_addhrs_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_addhrs_nonres.value|number_format(0, '.', ',') }}</td>
       </tr>
-      {% if node.field_pgrm1_candidacy1_name.value %}
+      {% if node.field_pgrm2_candidacy1_name.value %}
       <tr>
-        <th>{{ node.field_pgrm1_candidacy1_name.value }}</th>
-        <td class="text-center background" colspan="2">${{ node.field_pgrm1_candidacy1.value|number_format(0, '.', ',') }}</td>
-      </tr>
-      {% endif %}
-      {% if node.field_pgrm1_candidacy2_name.value %}
-      <tr>
-        <th>{{ node.field_pgrm1_candidacy2_name.value }}</th>
-        <td class="text-center background" colspan="2">${{ node.field_pgrm1_candidacy2.value|number_format(0, '.', ',') }}</td>
+        <th>{{ node.field_pgrm2_candidacy1_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm2_candidacy1.value|number_format(0, '.', ',') }}</td>
       </tr>
       {% endif %}
-      {% if node.field_pgrm1_other1_name.value %}
+      {% if node.field_pgrm2_candidacy2_name.value %}
       <tr>
-        <th>{{ node.field_pgrm1_other1_name.value }}</th>
-        <td class="text-right">${{ node.field_pgrm1_other1_resident.value|number_format(0, '.', ',') }}</td>
-        <td class="text-right">${{ node.field_pgrm1_other1_nonres.value|number_format(0, '.', ',') }}</td>
+        <th>{{ node.field_pgrm2_candidacy2_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm2_candidacy2.value|number_format(0, '.', ',') }}</td>
       </tr>
       {% endif %}
-      {% if node.field_pgrm1_other2_name.value %}
+      {% if node.field_pgrm2_other1_name.value %}
       <tr>
-        <th>{{ node.field_pgrm1_other2_name.value }}</th>
-        <td class="text-right">${{ node.field_pgrm1_other2_resident.value|number_format(0, '.', ',') }}</td>
-        <td class="text-right">${{ node.field_pgrm1_other2_nonres.value|number_format(0, '.', ',') }}</td>
+        <th>{{ node.field_pgrm2_other1_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm2_other1_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_other1_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm2_other2_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm2_other2_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm2_other2_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm2_other2_nonres.value|number_format(0, '.', ',') }}</td>
       </tr>
       {% endif %}
     </tbody>
   </table>
+  {% endif %}
 {# / Program #2 Section #}
-</div>
+  {# Program #3 Section #}
+  {% if node.field_pgrm3_part_resident.value %}
+  <h5>{{ node.field_pgrm3_name.value }} {% if node.field_pgrm3_notes.value %}<span class="h6">({{ node.field_pgrm3_notes.value }})</span>{% endif %}</h5>
+  <table class="tuition unstriped stack">
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th class="text-right">Michigan Resident</th>
+        <th class="text-right">Michigan Non-Resident</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if node.field_pgrm3_full_resident.value %}
+      <tr>
+        <th>Full Time {% if node.field_pgrm3_full_range.value %}({{ node.field_pgrm3_full_range.value }}){% endif%}</th>
+        <td class="text-right">${{ node.field_pgrm3_full_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm3_full_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th>Part-Time First Hour</th>
+        <td class="text-right">${{ node.field_pgrm3_part_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm3_part_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      <tr>
+        <th>Part-Time Additional Hours</th>
+        <td class="text-right">${{ node.field_pgrm3_addhrs_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm3_addhrs_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% if node.field_pgrm3_candidacy1_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm3_candidacy1_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm3_candidacy1.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm3_candidacy2_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm3_candidacy2_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm3_candidacy2.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm3_other1_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm3_other1_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm3_other1_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm3_other1_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm3_other2_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm3_other2_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm3_other2_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm3_other2_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+  {% endif %}
+{# / Program #3 Section #}
+  {# Program #4 Section #}
+  {% if node.field_pgrm4_part_resident.value %}
+  <h5>{{ node.field_pgrm4_name.value }} {% if node.field_pgrm4_notes.value %}<span class="h6">({{ node.field_pgrm4_notes.value }})</span>{% endif %}</h5>
+  <table class="tuition unstriped stack">
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th class="text-right">Michigan Resident</th>
+        <th class="text-right">Michigan Non-Resident</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if node.field_pgrm4_full_resident.value %}
+      <tr>
+        <th>Full Time {% if node.field_pgrm4_full_range.value %}({{ node.field_pgrm4_full_range.value }}){% endif%}</th>
+        <td class="text-right">${{ node.field_pgrm4_full_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm4_full_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th>Part-Time First Hour</th>
+        <td class="text-right">${{ node.field_pgrm4_part_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm4_part_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      <tr>
+        <th>Part-Time Additional Hours</th>
+        <td class="text-right">${{ node.field_pgrm4_addhrs_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm4_addhrs_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% if node.field_pgrm4_candidacy1_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm4_candidacy1_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm4_candidacy1.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm4_candidacy2_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm4_candidacy2_name.value }}</th>
+        <td class="text-center background" colspan="2">${{ node.field_pgrm4_candidacy2.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm4_other1_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm4_other1_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm4_other1_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm4_other1_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+      {% if node.field_pgrm4_other2_name.value %}
+      <tr>
+        <th>{{ node.field_pgrm4_other2_name.value }}</th>
+        <td class="text-right">${{ node.field_pgrm4_other2_resident.value|number_format(0, '.', ',') }}</td>
+        <td class="text-right">${{ node.field_pgrm4_other2_nonres.value|number_format(0, '.', ',') }}</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+  {% endif %}
+{# / Program #4 Section #}</div>
   <div class="fees">
     {# {{ drupal_view('tuition_fees', 'block_1') }} #}
   </div>
