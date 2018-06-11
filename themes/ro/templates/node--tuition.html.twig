@@ -77,7 +77,7 @@
   <h2>{{ node.field_college_school.value }}, {{ node.field_level_of_study.value }}<br />
   {{ node.field_full_half_term.value }}
   {{ node.field_academic_year.value }}</h2>
-  {{ content|without('field_tags') }}
+  {{ content.body }}
 
   {# {% endif %} #}
   </div>
