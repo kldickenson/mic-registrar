@@ -220,23 +220,33 @@ function fontawesome_menu_icons_link_alter(&$variables) {
   if (!empty($variables['options']['fa_icon']) && empty($variables['options']['already_processed'])) {
     $class = $variables['options']['fa_icon'];
     $appearance = !empty($variables['options']['fa_icon_appearance']) ? $variables['options']['fa_icon_appearance'] : 'before';
+    /** @var \Drupal\Core\Url $url */
+    $url = $variables['url'];
+    $is_link = ($url->isRouted() && ($url->getRouteName() == '<nolink>')) ? FALSE : TRUE;
 
     switch ($appearance) {
       case "only":
-        $variables['text'] = new FormattableMarkup('<i class="fa ' . $class . '"></i>', [
-          '@title' => $variables['text'],
-        ]);
+        if ($is_link) {
+          $variables['options']['attributes']['aria-label'] = $variables['text'];
+          $variables['text'] = new FormattableMarkup('<i class="fa ' . $class . '" aria-hidden></i>', []);
+        }
+        else {
+          $variables['text'] = new FormattableMarkup('<i class="fa ' . $class . '" aria-hidden title="@title"></i><span class="sr-only">@title</span>', [
+            '@title' => $variables['text'],
+          ]);
+        }
+
         break;
 
       case "after":
-        $variables['text'] = new FormattableMarkup('@title <i class="fa ' . $class . '"></i>', [
+        $variables['text'] = new FormattableMarkup('@title <i class="fa ' . $class . '" aria-hidden></i>', [
           '@title' => $variables['text'],
         ]);
         break;
 
       case "before":
       default:
-        $variables['text'] = new FormattableMarkup('<i class="fa ' . $class . '"></i> @title', [
+        $variables['text'] = new FormattableMarkup('<i class="fa ' . $class . '" aria-hidden></i> @title', [
           '@title' => $variables['text'],
         ]);
         break;
