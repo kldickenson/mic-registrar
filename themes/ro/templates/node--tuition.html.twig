@@ -84,8 +84,9 @@
       {{ content.field_full_half_term.0 }}, {{ content.field_academic_year.0 }}</h2>
       {{ content.body.0 }}
     </div>
-
-
+    <div class="fees">
+        {{ drupal_view('tuition_fees_relationship	', 'block_1') }}
+    </div>
     {# {% if content.field_tags|length and not is_front %}
       {{ content.field_tags }}
     {% endif %} #}
