@@ -318,6 +318,7 @@ return array(
     'PHP_CodeCoverage_Report_XML_File_Unit' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/File/Unit.php',
     'PHP_CodeCoverage_Report_XML_Node' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Node.php',
     'PHP_CodeCoverage_Report_XML_Project' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Project.php',
+    'PHP_CodeCoverage_Report_XML_Tests' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Tests.php',
     'PHP_CodeCoverage_Report_XML_Totals' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Totals.php',
     'PHP_CodeCoverage_Util' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Util.php',
     'PHP_CodeCoverage_Util_InvalidArgumentHelper' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Util/InvalidArgumentHelper.php',
