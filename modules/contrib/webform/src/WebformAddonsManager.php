@@ -201,6 +201,14 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'category' => 'element',
     ];
 
+    // Element: Webform select collection.
+    $projects['webform_select_collection'] = [
+      'title' => $this->t('Webform Select Collection'),
+      'description' => $this->t('Provides a webform element that groups multiple select elements into single collection.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/webform_select_collection'),
+      'category' => 'element',
+    ];
+
     // Element: Webform Simple Hierarchical Select.
     $projects['webform_shs'] = [
       'title' => $this->t('Webform Simple Hierarchical Select'),
@@ -390,6 +398,14 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'recommended' => TRUE,
     ];
 
+    // Spam: Human Presence Form Protection.
+    $projects['hp'] = [
+      'title' => $this->t('Human Presence Form Protection'),
+      'description' => $this->t('Human Presence is a fraud prevention and form protection service that uses multiple overlapping strategies to fight form spam.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/hp'),
+      'category' => 'spam',
+    ];
+
     // Submissions: Webform Views Integration.
     $projects['webform_views'] = [
       'title' => $this->t('Webform Views'),
@@ -437,6 +453,14 @@ class WebformAddonsManager implements WebformAddonsManagerInterface {
       'title' => $this->t('Webform Scheduled Tasks'),
       'description' => $this->t('Allows the regular cleansing/sanitization of sensitive fields in Webform.'),
       'url' => Url::fromUri('https://www.drupal.org/project/webform_scheduled_tasks'),
+      'category' => 'submission',
+    ];
+
+    // Submissions: Webform Submission Change History.
+    $projects['webform_submission_change_history'] = [
+      'title' => $this->t('Webform Submission Change History'),
+      'description' => $this->t('Allows administrators to track notes on webform submissions.'),
+      'url' => Url::fromUri('https://www.drupal.org/project/webform_submission_change_history'),
       'category' => 'submission',
     ];
 
