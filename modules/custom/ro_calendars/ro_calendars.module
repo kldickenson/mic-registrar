@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * Custom code for calendars functionality.
+ */
+
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function ro_calendars_entity_extra_field_info() {
+  // Create pseudo field for add to calendar link.
+  $extra['node']['calendars']['display']['add_to_calendar'] = [
+    'label' => t('Add to calendar'),
+    'description' => t('Add to calendar link'),
+    'weight' => 100,
+    'visible' => TRUE,
+  ];
+
+  return $extra;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function ro_calendars_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  // Generate add to calendar array for any content that wants to display it.
+  if ($display->getComponent('add_to_calendar')) {
+    // Grab our start date value.
+    $start_date = $entity->field_start_date->value;
+
+    // Format date properly for google calendar link.
+    $formatted_start_date = date('Ymd', strtotime($start_date));
+    $formatted_end_date = date('Ymd', strtotime($start_date . '+1 days'));
+
+    // Generate URL object.
+    $url = Url::fromUri('https://www.google.com/calendar/event', [
+      'query' => [
+        'action' => 'TEMPLATE',
+        'text' => $entity->label(),
+        'dates' => $formatted_start_date . '/' . $formatted_end_date,
+        'details' => strip_tags($entity->body->value, '<a>'),
+      ],
+    ]);
+
+    // Create markup.
+    $markup = new FormattableMarkup('<a target="_blank" href="@url" class="button google-add"><i class="fas fa-calendar-plus fa-2x"></i></a>', [
+      '@url' => $url->toString(),
+    ]);
+
+    // Create render array.
+    $build['add_to_calendar'] = ['#markup' => $markup];
+  }
+}

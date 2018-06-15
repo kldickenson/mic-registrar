@@ -1,0 +1,6 @@
+name: Registrar Custom Calendars
+description: Custom code for special calendars functionality.
+package: Custom
+
+type: module
+core: 8.x
