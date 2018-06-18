@@ -6,6 +6,8 @@
 
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Eluceo\iCal\Component\Event;
+use Eluceo\iCal\Component\Calendar;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -14,7 +16,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
  * Implements hook_entity_extra_field_info().
  */
 function ro_calendars_entity_extra_field_info() {
-  // Create pseudo field for add to calendar link.
+  // Create pseudo/extra field for add to calendar link.
   $extra['node']['calendars']['display']['add_to_calendar'] = [
     'label' => t('Add to calendar'),
     'description' => t('Add to calendar link'),
@@ -56,4 +58,48 @@ function ro_calendars_node_view(array &$build, EntityInterface $entity, EntityVi
     // Create render array.
     $build['add_to_calendar'] = ['#markup' => $markup];
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ro_calendars_theme() {
+  return [
+    'views_view__calendars__page_1' => [
+      'template' => 'views-view--calendars--page-1',
+      'base hook' => 'view',
+    ],
+  ];
+}
+
+/**
+ * Preprocess function for ro_ical style plugin.
+ */
+function template_preprocess_views_view_ro_ical(&$variables) {
+  // Create calendar object.
+  $vCalendar = new Calendar('Office of the Registar');
+
+  // Create events.
+  foreach ($variables['rows'] as $row) {
+    $date = $row->_entity->field_start_date->value;
+    $summary = $row->_entity->title->value;
+    $description = $row->_entity->body->value;
+
+    $vEvent = new Event();
+
+    $vEvent->setDtStart(new \DateTime($date));
+    $vEvent->setDtEnd(new \DateTime($date));
+    $vEvent->setNoTime(TRUE);
+    $vEvent->setSummary($summary);
+    $vEvent->setDescription(strip_tags($description), '<a>');
+
+    $vCalendar->addComponent($vEvent);
+  }
+
+  // Set the appropriate headers, so it downloads a file.
+  header('Content-Type: text/calendar; charset=utf-8');
+  header('Content-Disposition: attachment; filename="calendar.ics"');
+
+  // Pass rendered ical stuffs to our template.
+  $variables['ical'] = $vCalendar->render();
 }
