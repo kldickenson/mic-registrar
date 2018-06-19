@@ -13,7 +13,7 @@
 
   &::before {
     content: '\f055';
-    font-family: 'Fontawesome';
+    font-family: $um-fontawesome;
     color: $um-blue;
     font-size: 2.5rem;
     margin-top: -1.25rem;
