@@ -1,2 +1,17 @@
-{# Simply print the ical output #}
-{{ ical }}
+{# Print the ical output #}
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Office of the Registar
+{% for event in events %}
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:{{ event.start_date }}
+SEQUENCE:0
+TRANSP:OPAQUE
+DTEND;VALUE=DATE:{{ event.end_date }}
+SUMMARY:{{ event.summary }}
+CLASS:PUBLIC
+DESCRIPTION:{{ event.description }}
+X-MICROSOFT-CDO-ALLDAYEVENT:TRUEX
+END:VEVENT
+{% endfor %}
+END:VCALENDAR
