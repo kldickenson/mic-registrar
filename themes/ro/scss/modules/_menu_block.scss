@@ -7,6 +7,44 @@
   }
 }
 
+// Mobile menu
+// -----------
+.user-logged-in {
+
+  .mobile-menu {
+    padding-top: 4rem;
+  }
+
+  .close-button {
+    padding-top: 3.55rem;
+    z-index: 9;
+  }
+}
+
+.mobile-menu {
+  .menu-item {
+    border-bottom: 1px solid $medium-gray;
+    display: inline-block;
+    width: 100%;
+
+    a {
+      padding: 1.125rem 1rem;
+      text-transform: none;
+    }
+
+    ul {
+      margin-left: 1rem;
+      .menu-item {
+        border-bottom: 1px dotted $medium-gray;
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+
 // Utility menu
 .block-ro-utilitymenu {
   margin-top: 1rem;
