@@ -185,7 +185,7 @@
       text-decoration: none;
       transition: all .2s ease-in-out;
 
-      .fas {
+      .svg-inline--fa {
         color: $white;
         font-size: inherit;
         transition: color .2s ease-in-out;
@@ -206,7 +206,7 @@
       &:hover,
       &:focus {
 
-        .fas {
+        .svg-inline--fa {
           animation-name: bounceOutRight;
           color: $um-maize;
         }
