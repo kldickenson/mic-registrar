@@ -1,0 +1,16 @@
+// Mobile menu button
+// ------------------
+
+.block-mainnavigation-4 {
+    @include breakpoint(small only) {
+        margin-bottom: 0;    }
+    .button {
+        background-color: transparent;
+        margin-bottom: 0;
+        padding-left: 0;
+
+        svg {
+            margin-right: .75rem;
+        }
+    }
+}
