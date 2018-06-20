@@ -65,56 +65,58 @@ a.add-to-calendar {
 }
 
 // Calendar listing
-.views-row {
-  .views-field {
-    span {
-      article {
-        border-bottom: 1px dashed $medium-gray;
-        display: block;
-        margin-bottom: 1.5rem;
-        @include xy-grid();
-        @extend .collapse;
+.path-calendars {
+  .views-row {
+    .views-field {
+      span {
+        article {
+          border-bottom: 1px dashed $medium-gray;
+          display: block;
+          margin-bottom: 1.5rem;
+          @include xy-grid();
+          @extend .collapse;
+        }
       }
     }
-  }
-
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: .25rem;
-    @include xy-cell(12);
-    margin-left: 0;
-    a {
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
+  
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: .25rem;
+      @include xy-cell(12);
+      margin-left: 0;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
+    .view-mode-small {
+      @include xy-grid();
+      @extend .align-justify;
+      width: 100%;
+      margin: 0;
+    }
   }
-  .view-mode-small {
-    @include xy-grid();
-    @extend .align-justify;
-    width: 100%;
+  
+  .field-wrapper {
+    @include xy-cell(8);
+    @extend .auto;
     margin: 0;
   }
-}
-
-.field-wrapper {
-  @include xy-cell(8);
-  @extend .auto;
-  margin: 0;
-}
-
-.path-calendars .google-add {
-  @include xy-cell(2);
-  text-align: right;
-  margin: 0;
-  &:after {
-    display: none;
+  
+  .path-calendars .google-add {
+    @include xy-cell(2);
+    text-align: right;
+    margin: 0;
+    &:after {
+      display: none;
+    }
   }
-}
-
-.path-calendars {
-  footer {
-    margin-top: 4rem;
+  
+  .path-calendars {
+    footer {
+      margin-top: 4rem;
+    }
   }
 }
