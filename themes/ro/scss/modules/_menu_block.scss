@@ -21,6 +21,12 @@
   }
 }
 
+.off-canvas.is-closed {
+  @include breakpoint(large only) {
+    display: none;
+  }
+}
+
 .mobile-menu {
   .menu-item {
     border-bottom: 1px solid $medium-gray;
