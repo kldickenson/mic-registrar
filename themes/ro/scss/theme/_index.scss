@@ -263,7 +263,7 @@
         width: 100%;
         transition: all .2s ease-in;
 
-        .fa {
+        svg {
           color: $white;
           font-size: inherit;
           transition: color .2s ease-in;
@@ -283,7 +283,7 @@
 
         &:hover,
         &:focus {
-          .fa {
+          .svg-inline--fa {
             color: $um-maize;
             animation-name: bounceOutRight;
           }
@@ -422,17 +422,17 @@
       text-decoration: none;
       width: 100%;
 
-      .fas {
+      .svg-inline--fa {
         color: $white;
         font-size: inherit;
-        padding-left: .5rem;
+        margin-left: .5rem;
         transition: color .2s ease-in-out;
         @extend .animated;
       }
 
       &:hover {
 
-        .fas {
+        .svg-inline--fa {
           animation-name: bounceOutRight;
           color: $um-maize;
         }
