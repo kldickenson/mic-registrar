@@ -54,10 +54,13 @@
  * @see html.html.twig
  */
 #}
-
+<button type="button" class="button" data-toggle="left-off-canvas-menu"><i class="fas fa-bars"></i>Menu</button>
 <div class="off-canvas-wrapper">
   <div class="inner-wrap off-canvas-wrapper-inner" id="inner-wrap" data-off-canvas-wrapper>
     <aside id="left-off-canvas-menu" class="off-canvas left-off-canvas-menu position-left" role="complementary" data-off-canvas>
+      <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <i class="far fa-times-circle"></i>
+      </button>
       {{ page.left_off_canvas }}
     </aside>
 
