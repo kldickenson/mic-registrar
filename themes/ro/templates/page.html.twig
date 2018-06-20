@@ -54,160 +54,153 @@
  * @see html.html.twig
  */
 #}
-<div class="off-canvas-wrapper">
-  <div class="inner-wrap off-canvas-wrapper-inner" id="inner-wrap" data-off-canvas-wrapper>
-    <aside id="left-off-canvas-menu" class="off-canvas left-off-canvas-menu position-left" role="complementary" data-off-canvas>
-      <button class="close-button" aria-label="Close menu" type="button" data-close>
-        <i class="far fa-times-circle"></i>
-      </button>
-      {{ page.left_off_canvas }}
-    </aside>
 
-    <aside id="right-off-canvas-menu" class="off-canvas right-off-canvas-menu position-right" role="complementary" data-off-canvas>
-      {{ page.right_off_canvas }}
-    </aside>
+<aside id="left-off-canvas-menu" class="off-canvas left-off-canvas-menu position-left" role="complementary" data-off-canvas data-transition="push">
+  <button class="close-button" aria-label="Close menu" type="button" data-close>
+    <i class="far fa-times-circle"></i>
+  </button>
+  {{ page.left_off_canvas }}
+</aside>
 
-    <div class="off-canvas-content" data-off-canvas-content>
-      {% if page.meta_header %}
-        {% if meta_header_grid %}
-          <div class="container-header">
-            <div class="row">
-              <div class="large-12 columns">
-        {% endif %}
-        {{ page.meta_header }}
-        {% if meta_header_grid %}
-              </div>
-            </div>
-          </div>
-        {% endif %}
-      {% endif %}
+<div class="off-canvas-content" data-off-canvas-content>
+  {% if page.meta_header %}
+    {% if meta_header_grid %}
       <div class="container-header">
-        <header class="row" role="banner" aria-label="{{ 'Site header'|t }}">
-          {% if linked_site_name or linked_logo %}
-            <div class="large-2 columns">
-              {% if linked_logo %}
-                {{ linked_logo }}
-              {% endif %}
-            </div>
-            <div class="left large-4 columns">
-              {% if is_front %}
-                <h1 id="site-name">{{ linked_site_name }}</h1>
-              {% else %}
-                <div id="site-name">{{ linked_site_name }}</div>
-              {% endif %}
-            </div>
-          {% endif %}
-          {% if page.header %}
-            <div class="large-12 columns grid-container">
-              {{ page.header }}
-            </div>
-          {% endif %}
-        </header>
-      </div>
-      <div class="row">
-        {% if show_account_info %}
-          <div class="{{ site_slogan ? 'large-6' : 'large-4 columns large-offset-8' }} columns hide-for-small">
-            <p>
-              {% if logged_in %}
-                <a href="{{ path('user.page') }}">{{ 'My Account'|t }}</a>
-                <a href="{{ path('user.logout') }}">{{ 'Logout'|t }}</a>
-              {% else %}
-                <a href="{{ path('user.login') }}">{{ 'Login'|t }}</a>
-                <a href="{{ path('user.register') }}">{{ 'Sign Up'|t }}</a>
-              {% endif %}
-            </p>
+        <div class="row">
+          <div class="large-12 columns">
+    {% endif %}
+    {{ page.meta_header }}
+    {% if meta_header_grid %}
           </div>
-        {% endif %}
-        {% if site_slogan %}
-          <div class="large-6 columns hide-for-small">
-            {{ site_slogan }}
-          </div>
-        {% endif %}
-        {% if show_account_info %}
-          <div class="show-for-small">
-            <div class="six mobile-two columns">
-              <p>
-                <a href="{{ path('user.login') }}" class="radius button">{{ 'Login'|t }}</a>
-              </p>
-            </div>
-            <div class="six mobile-two columns">
-              <p>
-                <a href="{{ path('user.register') }}" class="radius success button">{{ 'Sign Up'|t }}</a>
-              </p>
-            </div>
-          </div>
-        {% endif %}
-      </div>
-
-      {% if messages and not zurb_foundation_messages_modal %}
-      <div class="l-messages row">
-        <div class="large-12 columns">
-          {{ messages }}
         </div>
       </div>
+    {% endif %}
+  {% endif %}
+  <div class="container-header">
+    <header class="row" role="banner" aria-label="{{ 'Site header'|t }}">
+      {% if linked_site_name or linked_logo %}
+        <div class="large-2 columns">
+          {% if linked_logo %}
+            {{ linked_logo }}
+          {% endif %}
+        </div>
+        <div class="left large-4 columns">
+          {% if is_front %}
+            <h1 id="site-name">{{ linked_site_name }}</h1>
+          {% else %}
+            <div id="site-name">{{ linked_site_name }}</div>
+          {% endif %}
+        </div>
       {% endif %}
-
-      {% if page.help %}
-      <div class="l-help row">
-        <div class="large-12 columns">
-          {{ page.help }}
+      {% if page.header %}
+        <div class="large-12 columns grid-container">
+          {{ page.header }}
         </div>
-      </div>
       {% endif %}
-
-      {% if page.content_header %}
-      <div class="container-pg-header">
-        <div class="pg-header row">
-          <div class="large-12 columns grid-container">
-            {{ page.content_header }}
-          </div>
+    </header>
+  </div>
+  <div class="row">
+    {% if show_account_info %}
+      <div class="{{ site_slogan ? 'large-6' : 'large-4 columns large-offset-8' }} columns hide-for-small">
+        <p>
+          {% if logged_in %}
+            <a href="{{ path('user.page') }}">{{ 'My Account'|t }}</a>
+            <a href="{{ path('user.logout') }}">{{ 'Logout'|t }}</a>
+          {% else %}
+            <a href="{{ path('user.login') }}">{{ 'Login'|t }}</a>
+            <a href="{{ path('user.register') }}">{{ 'Sign Up'|t }}</a>
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
+    {% if site_slogan %}
+      <div class="large-6 columns hide-for-small">
+        {{ site_slogan }}
+      </div>
+    {% endif %}
+    {% if show_account_info %}
+      <div class="show-for-small">
+        <div class="six mobile-two columns">
+          <p>
+            <a href="{{ path('user.login') }}" class="radius button">{{ 'Login'|t }}</a>
+          </p>
+        </div>
+        <div class="six mobile-two columns">
+          <p>
+            <a href="{{ path('user.register') }}" class="radius success button">{{ 'Sign Up'|t }}</a>
+          </p>
         </div>
       </div>
+    {% endif %}
+  </div>
+
+  {% if messages and not zurb_foundation_messages_modal %}
+  <div class="l-messages row">
+    <div class="large-12 columns">
+      {{ messages }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.help %}
+  <div class="l-help row">
+    <div class="large-12 columns">
+      {{ page.help }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.content_header %}
+  <div class="container-pg-header">
+    <div class="pg-header row">
+      <div class="large-12 columns grid-container">
+        {{ page.content_header }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="grid-container content-well">
+    <div class="row grid-x align-top align-justify">
+      <main id="main" class="cell medium-8 medium-order-2" role="main">
+        {% if page.highlighted %}
+          {% spaceless %}
+            {{ page.highlighted }}
+          {% endspaceless %}
+        {% endif %}
+        <a id="main-content"></a>
+        {% if breadcrumb %} {{ breadcrumb }} {% endif %}
+        <section>
+          {{ page.content }}
+        </section>
+      </main>
+      {% if page.sidebar_first %}
+        <div id="sidebar-first" class="sidebar cell medium-3 medium-order-1">
+          {{ page.sidebar_first }}
+        </div>
       {% endif %}
-
-      <div class="grid-container content-well">
-        <div class="row grid-x align-top align-justify">
-          <main id="main" class="cell medium-8 medium-order-2" role="main">
-            {% if page.highlighted %}
-              {% spaceless %}
-                {{ page.highlighted }}
-              {% endspaceless %}
-            {% endif %}
-            <a id="main-content"></a>
-            {% if breadcrumb %} {{ breadcrumb }} {% endif %}
-            <section>
-              {{ page.content }}
-            </section>
-          </main>
-          {% if page.sidebar_first %}
-            <div id="sidebar-first" class="sidebar cell medium-3 medium-order-1">
-              {{ page.sidebar_first }}
-            </div>
-          {% endif %}
-          {% if page.sidebar_second %}
-            <div id="sidebar-second" class="sidebar cell">
-              {{ page.sidebar_second }}
-            </div>
-          {% endif %}
+      {% if page.sidebar_second %}
+        <div id="sidebar-second" class="sidebar cell">
+          {{ page.sidebar_second }}
         </div>
-      </div>
+      {% endif %}
+    </div>
+  </div>
 
-      <div class="container-footer">
-        <div class="grid-container">
-          {% if page.footer %}
-            <footer class="grid-x">
-              {{ page.footer }}
-            </footer>
-          {% endif %}
-          <div class="bottom-bar panel grid-x align-bottom">
-            <div class="cell shrink">
-              <a href="http://umich.edu"><img src="/sites/default/files/2018-05/block-m.svg" alt="University of Michigan" class="um-badge" /></a>
-            </div>
-            <div class="cell auto">
-              <p class="footer-site-name">{{ site_name }}</p>
-              <p class="copyright">&copy; {{ "now"|date('Y') }} The <a href="http://regents.umich.edu/">Regents</a> of the University of Michigan</p>
-            </div>
-          </div>
+  <div class="container-footer">
+    <div class="grid-container">
+      {% if page.footer %}
+        <footer class="grid-x">
+          {{ page.footer }}
+        </footer>
+      {% endif %}
+      <div class="bottom-bar panel grid-x align-bottom">
+        <div class="cell shrink">
+          <a href="http://umich.edu"><img src="/sites/default/files/2018-05/block-m.svg" alt="University of Michigan" class="um-badge" /></a>
+        </div>
+        <div class="cell auto">
+          <p class="footer-site-name">{{ site_name }}</p>
+          <p class="copyright">&copy; {{ "now"|date('Y') }} The <a href="http://regents.umich.edu/">Regents</a> of the University of Michigan</p>
         </div>
       </div>
     </div>
