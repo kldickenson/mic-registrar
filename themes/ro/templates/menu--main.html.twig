@@ -30,7 +30,7 @@
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-      <ul{{ attributes.addClass('menu show-for-medium') }}>
+      <ul{{ attributes.addClass('menu') }}>
     {% else %}
       <ul class="menu">
     {% endif %}
@@ -53,7 +53,4 @@
     </ul>
   {% endif %}
 {% endmacro %}
-<div class="show-for-small-only">
-  <button type="button" class="button" data-toggle="left-off-canvas-menu"><i class="fas fa-bars"></i>Menu</button>
-</div>
 
