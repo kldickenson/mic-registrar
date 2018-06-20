@@ -4,13 +4,40 @@
 .block-mainnavigation-4 {
     @include breakpoint(small only) {
         margin-bottom: 0;    }
-    .button {
-        background-color: transparent;
-        margin-bottom: 0;
-        padding-left: 0;
+}
 
-        svg {
-            margin-right: .75rem;
-        }
+#block-mainnavigation-4 {
+    @extend .show-for-medium;
+ }
+
+ @include breakpoint(small only) {
+    .show-for-small-only {
+        width: 100%;
+        .button {
+       background-color: transparent;
+       margin-bottom: 0;
+       padding-left: 0;
+   
+       svg {
+           margin-right: .75rem;
+       }
+    }
+   }
+ }
+
+ .position-left {
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    width: 250px;
+    -webkit-transform: translateX(-250px);
+    -ms-transform: translateX(-250px);
+    transform: translateX(-250px);
+}
+
+@include breakpoint(small only) {
+    .off-canvas-content.is-open-left.has-transition-push {
+        transform: translateX(250px);
     }
 }
