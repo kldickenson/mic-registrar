@@ -27,23 +27,38 @@
   }
 }
 
+.off-canvas button svg {
+  color: $white;
+}
+
 .mobile-menu {
   .menu-item {
-    border-bottom: 1px solid $medium-gray;
+    background-color: darken($um-blue, 4%);
     display: inline-block;
     width: 100%;
 
     a {
+      color: $white;
       padding: 1.125rem 1rem;
       text-transform: none;
     }
 
     ul {
-      margin-left: 1rem;
       .menu-item {
-        border-bottom: 1px dotted $medium-gray;
+        background-color: darken($um-blue, 6%);
+        a {
+          padding-left: 2rem;
+        }
         &:last-child {
           border-bottom: 0;
+        }
+        ul {
+          .menu-item {
+            background-color: darken($um-blue, 8%);
+            a {
+              padding-left: 3rem;
+            }
+          }
         }
       }
     }
