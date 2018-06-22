@@ -6,8 +6,6 @@
 
 use Drupal\Core\Url;
 use Drupal\Core\Link;
-use Eluceo\iCal\Component\Event;
-use Eluceo\iCal\Component\Calendar;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -76,30 +74,21 @@ function ro_calendars_theme() {
  * Preprocess function for ro_ical style plugin.
  */
 function template_preprocess_views_view_ro_ical(&$variables) {
-  // Create calendar object.
-  $vCalendar = new Calendar('Office of the Registar');
-
   // Create events.
   foreach ($variables['rows'] as $row) {
-    $date = $row->_entity->field_start_date->value;
-    $summary = $row->_entity->title->value;
-    $description = $row->_entity->body->value;
-
-    $vEvent = new Event();
-
-    $vEvent->setDtStart(new \DateTime($date));
-    $vEvent->setDtEnd(new \DateTime($date));
-    $vEvent->setNoTime(TRUE);
-    $vEvent->setSummary($summary);
-    $vEvent->setDescription(strip_tags($description), '<a>');
-
-    $vCalendar->addComponent($vEvent);
+    $date = date('Ymd', strtotime($row->_entity->field_start_date->value));
+    $end_date = date('Ymd', strtotime($date . '+1 days'));
+    
+    // Create events array to pass to our template.
+    $variables['events'][] = [
+      'start_date' => $date,
+      'end_date' => $end_date,
+      'summary' => $row->_entity->title->value,
+      'description' => strip_tags($row->_entity->body->value, '<a>'),
+    ];
   }
 
-  // Set the appropriate headers, so it downloads a file.
+  // Set the appropriate headers, so it downloads the file.
   header('Content-Type: text/calendar; charset=utf-8');
   header('Content-Disposition: attachment; filename="calendar.ics"');
-
-  // Pass rendered ical stuffs to our template.
-  $variables['ical'] = $vCalendar->render();
 }

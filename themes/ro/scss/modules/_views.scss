@@ -58,3 +58,78 @@
     border: 1px solid $medium-gray;
   }
 }
+
+a.add-to-calendar {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+// Calendar listing
+.path-calendars {
+  .views-row {
+    .views-field {
+      span {
+        article {
+          border-bottom: 1px dashed $medium-gray;
+          display: block;
+          margin-bottom: 1.5rem;
+          @include xy-grid();
+          @extend .collapse;
+        }
+      }
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: .25rem;
+      @include xy-cell(12);
+      margin-left: 0;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    .view-mode-small {
+      @include xy-grid();
+      @extend .align-justify;
+      width: 100%;
+      margin: 0;
+    }
+  }
+  
+  .field-wrapper {
+    @include xy-cell(8);
+    @extend .auto;
+    margin: 0;
+  }
+  
+  .path-calendars .google-add {
+    @include xy-cell(2);
+    text-align: right;
+    margin: 0;
+    &:after {
+      display: none;
+    }
+  }
+  
+  .path-calendars {
+    footer {
+      margin-top: 4rem;
+    }
+  }
+}
+
+// Reports
+
+.section-reports {
+  main {
+    header {
+      margin-top: 2rem;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}

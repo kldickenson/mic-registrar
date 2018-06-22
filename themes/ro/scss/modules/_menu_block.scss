@@ -7,6 +7,65 @@
   }
 }
 
+// Mobile menu
+// -----------
+.user-logged-in {
+
+  .mobile-menu {
+    padding-top: 4rem;
+  }
+
+  .close-button {
+    padding-top: 3.55rem;
+    z-index: 9;
+  }
+}
+
+.off-canvas.is-closed {
+  @include breakpoint(large only) {
+    display: none;
+  }
+}
+
+.off-canvas button svg {
+  color: $white;
+}
+
+.mobile-menu {
+  .menu-item {
+    background-color: darken($um-blue, 4%);
+    display: inline-block;
+    width: 100%;
+
+    a {
+      color: $white;
+      padding: 1.125rem 1rem;
+      text-transform: none;
+    }
+
+    ul {
+      .menu-item {
+        background-color: darken($um-blue, 6%);
+        a {
+          padding-left: 2rem;
+        }
+        &:last-child {
+          border-bottom: 0;
+        }
+        ul {
+          .menu-item {
+            background-color: darken($um-blue, 8%);
+            a {
+              padding-left: 3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 // Utility menu
 .block-ro-utilitymenu {
   margin-top: 1rem;

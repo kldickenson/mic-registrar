@@ -8,15 +8,17 @@
   font-family: $um-ro-utility-font;
   font-weight: 700;
   color: $black;
+  line-height:  1.4em;
+  padding-right: 3rem;
   text-transform: uppercase;
   text-decoration: none;
 
   &::before {
     content: '\f055';
-    font-family: 'Fontawesome';
+    font-family: $um-fontawesome;
     color: $um-blue;
-    font-size: 2.5rem;
-    margin-top: -1.25rem;
+    font-size: 2rem;
+    margin-top: -.75rem;
   }
 
   &:hover {
