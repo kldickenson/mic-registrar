@@ -3,6 +3,7 @@
 namespace Drupal\ro_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Component\Utility\Html;
 
 /**
  * Provides Google CSE Results Block.
@@ -26,7 +27,8 @@ class SearchResultsBlock extends BlockBase {
 
     if ($config) {
       // Pass the CSE ID to JavaScript.
-      $build['#attached']['drupalSettings']['google_cse_id'] = $config->get('google_cse_id');
+      $build['#attached']['drupalSettings']['google_cse_id'] =
+        Html::escape($config->get('google_cse_id'));
 
       // Add the Google CSE JavaScript.
       $build['#attached']['library'][] = 'ro_search/ro_search';
