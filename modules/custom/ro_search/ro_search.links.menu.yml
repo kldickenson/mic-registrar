@@ -1,0 +1,5 @@
+ro_search.admin:
+  title: 'RO search settings'
+  description: 'Manage settings for the RO search module.'
+  parent: system.admin_config_search
+  route_name: ro_search.settings

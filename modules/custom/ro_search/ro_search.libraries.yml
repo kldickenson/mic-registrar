@@ -1,0 +1,6 @@
+ro_search:
+  version: 1.x
+  js:
+    js/ro-search.js: {}
+  dependencies:
+    - core/drupalSettings
