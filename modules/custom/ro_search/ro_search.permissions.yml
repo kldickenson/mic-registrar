@@ -1,0 +1,3 @@
+'administer ro search':
+  title: 'Administer RO Search Settings'
+  description: 'Gives the ability to modify settings for the RO search module.'

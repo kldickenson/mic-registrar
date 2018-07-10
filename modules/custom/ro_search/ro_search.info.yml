@@ -1,0 +1,6 @@
+name: Registrar Custom Search
+description: Custom code for search functionality.
+package: Custom
+
+type: module
+core: 8.x

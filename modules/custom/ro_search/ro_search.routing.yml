@@ -1,0 +1,7 @@
+ro_search.settings:
+  path: '/admin/config/search/google-cse'
+  defaults:
+    _form: '\Drupal\ro_search\Form\RoSearchSettingsForm'
+    _title: 'RO Search Settings'
+  requirements:
+    _permission: 'administer ro search'
