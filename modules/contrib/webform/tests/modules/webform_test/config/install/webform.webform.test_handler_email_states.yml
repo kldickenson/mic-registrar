@@ -51,6 +51,7 @@ settings:
   submission_label: ''
   submission_log: false
   submission_user_columns: {  }
+  submission_user_duplicate: false
   submission_login: false
   submission_login_message: ''
   submission_exception_message: ''
@@ -165,11 +166,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Draft saved'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -198,11 +199,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Submission converted'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -231,11 +232,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Submission completed'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -264,11 +265,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Submission updated'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -297,11 +298,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Submission deleted'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -329,11 +330,11 @@ handlers:
       cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      from_mail: default
+      from_mail: _default
       from_options: {  }
-      from_name: default
+      from_name: _default
       subject: 'Submission custom'
-      body: default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true

@@ -96,7 +96,11 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
         ];
       }
       else {
-        $options = [];
+        $options = [
+          'excluded_elements' => [],
+          'exclude_empty' => FALSE,
+          'exclude_empty_checkbox' => FALSE,
+        ];
       }
 
       switch ($view_mode) {
@@ -191,7 +195,7 @@ class WebformSubmissionViewBuilder extends EntityViewBuilder implements WebformS
       '#type' => 'table',
       '#rows' => $rows,
       '#attributes' => [
-        'class' => ['webform-submission__table'],
+        'class' => ['webform-submission-table'],
       ],
     ];
   }

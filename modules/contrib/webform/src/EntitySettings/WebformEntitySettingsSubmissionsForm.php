@@ -116,7 +116,20 @@ class WebformEntitySettingsSubmissionsForm extends WebformEntitySettingsBaseForm
       '#default_value' => $webform_storage->getNextSerial($webform),
     ];
     $form['submission_settings']['token_tree_link'] = $this->tokenManager->buildTreeLink();
-    $form['submission_settings']['submission_columns'] = [
+
+    // User settings.
+    $form['submission_user_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('User settings'),
+      '#open' => TRUE,
+    ];
+    $form['submission_user_settings']['submission_user_duplicate'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allow users to duplicate previous submissions'),
+      '#description' => $this->t('If checked, users will be able to duplicate their previous submissions.'),
+      '#default_value' => $settings['submission_user_duplicate'],
+    ];
+    $form['submission_user_settings']['submission_columns'] = [
       '#type' => 'details',
       '#title' => $this->t('Submission columns'),
       '#description' => $this->t('Below columns are displayed to users who can view previous submissions and/or pending drafts.'),
@@ -125,7 +138,7 @@ class WebformEntitySettingsSubmissionsForm extends WebformEntitySettingsBaseForm
     // @see \Drupal\webform\Form\WebformResultsCustomForm::buildForm
     $available_columns = $webform_submission_storage->getColumns($webform);
     // Remove columns that should never be displayed to users.
-    $available_columns = array_diff_key($available_columns, array_flip(['uuid', 'in_draft', 'entity', 'sticky', 'locked', 'notes', 'uid', 'operations']));
+    $available_columns = array_diff_key($available_columns, array_flip(['uuid', 'in_draft', 'entity', 'sticky', 'locked', 'notes', 'uid']));
     $custom_columns = $webform_submission_storage->getUserColumns($webform);
     // Change sid's # to an actual label.
     $available_columns['sid']['title'] = $this->t('Submission ID');
@@ -143,7 +156,7 @@ class WebformEntitySettingsSubmissionsForm extends WebformEntitySettingsBaseForm
     $columns_keys = array_keys($custom_columns);
     $columns_default_value = array_combine($columns_keys, $columns_keys);
     // Display columns in sortable table select element.
-    $form['submission_settings']['submission_columns']['submission_user_columns'] = [
+    $form['submission_user_settings']['submission_columns']['submission_user_columns'] = [
       '#type' => 'webform_tableselect_sort',
       '#header' => [
         'title' => $this->t('Title'),
