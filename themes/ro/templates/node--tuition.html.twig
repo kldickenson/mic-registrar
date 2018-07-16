@@ -68,17 +68,14 @@
  */
 #}
 <article id="node-{{ node.id }}" {{ attributes }}>
-
-    {# {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }} #}
-    <div{{ content_attributes }}>
-     <h3>{{ content.field_college_school.0 }}, {{ content.field_level_of_study.0 }}<br />
-      {{ content.field_full_half_term.0 }}, {{ content.field_academic_year.0 }}</h3>
-      {{ content.body.0 }}
-    </div>
-  </article>
+  {{ title_prefix }}
+  {% if not page %}
+    <h3{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h3>
+  {% endif %}
+  {{ title_suffix }}
+  <div{{ content_attributes }}>
+    {{ content.body.0 }}
+  </div>
+</article>
