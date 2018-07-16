@@ -4,9 +4,16 @@
 // ------------
 .container-pg-highlighted {
   background-image: url('/sites/default/files/2018-06/ro-homepage.jpg');
-  background-position: center bottom;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  @include breakpoint(xxlarge only) {
+    background-position: center -19.625rem;
+  }
+
+  @include breakpoint(2100px) {
+    background-position: center -30.625rem;
+  }
 
   .region-highlighted {
     @extend .align-justify;
