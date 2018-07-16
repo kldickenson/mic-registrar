@@ -1,6 +1,5 @@
 // Calendar Page View
 .bef-exposed-form {
-
   fieldset {
     float: left;
     width: 50%;
@@ -9,7 +8,6 @@
       width: 100%;
     }
   }
-
   .js-form-item-field-term-target-id {
     float: left;
     width: 50%;
@@ -17,42 +15,35 @@
       float: none;
       width: 100%;
     }
-
     label {
       font-size: 1rem;
       font-weight: bold;
     }
   }
-
   .js-form-item-title {
     clear: both;
     float: left;
     margin-top: .75rem;
     width: 45%;
   }
-
   .fieldset-legend {
     font-weight: bold;
   }
-
   .fieldset-wrapper {
     width: 50%;
     @include breakpoint(medium only) {
       width: 70%;
     }
   }
-
   select {
     font-size: .875rem;
     width: 75%;
   }
-
   .form-actions {
     clear: both;
     padding-bottom: 1rem;
     padding-top: 1.5rem;
   }
-
   .button {
     background-color: transparent;
     border: 1px solid $medium-gray;
@@ -78,7 +69,6 @@ a.add-to-calendar {
         }
       }
     }
-  
     h2 {
       font-size: 1.5rem;
       margin-bottom: .25rem;
@@ -98,13 +88,11 @@ a.add-to-calendar {
       margin: 0;
     }
   }
-  
   .field-wrapper {
     @include xy-cell(8);
     @extend .auto;
     margin: 0;
   }
-  
   .path-calendars .google-add {
     @include xy-cell(2);
     text-align: right;
@@ -113,7 +101,6 @@ a.add-to-calendar {
       display: none;
     }
   }
-  
   .path-calendars {
     footer {
       margin-top: 4rem;
@@ -122,7 +109,6 @@ a.add-to-calendar {
 }
 
 // Reports
-
 .section-reports {
   main {
     header {
@@ -131,5 +117,37 @@ a.add-to-calendar {
         margin-top: 0;
       }
     }
+    .card {
+      .cell {
+        padding: 0;
+      }
+    }
   }
+  &.node--type-report {
+    .field-name-field-report-files {
+      .field-items {
+        column-count: 4;
+        column-gap: 1.125rem;
+        @include breakpoint(small only) {
+          column-count: 2;
+        }
+      }
+    }
+  }
+}
+
+// Anchor menu styles
+.menu.anchors {
+  border-bottom: 1px solid $medium-gray;
+  border-top: 1px solid $medium-gray;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+  a {
+    padding: .7rem 1rem .7rem 0;
+  }
+}
+
+a.back {
+  font-size: .85rem;
+  float: right;
 }

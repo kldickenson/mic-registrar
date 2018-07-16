@@ -1,7 +1,13 @@
 // Non-modular or client styles for the .l-content region.
-
 .align-left {
 	margin-right: 1rem;
+}
+
+.section-reports.node--type-report,
+.section-reports.views-page {
+	main#main {
+		@include xy-cell(auto);
+	}
 }
 
 .align-right {
