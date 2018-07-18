@@ -5,30 +5,24 @@
   @include breakpoint(small only) {
     padding-top: .5rem;
   }
-
   .input-group {
     display: block;
     position: relative;
   }
-
   .form-control {
     height: 1.5rem;
-    margin-bottom: 0;
-    // position: absolute;
+    margin-bottom: 0; // position: absolute;
     // right: 0;
     // top: 0;
     z-index: 10;
-
     &::placeholder {
       color: $black;
       text-transform: uppercase;
       font-size: .75rem;
     }
   }
-
   .submit-button {
-    background: transparent;
-    // display: inline-block;
+    background: transparent; // display: inline-block;
     border: 0;
     box-shadow: none;
     font-size: 1em;
@@ -38,5 +32,70 @@
     top: 0;
     width: 1.75rem;
     z-index: 20;
+  }
+}
+
+// Search results page
+// -------------------
+.block-google-search-results-block {
+  font-family: $body-font-family !important;
+  font-size: 1.125rem !important;
+  .gsc-above-wrapper-area,
+  .gsc-result-info,
+  .gsc-thumbnail-inside,
+  .gsc-url-top {
+    padding: 0 !important;
+  }
+  table {
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+  .gsc-table-result {
+    border-bottom: 1px solid $medium-gray !important;
+    padding-bottom: 2rem;
+  }
+  .gsc-control-cse,
+  .gsc-control-cse .gsc-table-result {
+    font-family: $body-font-family !important;
+  }
+  .gsc-control-cse .gs-spelling,
+  .gsc-control-cse .gs-result .gs-title,
+  .gsc-control-cse .gs-result .gs-title * {
+    font-size: 1.5rem !important;
+  }
+  .gsc-control-cse .gs-result .gs-title a {
+    color: $primary-color !important;
+    b {
+      color: $primary-color !important;
+      font-weight: normal !important;
+      transition: all .2s ease;
+    }
+    &:hover {
+      b {
+        font-weight: bold !important;
+      }
+    }
+  }
+
+  .gsc-control-cse .gs-snippet b{
+    background-color: $um-maize !important;
+  }
+  .gsc-control-cse,
+  .gsc-control-cse .gsc-table-result {
+    font-size: 1rem !important;
+    padding: 0 !important;
+  }
+  .gsc-above-wrapper-area table {
+    margin-bottom: 0 !important;
+  }
+  .gs-per-result-labels {
+    padding-bottom: 1.125rem;
+  }
+  .gs-result a.gs-visibleUrl,
+  .gs-result .gs-visibleUrl {
+    color: $um-gray !important;
+  }
+  .gsc-results .gsc-cursor-box .gsc-cursor-current-page {
+    color: $um-blue-lt !important;
   }
 }
