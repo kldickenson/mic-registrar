@@ -151,7 +151,7 @@
     }
 
     &:first-child {
-      
+
       a {
 
         &:hover {
@@ -237,6 +237,9 @@
     >.menu {
       .menu-item {
         border-top: 0;
+        // &.menu-item-active-trail {
+        //   background: #f3f3f0;
+        // }
         a {
           color: $um-blue-lt;
           padding-left: 3em;
