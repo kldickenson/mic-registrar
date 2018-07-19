@@ -26,14 +26,12 @@
     }
     a {
       color: $white;
-      font-weight: 700;
-      text-decoration: none;
-      width: 100%;
       display: inline-block;
+      font-weight: 700;
+      margin: 0 auto;
       padding: 1rem 0;
+      text-decoration: none;
       .svg-inline--fa {
-        color: $white;
-        font-size: inherit;
         transition: color .2s ease-in-out;
         @extend .animated;
       }

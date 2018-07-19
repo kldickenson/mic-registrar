@@ -237,13 +237,18 @@
     >.menu {
       .menu-item {
         border-top: 0;
-        // &.menu-item-active-trail {
-        //   background: #f3f3f0;
-        // }
         a {
           color: $um-blue-lt;
           padding-left: 3em;
           text-transform: capitalize;
+        }
+        .menu-item {
+          border-top: 0;
+          a {
+            color: $um-blue-lt;
+            padding-left: 6em;
+            text-transform: capitalize;
+          }
         }
       }
     }
