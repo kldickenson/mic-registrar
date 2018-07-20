@@ -32,6 +32,9 @@ $pg-header-blue: rgb(213, 225, 241);
   .block-needhelp {
     @include breakpoint(small only) {
       margin-top: 1.5rem;
+      .location {
+        padding-bottom: 15px;
+      }
     }
 
     .block-title {
