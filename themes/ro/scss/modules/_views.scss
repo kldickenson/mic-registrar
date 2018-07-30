@@ -93,19 +93,35 @@ a.add-to-calendar {
     @extend .auto;
     margin: 0;
   }
-  .path-calendars .google-add {
+  .field-node--field-start-date {
+    .field-item {
+      font-size: 80%;
+      letter-spacing: .0125em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+  }
+  .google-add {
     @include xy-cell(2);
-    text-align: right;
+    box-shadow: none;
+    background: transparent;
+    color: $um-blue-lt;
     margin: 0;
+    text-align: right;
+    @include breakpoint(small only) {
+      margin-right: 1rem;
+    }
     &:after {
       display: none;
     }
+    &:focus,
+    &:hover {
+      color: $um-blue;
+    }
   }
-  .path-calendars {
     footer {
       margin-top: 4rem;
     }
-  }
 }
 
 // Reports
