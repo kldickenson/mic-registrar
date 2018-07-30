@@ -34,7 +34,7 @@
 // Google custom search form
 // -------------------------
 section#block-googlesearchformblock {
-  @include flex-align-self($y:bottom);
+  @include flex-align-self($y:center);
   table thead,
   table tbody,
   table tfoot,
