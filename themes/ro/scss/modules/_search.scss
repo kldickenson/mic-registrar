@@ -1,6 +1,4 @@
 .search-block-form {
-  // float: right;
-  // width: 25%;
   padding-top: 2.8rem;
   @include breakpoint(small only) {
     padding-top: .5rem;
@@ -11,9 +9,7 @@
   }
   .form-control {
     height: 1.5rem;
-    margin-bottom: 0; // position: absolute;
-    // right: 0;
-    // top: 0;
+    margin-bottom: 0;
     z-index: 10;
     &::placeholder {
       color: $black;
@@ -22,7 +18,7 @@
     }
   }
   .submit-button {
-    background: transparent; // display: inline-block;
+    background: transparent;
     border: 0;
     box-shadow: none;
     font-size: 1em;
@@ -34,6 +30,62 @@
     z-index: 20;
   }
 }
+
+// Google custom search form
+// -------------------------
+section#block-googlesearchformblock {
+  @include flex-align-self($y:bottom);
+  table thead,
+  table tbody,
+  table tfoot,
+  table,
+  .gsc-input-box {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    margin-bottom: 0;
+  }
+  input.gsc-input {
+    background: $white !important;
+    height: 1.5rem !important;
+    margin: 0 !important;
+    text-indent: 0 !important;
+  }
+  .gsc-search-box-tools .gsc-search-box .gsc-input {
+    padding: 0;
+  }
+  .gsib_a,
+  .gsib_b,
+  .gsst_b {
+    line-height: 1;
+    padding: 0;
+  }
+  .gsst_a {
+    padding-top: 5.5px;
+    background-color: $white;
+    height: auto;
+    vertical-align: middle;
+  }
+  .gsst_a .gscb_a {
+    color: $red;
+    cursor: pointer;
+  }
+  .gsc-search-button {
+    padding:0;
+  }
+  .gsc-search-button.gsc-search-button-v2 {
+    background: $white;
+    border: 0;
+    border-radius: 0;
+    height: 24px;
+    margin: 0 0 0 -1px;
+    width: 25px;
+    svg {
+      fill: $black;
+    }
+  }
+}
+
 
 // Search results page
 // -------------------
