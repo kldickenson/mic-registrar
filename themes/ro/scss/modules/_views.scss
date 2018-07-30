@@ -93,7 +93,8 @@ a.add-to-calendar {
     @extend .auto;
     margin: 0;
   }
-  .field-node--field-start-date {
+  .field-node--field-start-date,
+  .field-name-field-full-dates {
     .field-item {
       font-size: 80%;
       letter-spacing: .0125em;
