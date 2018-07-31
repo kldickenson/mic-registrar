@@ -51,7 +51,9 @@
   {{ exposed }}
   {{ attachment_before }}
 
-  {{ feed_icons }}
+  {% if rows %}
+    {{ feed_icons }}
+  {% endif %}
 
   {{ rows }}
   {{ empty }}
