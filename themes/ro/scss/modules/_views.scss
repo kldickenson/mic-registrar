@@ -57,11 +57,6 @@ a.add-to-calendar {
 
 // Calendar listing
 .path-calendars {
-  .no-results {
-    @include callout($medium-gray);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-  }
   .views-row {
     .views-field {
       span {
@@ -148,6 +143,14 @@ a.add-to-calendar {
       }
     }
   }
+}
+
+// No results
+// ----------
+.no-results {
+  @include callout($medium-gray);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
 }
 
 // Anchor menu styles
