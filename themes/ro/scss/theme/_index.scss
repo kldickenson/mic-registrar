@@ -52,7 +52,7 @@
 
       &#block-views-block-homepage-block-2 {
         @include xy-cell(4);
-        background-color: rgba($um-blue-lt, .95);
+        background-color: rgba($um-blue-md, .95);
         color: $white;
         font-family: $um-ro-condensed-font;
         height: fit-content;
@@ -147,7 +147,7 @@
     }
 
     .event-date {
-      background-color: $um-blue-lt;
+      background-color: $um-blue-md;
       color: $um-maize;
       font-size: 1rem;
       padding: .5rem 1rem;
@@ -165,15 +165,7 @@
         margin: 0;
       }
 
-      @include xy-cell(12,
-      $gutters: 0);
-      // &::after {
-      //   content: '\f0a9';
-      //   display: inline;
-      //   font-family: $um-fontawesome;
-      //   font-size: 1.125rem;
-      //   padding-left: .5rem;
-      // }
+      @include xy-cell(12,$gutters: 0);
     }
   }
 
