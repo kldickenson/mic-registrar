@@ -23,10 +23,13 @@ $local_settings = __DIR__ . "/settings.local.php";
 if (file_exists($local_settings)) {
   include $local_settings;
 }
-$settings['install_profile'] = 'standard';
 
-/** Start of debugging */
-$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
-$settings['cache']['bins']['render'] = 'cache.backend.null';
-$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
-/** End of debugging */
+/**
+ * If there is a production settings file, then include it
+ */
+$production_settings = __DIR__ . '/settings.prod.php';
+if (file_exists($production_settings)) {
+  include $production_settings;
+}
+
+$settings['install_profile'] = 'standard';
