@@ -18,7 +18,7 @@
  * {% endsandbox %}
  * </pre>
  *
- * @see https://twig.symfony.com/doc/api.html#sandbox-extension for details
+ * @see http://www.twig-project.org/doc/api.html#sandbox-extension for details
  *
  * @final
  */

@@ -1,7 +1,9 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -10,12 +12,6 @@ namespace Zend\Diactoros;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-
-use function gettype;
-use function is_float;
-use function is_numeric;
-use function is_scalar;
-use function sprintf;
 
 /**
  * HTTP response encapsulation.
@@ -41,7 +37,6 @@ class Response implements ResponseInterface
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
-        103 => 'Early Hints',
         // SUCCESS CODES
         200 => 'OK',
         201 => 'Created',
@@ -87,7 +82,7 @@ class Response implements ResponseInterface
         422 => 'Unprocessable Entity',
         423 => 'Locked',
         424 => 'Failed Dependency',
-        425 => 'Too Early',
+        425 => 'Unordered Collection',
         426 => 'Upgrade Required',
         428 => 'Precondition Required',
         429 => 'Too Many Requests',

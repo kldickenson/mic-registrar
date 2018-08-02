@@ -21,7 +21,7 @@
  * {% block content %}{% endblock %}
  * </pre>
  *
- * @see https://twig.symfony.com/doc/templates.html#horizontal-reuse for details.
+ * @see http://www.twig-project.org/doc/templates.html#horizontal-reuse for details.
  *
  * @final
  */
