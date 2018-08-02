@@ -30,9 +30,6 @@ class SearchResultsBlock extends BlockBase {
       $build['#attached']['drupalSettings']['google_cse_id'] =
         Html::escape($config->get('google_cse_id'));
 
-      // Add the Google CSE JavaScript.
-      $build['#attached']['library'][] = 'ro_search/ro_search';
-
       // Render out the search form.
       $build['search_form'] = [
         '#type' => 'inline_template',
