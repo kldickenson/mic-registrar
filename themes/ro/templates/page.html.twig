@@ -174,7 +174,7 @@
           {{ page.content }}
         </section>
       </main>
-      {% if page.sidebar_first %}
+      {% if page.sidebar_first|render|trim %}
         <div id="sidebar-first" class="sidebar cell medium-3 medium-order-1">
           {{ page.sidebar_first }}
         </div>
