@@ -45,8 +45,14 @@
     padding-top: 1.5rem;
   }
   .button {
-    background-color: transparent;
+    background-color: $um-blue;
     border: 1px solid $medium-gray;
+    color: $white;
+  }
+  .button:hover,
+  .button:focus {
+    background-color: darken($um-blue, 12%);
+    color: $white;
   }
 }
 
