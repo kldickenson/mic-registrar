@@ -46,13 +46,13 @@
   }
   .button {
     background-color: $um-blue;
-    border: 1px solid $medium-gray;
     color: $white;
   }
   .button:hover,
   .button:focus {
     background-color: darken($um-blue, 12%);
     color: $white;
+    outline: 0;
   }
 }
 
