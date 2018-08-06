@@ -78,7 +78,7 @@ function template_preprocess_views_view_ro_ical(&$variables) {
   foreach ($variables['rows'] as $row) {
     $date = date('Ymd', strtotime($row->_entity->field_start_date->value));
     $end_date = date('Ymd', strtotime($date . '+1 days'));
-    
+
     // Create events array to pass to our template.
     $variables['events'][] = [
       'start_date' => $date,

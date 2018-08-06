@@ -1,0 +1,6 @@
+name: Registrar Custom
+description: Custom code for RO.
+package: Custom
+
+type: module
+core: 8.x

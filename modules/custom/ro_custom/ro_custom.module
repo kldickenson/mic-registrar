@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Custom code for RO site.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function ro_custom_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-reports-page-reports-historic') {
+    $storage = $form_state->getStorage();
+    $exposed_input = $storage['view']->getExposedInput();
+
+    // Modify year range to properly populate on different pages.
+    if (isset($exposed_input['field_reports_academic_year_value'][1])) {
+      $exposed_input['field_reports_academic_year_value']['min'] = $exposed_input['field_reports_academic_year_value'][1];
+      $exposed_input['field_reports_academic_year_value']['max'] = $exposed_input['field_reports_academic_year_value'][2];
+    }
+
+    $form_state->setUserInput($exposed_input);
+  }
+}
