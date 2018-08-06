@@ -10,7 +10,12 @@
    */
   Drupal.behaviors.roTheme = {
     attach: function (context, settings) {
+      var $feesBlock = $('.block-views-block-tuition-fees-relationship-block-sort');
 
+      // Hide fees block if there are no results.
+      if ($feesBlock.length && $feesBlock.find('.empty').length) {
+        $('#block-views-block-tuition-fees-relationship-block-2').hide();
+      }
     }
   };
 
