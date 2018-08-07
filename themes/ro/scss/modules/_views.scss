@@ -149,7 +149,25 @@ a.add-to-calendar {
       }
     }
   }
+  .form-item-field-reports-academic-year-value-min,
+  .form-item-field-reports-academic-year-value-max {
+    width: 49%;
+
+    @include breakpoint(small only) {
+      width: 100%;
+    }
+  }
+  .form-item-field-reports-academic-year-value-min {
+    float: left;
+  }
+  .form-item-field-reports-academic-year-value-max {
+    float: right;
+  }
+  .form-actions {
+    clear: both;
+  }
 }
+
 
 // No results
 // ----------
