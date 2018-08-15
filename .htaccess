@@ -154,7 +154,7 @@ AddEncoding gzip svgz
   RewriteCond %{REQUEST_URI} !/forms/FinalExam/[^/]*\.php$
   # Deny access to any other PHP files that do not match the rules above.
   # Specifically, disallow autoload.php from being served directly.
-#  RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
+  RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
 
   # Rules to correctly serve gzip compressed CSS and JS files.
   # Requires both mod_rewrite and mod_headers to be enabled.
