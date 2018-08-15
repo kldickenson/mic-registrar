@@ -152,6 +152,7 @@ AddEncoding gzip svgz
   RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
   # Allow for my_custom_directory folder to run php
   RewriteCond %{REQUEST_URI} !/forms/FinalExam/[^/]*\.php$
+  RewriteCond %{REQUEST_URI} !/forms/meettogether/[^/]*\.php$
   # Deny access to any other PHP files that do not match the rules above.
   # Specifically, disallow autoload.php from being served directly.
   RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
