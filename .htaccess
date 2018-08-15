@@ -150,9 +150,11 @@ AddEncoding gzip svgz
   # Copy and adapt this rule to directly execute PHP files in contributed or
   # custom modules or to run another PHP application in the same directory.
   RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
+  # Allow for my_custom_directory folder to run php
+  RewriteCond %{REQUEST_URI} !/forms/FinalExam/[^/]*\.php$
   # Deny access to any other PHP files that do not match the rules above.
   # Specifically, disallow autoload.php from being served directly.
-  RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
+#  RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
 
   # Rules to correctly serve gzip compressed CSS and JS files.
   # Requires both mod_rewrite and mod_headers to be enabled.
