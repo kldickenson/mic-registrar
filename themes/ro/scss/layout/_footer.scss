@@ -28,6 +28,14 @@
       margin-bottom: 0;
     }
 
+    &.credit {
+      font-size: 0.75rem;
+    }
+
+    &.copyright {
+      margin-bottom: 0;
+    }
+
     &.footer-site-name {
       color: $um-maize;
       font-size: 1rem;
