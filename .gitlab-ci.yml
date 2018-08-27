@@ -5,12 +5,22 @@ before_script:
 
 stages:
   - stage
+  - prod
 
-deploy:
+deploy_stage:
   stage: stage
 
   only:
-  - develop
+    - develop
 
   script:
-  - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh develop"
+    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh develop"
+
+deploy_prod:
+  stage: prod
+
+  only:
+    - master
+
+  script:
+    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh master"
