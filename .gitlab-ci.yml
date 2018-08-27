@@ -1,0 +1,19 @@
+image: ubuntu:18.04
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq ssh
+  - apt-get install -y -qq sshpass
+
+stages:
+  - stage
+
+deploy:
+  stage: stage
+
+  only:
+  - develop
+
+  script:
+  - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh develop"
+  
