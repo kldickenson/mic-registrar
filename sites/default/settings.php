@@ -25,6 +25,14 @@ if (file_exists($local_settings)) {
 }
 
 /**
+ * If there is a stage settings file, then include it
+ */
+$stage_settings = __DIR__ . '/settings.stage.php';
+if (file_exists($stage_settings)) {
+  include $stage_settings;
+}
+
+/**
  * If there is a production settings file, then include it
  */
 $production_settings = __DIR__ . '/settings.prod.php';
