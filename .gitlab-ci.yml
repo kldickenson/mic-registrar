@@ -4,23 +4,22 @@ before_script:
   - apt-get install -y -qq sshpass
 
 stages:
-  - stage
-  - prod
+  - deploy
 
 deploy_stage:
-  stage: stage
+  stage: deploy
 
   only:
     - develop
 
   script:
-    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh develop"
+    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH_STAGE}; ./deploy.sh develop"
 
 deploy_prod:
-  stage: prod
+  stage: deploy
 
   only:
     - master
 
   script:
-    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH}; ./deploy.sh master"
+    - sshpass -p $USER_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${SITE_PATH_PROD}; ./deploy.sh master"
