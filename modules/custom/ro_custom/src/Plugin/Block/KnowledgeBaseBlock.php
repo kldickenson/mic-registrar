@@ -20,16 +20,23 @@ class KnowledgeBaseBlock extends BlockBase {
    */
   public function build() {
     $answer = \Drupal::request()->get('ansid');
+    $category = \Drupal::request()->get('category');
 
     if ($answer) {
       $url = 'https://umich-regoff.custhelp.com/app/answers/detail/a_id/' . HTML::escape($answer);
+    }
+    elseif ($category) {
+      $url = 'https://umich-regoff.custhelp.com/app/answers/list/c/' . HTML::escape($category);
     }
     else {
       $url = 'https://umich-regoff.custhelp.com/app/answers/list';
     }
 
     return [
-      '#cache' => ['contexts' => ['url.query_args:ansid']],
+      '#cache' => ['contexts' => [
+        'url.query_args:ansid',
+        'url.query_args:category',
+      ]],
       '#type' => 'inline_template',
       '#template' => '<iframe frameborder="0" height="1500" id="rnFrame" name="FRAME1" scrolling="no" src="' . $url . '" width="100%"></iframe>',
     ];
