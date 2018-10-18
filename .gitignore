@@ -10,6 +10,7 @@ pantheon.upstream.yml
 # Pantheon commits a settings.php for environment-specific settings.
 # Place local settings in settings.local.php
 sites/*/settings.local.php
+sites/default/settings.php
 
 # Note that services.local.yml is not loaded by default. If you would like
 # to use this file add the following to your settings.local.php file:
@@ -53,6 +54,7 @@ Thumbs.db
 # Vim generated files #
 ######################
 *.un~
+.idea
 
 # SASS #
 ##########
@@ -60,4 +62,3 @@ Thumbs.db
 
 # Things in the core directory that Drupal 8 commits in the repository.
 !core/**/*.gz
-
