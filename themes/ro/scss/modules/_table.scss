@@ -14,4 +14,9 @@ table {
   &.cols-0 {
     @extend .table-scroll;
   }
+
+  &.curriculum tr > td:first-child {
+    width: 70%;
+  }
 }
+
