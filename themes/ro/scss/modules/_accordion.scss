@@ -4,6 +4,11 @@
 .accordion {
   margin-bottom: 2rem;
 }
+.accordion.sticky .accordion-title {
+  background-color: $accordion-background;
+  position: sticky;
+  top: 0;
+}
 .accordion-title {
   font-family: $um-ro-utility-font;
   font-weight: 700;
