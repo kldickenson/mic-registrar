@@ -9,6 +9,10 @@
   position: sticky;
   top: 0;
 }
+// Logged in with admin bar tweak.
+.toolbar-tray-open .accordion.sticky .accordion-title {
+  top: 75px;
+}
 .accordion-title {
   font-family: $um-ro-utility-font;
   font-weight: 700;
