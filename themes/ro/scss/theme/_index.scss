@@ -25,6 +25,10 @@
     padding: 2rem 0;
     position: static;
 
+    &.flex-center {
+      justify-content: center;
+    }
+
     section {
       position: static;
 
