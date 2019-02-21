@@ -158,7 +158,7 @@ class EditorIconDialog extends FormBase {
       '#type' => 'select',
       '#title' => $this->t('Animation'),
       '#description' => $this->t('Use spin to get any icon to rotate, and pulse to have it rotate with 8 steps. Works especially well with fa-spinner & everything in the @iconLink.', [
-        '@iconLink' => Link::fromTextAndUrl($this->t('spinner icons category'), Url::fromUri('https://fontawesome.com/icons?c=spinner-icons'))->toString(),
+        '@iconLink' => Link::fromTextAndUrl($this->t('spinner icons category'), Url::fromUri('https://fontawesome.com/icons?d=gallery&c=spinners'))->toString(),
       ]),
       '#options' => [
         '' => $this->t('None'),
@@ -188,7 +188,7 @@ class EditorIconDialog extends FormBase {
       '#disabled' => $configuration_settings->get('method') == 'webfonts',
       '#title' => $this->t('Power Transforms'),
       '#description' => $this->t('See @iconLink for additional information on Power Transforms. Note that these transforms only work with the SVG with JS version of Font Awesome and are disabled for Webfonts. See the @adminLink to set your version of Font Awesome.', [
-        '@iconLink' => Link::fromTextAndUrl($this->t('the Font Awesome `How to use` guide'), Url::fromUri('https://fontawesome.com/how-to-use/svg-with-js'))->toString(),
+        '@iconLink' => Link::fromTextAndUrl($this->t('the Font Awesome `Power Transforms` guide'), Url::fromUri('https://fontawesome.com/how-to-use/on-the-web/styling/power-transforms'))->toString(),
         '@adminLink' => Link::createFromRoute($this->t('admin page'), 'fontawesome.admin_settings')->toString(),
       ]),
     ];
@@ -344,7 +344,7 @@ class EditorIconDialog extends FormBase {
     if (!is_numeric($transformSettings['value'])) {
       $form_state->setError($element, t("Invalid value for Font Awesome Power Transform %value. Please see @iconLink for information on correct values.", [
         '%value' => $value,
-        '@iconLink' => Link::fromTextAndUrl(t('the Font Awesome icon list'), Url::fromUri('https://fontawesome.com/how-to-use/svg-with-js'))->toString(),
+        '@iconLink' => Link::fromTextAndUrl(t('the Font Awesome guide to Power Transforms'), Url::fromUri('https://fontawesome.com/how-to-use/on-the-web/styling/power-transforms'))->toString(),
       ]));
     }
   }

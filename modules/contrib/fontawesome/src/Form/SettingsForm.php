@@ -84,7 +84,7 @@ class SettingsForm extends ConfigFormBase {
       ],
       '#default_value' => $fontawesome_config->get('method'),
       '#description' => $this->t('This setting controls the way Font Awesome works. SVG with JS is the modern, easy, and powerful version with the most backwards compatibility. Web Fonts with CSS is the classic Font Awesome icon method that you have seen in earlier versions of Font Awesome. We recommend SVG with JS. Please note that the Webfonts with CSS version does not allow backwards compatibility with Font Awesome 4. That means you will need to check your code base to be certain that the icons are all updated to work with version 5. See @gettingStartedLink for more information.', [
-        '@gettingStartedLink' => Link::fromTextAndUrl($this->t('the Font Awesome guide'), Url::fromUri('https://fontawesome.com/get-started'))->toString(),
+        '@gettingStartedLink' => Link::fromTextAndUrl($this->t('the Font Awesome guide'), Url::fromUri('https://fontawesome.com/start'))->toString(),
       ]),
     ];
 
@@ -92,7 +92,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Allow CSS pseudo-elements?'),
       '#description' => $this->t('If you do not want to add icons directly in code, you can add them through CSS pseudo-elements. Font Awesome has leveraged the ::before pseudo-element to add icons to a page since the very beginning. For more information on how to use pseudo-elements, see the @pseudoElementsLink. Note that this feature is always available with the Webfonts version of Font Awesome. If you turn this feature on for SVG with JS, it will slow your site down noticeably.', [
-        '@pseudoElementsLink' => Link::fromTextAndUrl($this->t('Font Awesome guide to pseudo-elements'), Url::fromUri('https://fontawesome.com/how-to-use/web-fonts-with-css#pseudo-elements'))->toString(),
+        '@pseudoElementsLink' => Link::fromTextAndUrl($this->t('Font Awesome guide to pseudo-elements'), Url::fromUri('https://fontawesome.com/how-to-use/on-the-web/advanced/css-pseudo-elements'))->toString(),
       ]),
       '#default_value' => $fontawesome_config->get('allow_pseudo_elements'),
     ];
@@ -128,19 +128,44 @@ class SettingsForm extends ConfigFormBase {
       ],
     ];
 
+    $form['partial'] = [
+      '#type' => 'details',
+      '#open' => FALSE,
+      '#title' => $this->t('Partial file configuration'),
+      '#description' => $this->t('By default, Font Awesome loads all of the icons. However, you can choose to load only some of the icon files if you only want a subset of the available icons. This method can result in reduced file size. These files will be assumed to exist in the same directory as the parent <i>all.js/all.css</i> file.'),
+      'use_solid_file' => [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Load solid icons'),
+        '#description' => $this->t('Checking this box will cause the Font Awesome library to load the file containing the solid icon declarations (<i>solid.js/solid.css</i>)'),
+        '#default_value' => is_null($fontawesome_config->get('use_solid_file')) === TRUE ? TRUE : $fontawesome_config->get('use_solid_file'),
+      ],
+      'use_regular_file' => [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Load regular icons'),
+        '#description' => $this->t('Checking this box will cause the Font Awesome library to load the file containing the regular icon declarations (<i>regular.js/regular.css</i>)'),
+        '#default_value' => is_null($fontawesome_config->get('use_regular_file')) === TRUE ? TRUE : $fontawesome_config->get('use_regular_file'),
+      ],
+      'use_light_file' => [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Load light icons'),
+        '#description' => $this->t('Checking this box will cause the Font Awesome library to load the file containing the light icon declarations (<i>light.js/light.css</i>). Note that this a Pro-only feature.'),
+        '#default_value' => is_null($fontawesome_config->get('use_light_file')) === TRUE ? TRUE : $fontawesome_config->get('use_light_file'),
+      ],
+      'use_brands_file' => [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Load brand icons'),
+        '#description' => $this->t('Checking this box will cause the Font Awesome library to load the file containing the brands icon declarations (<i>brands.js/brands.css</i>)'),
+        '#default_value' => is_null($fontawesome_config->get('use_brands_file')) === TRUE ? TRUE : $fontawesome_config->get('use_brands_file'),
+      ],
+    ];
+
     $form['shim'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Version 4 Backwards Compatibility'),
       '#description' => $this->t('Version 5 of Font Awesome has some changes which require modifications to the way you declare many of your icons. The settings below are designed to ease that transition. See @upgradingLink for more information.', [
-        '@upgradingLink' => Link::fromTextAndUrl($this->t('the Font Awesome guide to upgrading version 4 to version 5'), Url::fromUri('https://fontawesome.com/how-to-use/upgrading-from-4'))->toString(),
+        '@upgradingLink' => Link::fromTextAndUrl($this->t('the Font Awesome guide to upgrading version 4 to version 5'), Url::fromUri('https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4'))->toString(),
       ]),
-      // Webfonts with CSS does not support shims.
-      '#states' => [
-        'visible' => [
-          ':input[name="method"]' => ['value' => 'svg'],
-        ],
-      ],
       'use_shim' => [
         '#type' => 'checkbox',
         '#title' => $this->t('Use version 4 shim file?'),
@@ -166,21 +191,6 @@ class SettingsForm extends ConfigFormBase {
       ],
     ];
 
-    $form['no_shim'] = [
-      '#type' => 'details',
-      '#open' => TRUE,
-      '#title' => $this->t('Version 4 Backwards Compatibility'),
-      '#description' => $this->t('<strong>The Webfonts with CSS version of Font Awesome does not support backwards compatibility with Font Awesome 4.0.</strong> If you are using Webfonts, please make certain that the icons in your code base are updated to work with the 5.0 version of Font Awesome. See @upgradingLink and @webfontsLink for more information.', [
-        '@upgradingLink' => Link::fromTextAndUrl($this->t('the Font Awesome guide to upgrading version 4 to version 5'), Url::fromUri('https://fontawesome.com/how-to-use/upgrading-from-4'))->toString(),
-        '@webfontsLink' => Link::fromTextAndUrl($this->t('the Font Awesome Webfonts guide'), Url::fromUri('https://fontawesome.com/get-started/web-fonts-with-css'))->toString(),
-      ]),
-      '#states' => [
-        'visible' => [
-          ':input[name="method"]' => ['value' => 'webfonts'],
-        ],
-      ],
-    ];
-
     return parent::buildForm($form, $form_state);
   }
 
@@ -202,22 +212,28 @@ class SettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
 
+    // Load the fontawesome libraries so we can use its definitions here.
+    $fontawesome_library = $this->libraryDiscovery->getLibraryByName('fontawesome', 'fontawesome.svg');
+
     // Clear the library cache so we use the updated information.
     $this->libraryDiscovery->clearCachedDefinitions();
 
+    // Set external file defaults.
+    $default_location = 'https://use.fontawesome.com/releases/v' . $fontawesome_library['version'] . '/';
+    $default_svg_location = $default_location . 'js/all.js';
+    $default_webfonts_location = $default_location . 'css/all.css';
+    $default_svg_shimfile_location = $default_location . 'js/v4-shims.js';
+    $default_webfonts_shimfile_location = $default_location . 'css/v4-shims.css';
+
     // Use default values if CDN is checked and the locations are blank.
     if ($values['use_cdn']) {
-      if (empty($values['external_svg_location']) || $values['external_svg_location'] == 'https://use.fontawesome.com/releases/v5.0.13/css/all.css' || $values['external_svg_location'] == 'https://use.fontawesome.com/releases/v5.0.13/js/all.js') {
+      if (empty($values['external_svg_location']) || $values['external_svg_location'] == $default_webfonts_location || $values['external_svg_location'] == $default_svg_location) {
         // Choose the default depending on method.
-        if ($values['method'] == 'webfonts') {
-          $values['external_svg_location'] = 'https://use.fontawesome.com/releases/v5.0.13/css/all.css';
-        }
-        else {
-          $values['external_svg_location'] = 'https://use.fontawesome.com/releases/v5.0.13/js/all.js';
-        }
+        $values['external_svg_location'] = ($values['method'] == 'webfonts') ? $default_webfonts_location : $default_svg_location;
       }
-      if ($values['use_shim'] && empty($values['external_shim_location'])) {
-        $values['external_shim_location'] = 'https://use.fontawesome.com/releases/v5.0.13/js/v4-shims.js';
+      if ($values['use_shim'] && (empty($values['external_shim_location']) || $values['external_shim_location'] == $default_webfonts_shimfile_location || $values['external_shim_location'] == $default_svg_shimfile_location)) {
+        // Choose the default depending on method.
+        $values['external_shim_location'] = ($values['method'] == 'webfonts') ? $default_webfonts_shimfile_location : $default_svg_shimfile_location;
       }
     }
 
@@ -230,6 +246,10 @@ class SettingsForm extends ConfigFormBase {
       ->set('use_shim', $values['use_shim'])
       ->set('external_shim_location', (string) $values['external_shim_location'])
       ->set('allow_pseudo_elements', $values['allow_pseudo_elements'])
+      ->set('use_solid_file', $values['use_solid_file'])
+      ->set('use_regular_file', $values['use_regular_file'])
+      ->set('use_light_file', $values['use_light_file'])
+      ->set('use_brands_file', $values['use_brands_file'])
       ->save();
 
     parent::submitForm($form, $form_state);

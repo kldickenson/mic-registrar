@@ -10,6 +10,7 @@ use Drupal\Core\Link;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\TypedData\Plugin\DataType\ItemList;
 
 /**
  * Implements hook_help().
@@ -19,7 +20,7 @@ function fontawesome_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.fontawesome':
       return '<p><i class="far fa-font-awesome fa-2x"></i> ' . t('<a href=":fontawesome_url">Font Awesome</a> is an iconic font and CSS toolkit. Font Awesome gives you scalable vector icons that can instantly be customized — size, color, drop shadow, and anything that can be done with the power of CSS. For more information on how to use Font Awesome, see the <a href=":fontawesome_examples_page">Font Awesome Examples page</a>.', [
         ':fontawesome_url' => 'https://fontawesome.com',
-        ':fontawesome_examples_page' => 'https://fontawesome.com/how-to-use/svg-with-js',
+        ':fontawesome_examples_page' => 'https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use',
       ]) . '</p>';
   }
 }
@@ -36,32 +37,116 @@ function fontawesome_library_info_alter(&$libraries, $extension) {
     // Have to modify the library if the user is using a CDN.
     if ($configuration_settings->get('use_cdn')) {
 
-      // Handle SVG method.
-      if (isset($libraries['fontawesome.svg'])) {
-        // Modify the library.
-        $librarySettings = array_shift($libraries['fontawesome.svg']['js']);
-        $libraries['fontawesome.svg']['js'] = [
-          $configuration_settings->get('external_svg_location') => $librarySettings,
-        ];
+      // First check if we're using everything.
+      if (isset($libraries['fontawesome.' . $configuration_settings->get('method')])) {
+        _fontawesome_modify_library($libraries, NULL, $configuration_settings->get('method'), $configuration_settings->get('external_svg_location'));
+      }
 
-        // Modify the shim as well.
-        if ($configuration_settings->get('use_shim')) {
-          $librarySettings = array_shift($libraries['fontawesome.svg.shim']['js']);
-          $libraries['fontawesome.svg.shim']['js'] = [
-            $configuration_settings->get('external_shim_location') => $librarySettings,
-          ];
+      // Determine the base for the CDN.
+      $cdnComponents = parse_url($configuration_settings->get('external_svg_location'));
+      $cdnComponents['path'] = explode('/', $cdnComponents['path']);
+      unset($cdnComponents['path'][count($cdnComponents['path']) - 1]);
+      $cdnComponents['path'] = implode('/', $cdnComponents['path']) . '/';
+
+      if (isset($libraries['fontawesome.' . $configuration_settings->get('method') . '.base'])) {
+        // Modify settings for the base file.
+        $cdnBase = $cdnComponents;
+        $cdnBase['path'] .= 'fontawesome.' . ($configuration_settings->get('method') == 'webfonts' ? 'css' : 'js');
+        _fontawesome_modify_library($libraries, 'base', $configuration_settings->get('method'), _fontawesome_unparse_url($cdnBase));
+      }
+
+      // Modify settings for individual included files.
+      foreach (['solid', 'regular', 'light', 'brands'] as $libraryType) {
+        if (isset($libraries['fontawesome.' . $configuration_settings->get('method') . '.' . $libraryType])) {
+          $cdnBase = $cdnComponents;
+          $cdnBase['path'] .= $libraryType . '.' . ($configuration_settings->get('method') == 'webfonts' ? 'css' : 'js');
+          _fontawesome_modify_library($libraries, $libraryType, $configuration_settings->get('method'), _fontawesome_unparse_url($cdnBase));
         }
       }
-      // Handle webfonts method.
-      if (isset($libraries['fontawesome.webfonts'])) {
-        // Modify the library.
-        $librarySettings = array_shift($libraries['fontawesome.webfonts']['css']['theme']);
-        $libraries['fontawesome.webfonts']['css']['theme'] = [
-          $configuration_settings->get('external_svg_location') => $librarySettings,
-        ];
+
+      // Modify the shim as well.
+      if (isset($libraries['fontawesome.' . $configuration_settings->get('method') . '.shim'])) {
+        _fontawesome_modify_library($libraries, 'shim', $configuration_settings->get('method'), $configuration_settings->get('external_shim_location'));
+      }
+    }
+
+    // Allow pseudo-elements in JS if selected.
+    if ($configuration_settings->get('allow_pseudo_elements') && $configuration_settings->get('method') == 'svg') {
+      // Modify the libraries to add pseudo elements tag.
+      foreach ($libraries as $key => &$values) {
+        if (substr($key, 0, 15) == 'fontawesome.svg') {
+          $librarySettings = reset($values['js']);
+          $librarySource = key($values['js']);
+          // Font Awesome requires this script tag to enable pseudo elements.
+          $librarySettings['attributes'] = [
+            'data-search-pseudo-elements' => TRUE,
+          ];
+          $values['js'][$librarySource] = $librarySettings;
+        }
       }
     }
   }
+}
+
+/**
+ * Modifies library inclusions to use CDN files when necessary.
+ *
+ * @param array $libraries
+ *   The libraries inclusion array.
+ * @param string $librarySuffix
+ *   The suffix of the library being modified.
+ * @param string $type
+ *   The type of library we are modifying.
+ * @param string $cdnLocation
+ *   The location of the CDN file being used.
+ */
+function _fontawesome_modify_library(array &$libraries, $librarySuffix, $type, $cdnLocation) {
+  // Determine the name of the library.
+  $libraryName = 'fontawesome.' . $type;
+  if (!empty($librarySuffix)) {
+    $libraryName .= '.' . $librarySuffix;
+  }
+
+  // Handle SVG method.
+  if ($type == 'svg') {
+    $librarySettings = array_shift($libraries[$libraryName]['js']);
+    $libraries[$libraryName]['js'] = [
+      $cdnLocation => $librarySettings,
+    ];
+  }
+  // Handle WebFonts method.
+  elseif ($type == 'webfonts') {
+    $librarySettings = array_shift($libraries[$libraryName]['css']['theme']);
+    $libraries[$libraryName]['css']['theme'] = [
+      $cdnLocation => $librarySettings,
+    ];
+  }
+}
+
+/**
+ * Unparses a CDN URL for use with individual Font Awesome file inclusions.
+ *
+ * @param array $parsed
+ *   Array containing URL parsed data.
+ *
+ * @return string
+ *   The unparsed URL for the CDN.
+ */
+function _fontawesome_unparse_url(array $parsed) {
+  $get = function ($key) use ($parsed) {
+    return isset($parsed[$key]) ? $parsed[$key] : NULL;
+  };
+
+  $pass = $get('pass');
+  $user = $get('user');
+  $userinfo = $pass !== NULL ? "$user:$pass" : $user;
+  $port = $get('port');
+  $scheme = $get('scheme');
+  $query = $get('query');
+  $fragment = $get('fragment');
+  $authority = ($userinfo !== NULL ? "$userinfo@" : '') . $get('host') . ($port ? ":$port" : '');
+
+  return (strlen($scheme) ? "$scheme:" : '') . (strlen($authority) ? "//$authority" : '') . $get('path') . (strlen($query) ? "?$query" : '') . (strlen($fragment) ? "#$fragment" : '');
 }
 
 /**
@@ -122,30 +207,36 @@ function fontawesome_page_attachments(array &$page) {
 
   // Throw error if library file not found.
   if (!fontawesome_check_installed()) {
-    drupal_set_message(t('The Font Awesome library could not be found. Please verify Font Awesome is installed correctly or that the CDN has been activated and properly configured. Please see the @adminPage and the Font Awesome module README file for more details.', [
+    \Drupal::messenger()->addWarning(t('The Font Awesome library could not be found. Please verify Font Awesome is installed correctly or that the CDN has been activated and properly configured. Please see the @adminPage and the Font Awesome module README file for more details.', [
       '@adminPage' => Link::createFromRoute(t('admin page'), 'fontawesome.admin_settings')->toString(),
-    ]), 'warning');
+    ]));
     return;
   }
 
-  // Attach the main library.
-  if ($configuration_settings->get('method') == 'webfonts') {
-    // Webfonts method.
-    $page['#attached']['library'][] = 'fontawesome/fontawesome.webfonts';
+  // First check if we're using everything.
+  if (is_null($configuration_settings->get('use_solid_file')) === TRUE || ($configuration_settings->get('use_solid_file') && $configuration_settings->get('use_regular_file') && $configuration_settings->get('use_light_file') && $configuration_settings->get('use_brands_file'))) {
+    // Attach the main library.
+    $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method');
   }
+  // Else we attach the libraries piecemeal.
   else {
-    // Allow pseudo-elements in JS if selected.
-    if ($configuration_settings->get('allow_pseudo_elements')) {
-      $page['#attached']['library'][] = 'fontawesome/fontawesome.svg.pseudoElements';
+    if ($configuration_settings->get('use_solid_file')) {
+      $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method') . '.solid';
     }
-
-    // SVG method.
-    $page['#attached']['library'][] = 'fontawesome/fontawesome.svg';
-
-    // Attach the shim file if needed.
-    if ($configuration_settings->get('use_shim')) {
-      $page['#attached']['library'][] = 'fontawesome/fontawesome.svg.shim';
+    if ($configuration_settings->get('use_regular_file')) {
+      $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method') . '.regular';
     }
+    if ($configuration_settings->get('use_light_file')) {
+      $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method') . '.light';
+    }
+    if ($configuration_settings->get('use_brands_file')) {
+      $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method') . '.brands';
+    }
+  }
+
+  // Attach the shim file if needed.
+  if ($configuration_settings->get('use_shim')) {
+    $page['#attached']['library'][] = 'fontawesome/fontawesome.' . $configuration_settings->get('method') . '.shim';
   }
 }
 
@@ -300,7 +391,7 @@ function fontawesome_icon_bundles() {
  */
 function fontawesome_get_metadata_filepath() {
   // Attempt to load the icons from the local library's metadata if possible.
-  $metadataFile = drupal_realpath(DRUPAL_ROOT . '/libraries/fontawesome/advanced-options/metadata/icons.yml');
+  $metadataFile = \Drupal::service('file_system')->realpath(DRUPAL_ROOT . '/libraries/fontawesome/metadata/icons.yml');
   // If we can't load the local file, use the included module icons file.
   if (!file_exists($metadataFile)) {
     $metadataFile = drupal_get_path('module', 'fontawesome') . '/metadata/icons.yml';
@@ -315,27 +406,36 @@ function fontawesome_get_metadata_filepath() {
  *   Array containing icons.
  */
 function fontawesome_extract_icons() {
-  $icons = [];
+  // Check for cached icons.
+  if (!$icons = \Drupal::cache('data')->get('fontawesome.iconlist')) {
 
-  // Parse the metadata file and use it to generate the icon list.
-  foreach (Yaml::parse(file_get_contents(fontawesome_get_metadata_filepath())) as $name => $icon) {
-    // Determine the icon type - brands behave differently.
-    $type = 'solid';
-    foreach ($icon['styles'] as $style) {
-      if ($style == 'brands') {
-        $type = 'brands';
-        break;
+    // Parse the metadata file and use it to generate the icon list.
+    $icons = [];
+    foreach (Yaml::parse(file_get_contents(fontawesome_get_metadata_filepath())) as $name => $icon) {
+      // Determine the icon type - brands behave differently.
+      $type = 'solid';
+      foreach ($icon['styles'] as $style) {
+        if ($style == 'brands') {
+          $type = 'brands';
+          break;
+        }
       }
+      $icons[$name] = [
+        'name' => $name,
+        'type' => $type,
+        'label' => $icon['label'],
+        'styles' => $icon['styles'],
+      ];
     }
-    $icons[$name] = [
-      'name' => $name,
-      'type' => $type,
-      'label' => $icon['label'],
-      'styles' => $icon['styles'],
-    ];
+
+    // Cache the icons array.
+    \Drupal::cache('data')->set('fontawesome.iconlist', $icons, strtotime('+1 week'), ['fontawesome', 'iconlist']);
+  }
+  else {
+    $icons = $icons->data;
   }
 
-  return $icons;
+  return (array) $icons;
 }
 
 /**
@@ -378,17 +478,19 @@ function fontawesome_entity_presave(EntityInterface $entity) {
   if ($entity instanceof ContentEntityInterface) {
     // Loop over the fields.
     foreach ($entity->getFields() as $fields) {
-      // If this is a text field (uses an editor).
-      if (in_array($fields->getFieldDefinition()->getType(), [
-        'text',
-        'text_long',
-        'text_with_summary',
-      ])) {
-        foreach ($fields as $field) {
-          // Find and replace SVG strings with original icon HTML.
-          $fieldValue = $field->getValue();
-          $fieldValue['value'] = preg_replace('%<svg .*?class="svg-inline--fa.*?<\/svg><!--\s?(.*?)\s?-->%', '$1', $fieldValue['value']);
-          $field->setValue($fieldValue);
+      if ($fields instanceof ItemList) {
+        // If this is a text field (uses an editor).
+        if (in_array($fields->getFieldDefinition()->getType(), [
+          'text',
+          'text_long',
+          'text_with_summary',
+        ])) {
+          foreach ($fields as $field) {
+            // Find and replace SVG strings with original icon HTML.
+            $fieldValue = $field->getValue();
+            $fieldValue['value'] = preg_replace('%<svg .*?class="svg-inline--fa.*?<\/svg><!--\s?(.*?)\s?-->%', '$1', $fieldValue['value']);
+            $field->setValue($fieldValue);
+          }
         }
       }
     }

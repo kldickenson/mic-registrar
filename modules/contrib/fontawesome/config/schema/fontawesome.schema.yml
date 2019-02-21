@@ -23,3 +23,15 @@ fontawesome.settings:
     allow_pseudo_elements:
       type: boolean
       label: 'Allow CSS pseudo elements with webfonts'
+    use_solid_file:
+      type: boolean
+      label: 'Use the Font Awesome solid icons file'
+    use_regular_file:
+      type: boolean
+      label: 'Use the Font Awesome regular icons file'
+    use_light_file:
+      type: boolean
+      label: 'Use the Font Awesome light icons file'
+    use_brands_File:
+      type: boolean
+      label: 'Use the Font Awesome brands icons file'

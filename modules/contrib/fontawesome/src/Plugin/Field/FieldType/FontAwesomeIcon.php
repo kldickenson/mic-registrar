@@ -18,6 +18,9 @@ use Drupal\Core\TypedData\DataDefinition;
  *   description = @Translation("A Font Awesome icon"),
  *   default_formatter = "fontawesome_icon_formatter",
  *   default_widget = "fontawesome_icon_widget",
+ *   serialized_property_names = {
+ *     "settings"
+ *   }
  * )
  */
 class FontAwesomeIcon extends FieldItemBase implements FieldItemInterface {

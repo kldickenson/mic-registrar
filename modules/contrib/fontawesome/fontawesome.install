@@ -26,19 +26,51 @@ function fontawesome_requirements($phase) {
     if (fontawesome_check_installed()) {
       // Get the version.
       if ($configuration_settings->get('method') == 'webfonts') {
-        $version = 'Webfonts with CSS';
+        $version = t('Webfonts with CSS');
       }
       elseif ($configuration_settings->get('use_cdn')) {
-        $version = 'CDN SVG with JS';
+        $version = t('CDN SVG with JS');
       }
       else {
-        $version = 'SVG with JS';
+        $version = t('SVG with JS');
       }
+
+      // First check if we're using everything.
+      if (is_null($configuration_settings->get('use_solid_file')) === TRUE || ($configuration_settings->get('use_solid_file') && $configuration_settings->get('use_regular_file') && $configuration_settings->get('use_light_file') && $configuration_settings->get('use_brands_file'))) {
+        // Attach the main library.
+        $loadedMessages = [
+          t('All icons loaded'),
+        ];
+      }
+      // Else we attach the libraries piecemeal.
+      else {
+        $loadedMessages = [];
+        if ($configuration_settings->get('use_solid_file')) {
+          $loadedMessages[] = t('Solid icons loaded');
+        }
+        if ($configuration_settings->get('use_regular_file')) {
+          $loadedMessages[] = t('Regular icons loaded');
+        }
+        if ($configuration_settings->get('use_light_file')) {
+          $loadedMessages[] = t('Light icons loaded');
+        }
+        if ($configuration_settings->get('use_brands_file')) {
+          $loadedMessages[] = t('Brands icons loaded');
+        }
+      }
+
       $requirements['fontawesome']['severity'] = REQUIREMENT_OK;
       $requirements['fontawesome']['value'] = t('Font Awesome 5 library is installed. Using %version version. (@moreInfoLink)', [
         '%version' => $version,
         '@moreInfoLink' => Link::createFromRoute(t('more information'), 'fontawesome.admin_settings')->toString(),
       ]);
+      $requirements['fontawesome']['description'] = [
+        '#theme' => 'item_list',
+        '#items' => $loadedMessages,
+        '#title' => '',
+        '#list_type' => 'ul',
+        '#attributes' => [],
+      ];
     }
     else {
       $requirements['fontawesome']['severity'] = REQUIREMENT_ERROR;

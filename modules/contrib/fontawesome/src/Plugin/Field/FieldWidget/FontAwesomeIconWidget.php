@@ -68,6 +68,7 @@ class FontAwesomeIconWidget extends WidgetBase implements ContainerFactoryPlugin
     $element['icon_name'] = [
       '#type' => 'textfield',
       '#title' => $cardinality == 1 ? $this->fieldDefinition->getLabel() : $this->t('Icon Name'),
+      '#required' => $element['#required'],
       '#size' => 50,
       '#field_prefix' => 'fa-',
       '#default_value' => $items[$delta]->get('icon_name')->getValue(),
