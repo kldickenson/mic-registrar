@@ -1,0 +1,5 @@
+name: 'eDiploma Degree Verification'
+type: module
+description: 'eDiploma degree verification from msutter'
+core: 8.x
+package: 'Custom'
