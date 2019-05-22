@@ -149,6 +149,9 @@ class EDiplomaBlock extends BlockBase {
 
     return [
       '#type' => 'inline_template',
+      '#cache' => [
+        'max-age' => 0,
+      ],
       '#template' => '<style>' . $msutter_css . '</style>' . $msutter_html,
     ];
   }
