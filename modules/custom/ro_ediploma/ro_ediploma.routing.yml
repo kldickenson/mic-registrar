@@ -1,0 +1,10 @@
+
+ro_ediploma.e_diploma_controller_ediploma:
+  path: '/graduation/diplomas/degree-verification'
+  defaults:
+    _controller: '\Drupal\ro_ediploma\Controller\EDiplomaController::ediploma'
+    _title: 'EDiplomaController'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: 'TRUE'
