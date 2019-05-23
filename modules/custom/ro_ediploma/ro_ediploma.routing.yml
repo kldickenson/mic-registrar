@@ -3,7 +3,7 @@ ro_ediploma.e_diploma_controller_ediploma:
   path: '/graduation/diplomas/degree-verification'
   defaults:
     _controller: '\Drupal\ro_ediploma\Controller\EDiplomaController::ediploma'
-    _title: 'EDiplomaController'
+    _title: 'Degree Verification'
   requirements:
     _permission: 'access content'
   options:
