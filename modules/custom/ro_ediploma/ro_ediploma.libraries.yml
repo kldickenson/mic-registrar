@@ -1,0 +1,5 @@
+ro-ediploma:
+  version: 1.x
+  css:
+    theme:
+      css/ro_ediploma.css: {}
