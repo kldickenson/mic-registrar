@@ -17,7 +17,7 @@ class EDiplomaController extends ControllerBase {
    */
   public function ediploma() {
     return [
-      '#markup' => '<div class="degree-verification-title">Degree Verification</div>',
+      '#markup' => '<p class="degree-verification-title">Degree Verification</p>',
       '#attached' => ['library' => ['ro_ediploma/ro-ediploma']],
       '#cache' => ['max-age' => 0],
     ];
