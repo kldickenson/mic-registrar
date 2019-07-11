@@ -4,4 +4,4 @@ services:
   appserver:
     xdebug: true
 config:
-  drush: global:8.1.12
+  drush: 8.1.15
