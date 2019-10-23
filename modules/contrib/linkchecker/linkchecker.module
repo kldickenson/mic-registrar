@@ -1,0 +1,432 @@
+<?php
+
+/**
+ * @file
+ * This module periodically check links in given node types, blocks etc.
+ *
+ * Developed by Alexander Hass, https://www.yaml-for-drupal.com/.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\filter\Entity\FilterFormat;
+use Drupal\linkchecker\LinkCheckerLinkInterface;
+
+/**
+ * A list of blacklisted filters the modules do not need to run for the link
+ * extraction process. This filters only eat processing time or holds references
+ * to other nodes.
+ *
+ * - Align images, https://drupal.org/project/drupal
+ *     name: filter_align
+ * - Line break converter, https://drupal.org/project/drupal
+ *     name: filter_autop
+ * - Caption images, https://drupal.org/project/drupal
+ *     name: filter_caption
+ * - Insert block, https://drupal.org/project/insert_block
+ *     name: insert_block
+ *     tags: [block:name of module=delta of block]
+ * - Insert view filter, https://drupal.org/project/insert_view
+ *     name: insert_view
+ *     tags: [view:my_view]
+ * - Smiley filter, https://drupal.org/project/smiley
+ *     name: smiley
+ *     tags: Depends on icon set, for e.g: ":) :-) :smile:"
+ * - Web Links Embed, https://drupal.org/project/weblinks
+ *     name: weblinks_embed
+ *     tags: [links-embed: id], [links-embed: name]
+ * - Web Links Filter, https://drupal.org/project/weblinks
+ *     name: weblinks_filter
+ *     tags: [link: title]
+ *
+ * @todo
+ * - Smileys Filter, https://drupal.org/project/smileys
+ *     name: smileys
+ *     tags: Depends on icon set, for e.g: ":) :-) :smile:"
+ * - Insert node, https://drupal.org/project/InsertNode
+ *     name: insert_node/0
+ *     tags: [node:<name of node> <parameters>]
+ * - Weblink filter, https://drupal.org/project/links
+ *     name: links_weblink/0
+ *     tags: [weblink:node_id|text], [weblink:node_id/link_id], [weblink:https://weblink.example.com/]
+ */
+define('LINKCHECKER_DEFAULT_FILTER_BLACKLIST', 'filter_align|filter_autop|filter_caption|insert_block|insert_view|smiley|smileys|weblinks_embed|weblinks_filter');
+
+/**
+ * Implements hook_help().
+ */
+function linkchecker_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.linkchecker':
+      return '<p>' . t('This module provides an aid to finding broken links on your site. It periodically checks contents of all public nodes, tries to find any html links and check for their validity. It reports broken links through the admin interface. For more information about status codes see <a href="@rfc">Status Code Definitions</a>.', ['@rfc' => 'https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html']) . '</p>';
+  }
+}
+
+/**
+ * Conditionally logs a system message.
+ *
+ * @param $type
+ *   The category to which this message belongs. Can be any string, but the
+ *   general practice is to use the name of the module calling watchdog().
+ * @param $message
+ *   The message to store in the log. Keep $message translatable
+ *   by not concatenating dynamic values into it! Variables in the
+ *   message should be added by using placeholder strings alongside
+ *   the variables argument to declare the value of the placeholders.
+ *   See t() for documentation on how $message and $variables interact.
+ * @param $variables
+ *   Array of variables to replace in the message on display or
+ *   NULL if message is already translated or not possible to
+ *   translate.
+ * @param $severity
+ *   The severity of the message; one of the following values as defined in
+ * @param $link
+ *   A link to associate with the message.
+ *
+ * @link http://www.faqs.org/rfcs/rfc3164.html RFC 3164: @endlink
+ *   - WATCHDOG_EMERGENCY: Emergency, system is unusable.
+ *   - RfcLogLevel::ALERT: Alert, action must be taken immediately.
+ *   - RfcLogLevel::CRITICAL: Critical conditions.
+ *   - WATCHDOG_ERROR: Error conditions.
+ *   - WATCHDOG_WARNING: Warning conditions.
+ *   - RfcLogLevel::NOTICE: (default) Normal but significant conditions.
+ *   - WATCHDOG_INFO: Informational messages.
+ *   - WATCHDOG_DEBUG: Debug-level messages.
+ * @see watchdog_severity_levels()
+ * @see watchdog()
+ */
+function linkchecker_watchdog_log($type, $message, $variables = [], $severity = RfcLogLevel::NOTICE, $link = NULL) {
+  // @FIXME: $link is missing, could be in $variables.
+  if ($severity <= \Drupal::config('linkchecker.settings')->get('logging.level')) {
+    $logger = \Drupal::logger($type);
+    $logger->log($severity, $message, $variables);
+  }
+}
+
+/**
+ * Run perodically via cron and delete all links without a references.
+ *
+ * For speed reasons and check results we keep the links for some time
+ * as they may be reused by other new content.
+ */
+function _linkchecker_cleanup_links() {
+  // Remove disabled node types no longer in use.
+  $node_types = linkchecker_scan_node_types();
+  if (!empty($node_types)) {
+    $subquery1 = \Drupal::database()->select('node', 'n')
+      ->fields('n', ['nid'])
+      ->condition('n.type', $node_types, 'NOT IN');
+
+    \Drupal::database()->delete('linkchecker_node')
+      ->condition('nid', $subquery1, 'IN')
+      ->execute();
+
+    // @todo Remove comments link references from table.
+    // db_query('DELETE FROM {linkchecker_comment} WHERE cid IN (SELECT nid FROM {node} n WHERE n.type NOT IN (' . db_placeholders($node_types, 'varchar') . '))', $node_types);
+  }
+  else {
+    // No active node_type. Remove all items from table.
+    \Drupal::database()->truncate('linkchecker_node')->execute();
+    // @todo Remove comments link references from table.
+  }
+
+  // Remove comment link references if comment scanning is disabled.
+  // @todo Remove comments of unpublished nodes.
+  $comment_types = linkchecker_scan_comment_types();
+  if (empty($comment_types)) {
+    \Drupal::database()->truncate('linkchecker_comment')->execute();
+  }
+
+  // Remove block link references if block scanning is disabled.
+  if (\Drupal::config('linkchecker.settings')->get('scan_blocks') == FALSE) {
+    \Drupal::database()->truncate('linkchecker_block_custom')->execute();
+  }
+
+  // Remove dead links without references.
+  $linkchecker_node = \Drupal::database()->select('linkchecker_node', 'ln')
+    ->distinct()
+    ->fields('ln', ['lid']);
+
+  $linkchecker_comment = \Drupal::database()->select('linkchecker_comment', 'lc')
+    ->distinct()
+    ->fields('lc', ['lid']);
+
+  $linkchecker_block_custom = \Drupal::database()->select('linkchecker_block_custom', 'lb')
+    ->distinct()
+    ->fields('lb', ['lid']);
+
+  // UNION all linkchecker type tables.
+  $subquery2 = \Drupal::database()->select($linkchecker_block_custom->union($linkchecker_comment)->union($linkchecker_node), 'q1')
+    ->distinct()
+    ->fields('q1', ['lid']);
+
+  \Drupal::database()->delete('linkchecker_link')
+    ->condition('lid', $subquery2, 'NOT IN')
+    ->execute();
+}
+
+/**
+ * Customized clone of core check_markup() with additional filter blacklist.
+ *
+ * See https://api.drupal.org/api/function/check_markup/7 for API documentation.
+ */
+function _linkchecker_check_markup($text, $format_id = NULL, $langcode = '', $cache = FALSE) {
+  if (!isset($text)) {
+    return '';
+  }
+
+  if (!isset($format_id)) {
+    $format_id = filter_fallback_format();
+  }
+  // If the requested text format does not exist, the text cannot be filtered.
+  /** @var \Drupal\filter\Entity\FilterFormat $format **/
+  $format = FilterFormat::load($format_id);
+  if (!$format) {
+    linkchecker_watchdog_log('filter', 'Missing text format: %format.', ['%format' => $format_id], RfcLogLevel::ALERT);
+    return '';
+  }
+
+  // Check for a cached version of this piece of text.
+  $cache = $cache && !empty($format->cache);
+  $cache_id = '';
+  if ($cache) {
+    $cache_id = 'linkchecker:' . $format->id() . ':' . $langcode . ':' . hash('sha256', $text);
+    if ($cached = \Drupal::cache()->get($cache_id)) {
+      return $cached->data;
+    }
+  }
+
+  // Convert all Windows and Mac newlines to a single newline, so filters only
+  // need to deal with one possibility.
+  $text = str_replace(["\r\n", "\r"], "\n", $text);
+
+  // Get a complete list of filters, ordered properly.
+  /** @var \Drupal\filter\Plugin\FilterInterface[] $filters **/
+  $filters = $format->filters();
+  $filter_info = filter_formats();
+
+  // Do not run placeholder or special tag filters used as references to nodes
+  // like 'weblink' or 'weblinks' node types. If the original link node is
+  // updated, all links are automatically up-to-date and there is no need to
+  // notify about the broken link on all nodes having a link reference in
+  // content. This would only confuse the authors as they may also not be able
+  // to fix the source node of the reference.
+  $filters_blacklist = array_keys(array_filter(\Drupal::config('linkchecker.settings')->get('extract.filter_blacklist')));
+
+  // Give filters the chance to escape HTML-like data such as code or formulas.
+  foreach ($filters->getAll() as $filter) {
+    $name = $filter->getType();
+    $status = $filter->status;
+
+    if (!in_array($name, $filters_blacklist)) {
+      if ($status && isset($filter_info[$name]['prepare callback']) && function_exists($filter_info[$name]['prepare callback'])) {
+        $function = $filter_info[$name]['prepare callback'];
+        $text = $function($text, $filters, $format, $langcode, $cache, $cache_id);
+      }
+    }
+  }
+
+  // Perform filtering.
+  foreach ($filters->getAll() as $name => $filter) {
+    if (!in_array($name, $filters_blacklist)) {
+      if ($filter->status && isset($filter_info[$name]['process callback']) && function_exists($filter_info[$name]['process callback'])) {
+        $function = $filter_info[$name]['process callback'];
+        $text = $function($text, $filter, $format, $langcode, $cache, $cache_id);
+      }
+    }
+  }
+
+  // Store in cache with a minimum expiration time of 1 day.
+  if ($cache) {
+    \Drupal::cache()->set($cache_id, $text, REQUEST_TIME + (60 * 60 * 24));
+  }
+  return $text;
+}
+
+/**
+ * Defines the list of allowed response codes for form input validation.
+ *
+ * @param int $code
+ *   An numeric response code.
+ *
+ * @return bool
+ *   TRUE if the status code is valid, otherwise FALSE.
+ */
+function _linkchecker_isvalid_response_code($code) {
+
+  $responses = [
+    100 => 'Continue',
+    101 => 'Switching Protocols',
+    200 => 'OK',
+    201 => 'Created',
+    202 => 'Accepted',
+    203 => 'Non-Authoritative Information',
+    204 => 'No Content',
+    205 => 'Reset Content',
+    206 => 'Partial Content',
+    300 => 'Multiple Choices',
+    301 => 'Moved Permanently',
+    302 => 'Found',
+    303 => 'See Other',
+    304 => 'Not Modified',
+    305 => 'Use Proxy',
+    307 => 'Temporary Redirect',
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    402 => 'Payment Required',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    405 => 'Method Not Allowed',
+    406 => 'Not Acceptable',
+    407 => 'Proxy Authentication Required',
+    408 => 'Request Time-out',
+    409 => 'Conflict',
+    410 => 'Gone',
+    411 => 'Length Required',
+    412 => 'Precondition Failed',
+    413 => 'Request Entity Too Large',
+    414 => 'Request-URI Too Large',
+    415 => 'Unsupported Media Type',
+    416 => 'Requested range not satisfiable',
+    417 => 'Expectation Failed',
+    500 => 'Internal Server Error',
+    501 => 'Not Implemented',
+    502 => 'Bad Gateway',
+    503 => 'Service Unavailable',
+    504 => 'Gateway Time-out',
+    505 => 'HTTP Version not supported',
+  ];
+
+  return array_key_exists($code, $responses);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function linkchecker_form_field_config_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\field\FieldConfigInterface $fieldConfig */
+  $fieldConfig = $form_state->getFormObject()->getEntity();
+
+  $form['third_party_settings']['linkchecker'] = [
+    '#type' => 'details',
+    '#title' => t('LinkChecker settings'),
+  ];
+
+  /** @var \Drupal\linkchecker\Plugin\LinkExtractorManager $linkExtractorManager */
+  $linkExtractorManager = \Drupal::service('plugin.manager.link_extractor');
+
+  $options = [];
+  foreach ($linkExtractorManager->getDefinitions() as $definition) {
+    if (in_array($fieldConfig->getType(), $definition['field_types'])) {
+      $options[$definition['id']] = $definition['label'];
+    }
+  }
+
+  if (empty($options)) {
+    $form['third_party_settings']['linkchecker']['#description'] = t('This field type is unsupported!');
+    return;
+  }
+
+  $form['third_party_settings']['linkchecker']['scan'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Scan broken links'),
+    '#default_value' => $fieldConfig->getThirdPartySetting('linkchecker', 'scan', FALSE),
+  ];
+
+  $form['third_party_settings']['linkchecker']['extractor'] = [
+    '#type' => 'select',
+    '#title' => t('Extractor'),
+    '#description' => t('Defines which extractor plugin to use'),
+    '#empty_value' => '',
+    '#options' => $options,
+    '#default_value' => $fieldConfig->getThirdPartySetting('linkchecker', 'extractor', '_none'),
+    '#states' => [
+      'required' => [
+        ':input[name="third_party_settings[linkchecker][scan]"]' => [
+          'checked' => TRUE,
+        ],
+      ],
+      'visible' => [
+        ':input[name="third_party_settings[linkchecker][scan]"]' => [
+          'checked' => TRUE,
+        ],
+      ],
+    ],
+  ];
+
+  $form['#entity_builders'][] = 'linkchecker_form_field_config_form_builder';
+}
+
+function linkchecker_form_field_config_form_builder($entity_type, FieldConfigInterface $field_config, &$form, FormStateInterface $form_state) {
+  if ($form_state->getValue(['third_party_settings', 'linkchecker', 'scan']) === 1) {
+    $field_config->setThirdPartySetting('linkchecker', 'scan', TRUE);
+    $field_config->setThirdPartySetting('linkchecker', 'extractor', $form_state->getValue(['third_party_settings', 'linkchecker', 'extractor']));
+    return;
+  }
+
+  $field_config->unsetThirdPartySetting('linkchecker', 'scan');
+  $field_config->unsetThirdPartySetting('linkchecker', 'extractor');
+}
+
+/**
+ * Implements hook_cron().
+ */
+function linkchecker_cron() {
+  \Drupal::service('linkchecker.extractor_batch')->processEntities();
+  \Drupal::service('linkchecker.checker')->queueLinks();
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function linkchecker_entity_insert(EntityInterface $entity) {
+  if ($entity instanceof LinkCheckerLinkInterface) {
+    return;
+  }
+
+  if ($entity instanceof FieldableEntityInterface) {
+    /** @var \Drupal\linkchecker\LinkExtractorService $extractor */
+    $extractor = \Drupal::service('linkchecker.extractor');
+    $links = $extractor->extractFromEntity($entity);
+    $extractor->saveLinkMultiple($links);
+    $extractor->updateEntityExtractIndex($entity);
+
+    \Drupal::service('linkchecker.clean_up')->cleanUpForEntity($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function linkchecker_entity_update(EntityInterface $entity) {
+  if ($entity instanceof LinkCheckerLinkInterface) {
+    return;
+  }
+
+  if ($entity instanceof FieldableEntityInterface) {
+    /** @var \Drupal\linkchecker\LinkExtractorService $extractor */
+    $extractor = \Drupal::service('linkchecker.extractor');
+    $links = $extractor->extractFromEntity($entity);
+    $extractor->saveLinkMultiple($links);
+    $extractor->updateEntityExtractIndex($entity);
+
+    \Drupal::service('linkchecker.clean_up')->cleanUpForEntity($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function linkchecker_entity_delete(EntityInterface $entity) {
+  if ($entity instanceof LinkCheckerLinkInterface) {
+    return;
+  }
+
+  if ($entity instanceof FieldableEntityInterface) {
+    \Drupal::service('linkchecker.clean_up')->cleanUpForEntity($entity);
+  }
+}

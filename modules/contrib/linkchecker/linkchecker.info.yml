@@ -1,0 +1,13 @@
+name: 'Link checker'
+type: module
+description: 'Periodically checks for broken links in content.'
+core: 8.x
+configure: linkchecker.admin_settings_form
+dependencies:
+  - dynamic_entity_reference:dynamic_entity_reference (>= 1.0)
+  - drupal:system (>= 8.6)
+
+# Information added by Drupal.org packaging script on 2019-09-24
+version: '8.x-1.x-dev'
+project: 'linkchecker'
+datestamp: 1569347289
