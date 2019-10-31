@@ -21,4 +21,20 @@ function ro_custom_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
 
     $form_state->setUserInput($exposed_input);
   }
+
+  if ($form['#id'] == 'views-exposed-form-tuition-fees-relationship-block-sort') {
+    $form['college_school']['#options'] = ["" => 'Select'] + $form['college_school']['#options'];
+
+    $storage = $form_state->getStorage();
+    $view = $storage['view'];
+    $exposed_input = $view->getExposedInput();
+
+    $input = $form_state->getUserInput();
+
+    if (!isset($exposed_input['college_school'])) {
+      $input['college_school'] = "";
+    }
+
+    $form_state->setUserInput($input);
+  }
 }
