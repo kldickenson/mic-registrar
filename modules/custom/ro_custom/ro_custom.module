@@ -30,9 +30,9 @@ function ro_custom_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
     $form['college_school']['#options']['All'] = 'Select';
     $form['level_of_study']['#options']['All'] = 'Select';
     // Set them required here so there's a visual indicator on the frontend.
-    $form['academic_year']['#attributes']['class'][] = 'form-required';
-    $form['college_school']['#attributes']['class'][] = 'form-required';
-    $form['level_of_study']['#attributes']['class'][] = 'form-required';
+    $form['academic_year']['#required'] = TRUE;
+    $form['college_school']['#required'] = TRUE;
+    $form['level_of_study']['#required'] = TRUE;
     // This still doesn't make it really required, so we add a custom validator.
     $form['#validate'][] = 'ro_custom_tuition_fees_validate';
 
