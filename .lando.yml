@@ -1,7 +1,5 @@
 name: registrars-office
 recipe: drupal8
-services:
-  appserver:
-    xdebug: true
 config:
   drush: 8.1.15
+  xdebug: true

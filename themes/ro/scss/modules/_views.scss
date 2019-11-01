@@ -192,3 +192,25 @@ a.back {
   font-size: .85rem;
   float: right;
 }
+
+// Global
+.views-exposed-form {
+  .form-required:after {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 0.3em;
+    content: "";
+    vertical-align: super;
+    /* Use a background image to prevent screen readers from announcing the text. */
+    background-image: url(../../../core/misc/icons/ee0000/required.svg);
+    background-repeat: no-repeat;
+    background-size: 6px 6px;
+  }
+
+  .form-item input.error,
+  .form-item textarea.error,
+  .form-item select.error {
+    border: 2px solid red;
+  }
+}
