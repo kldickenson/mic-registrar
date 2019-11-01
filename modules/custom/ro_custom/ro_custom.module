@@ -5,6 +5,8 @@
  * Custom code for RO site.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Implements hook_form_alter().
  */
@@ -23,18 +25,52 @@ function ro_custom_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
   }
 
   if ($form['#id'] == 'views-exposed-form-tuition-fees-relationship-block-sort') {
-    $form['college_school']['#options'] = ["" => 'Select'] + $form['college_school']['#options'];
+    // Change the label for the empty value.
+    $form['academic_year']['#options']['All'] = 'Select';
+    $form['college_school']['#options']['All'] = 'Select';
+    $form['level_of_study']['#options']['All'] = 'Select';
+    // Set them required here so there's a visual indicator on the frontend.
+    $form['academic_year']['#attributes']['class'][] = 'form-required';
+    $form['college_school']['#attributes']['class'][] = 'form-required';
+    $form['level_of_study']['#attributes']['class'][] = 'form-required';
+    // This still doesn't make it really required, so we add a custom validator.
+    $form['#validate'][] = 'ro_custom_tuition_fees_validate';
 
-    $storage = $form_state->getStorage();
-    $view = $storage['view'];
-    $exposed_input = $view->getExposedInput();
-
+    // If all of the default/empty values are the current selection, we can assume a
+    // search hasn't taken place.
     $input = $form_state->getUserInput();
-
-    if (!isset($exposed_input['college_school'])) {
-      $input['college_school'] = "";
+    if ($input['academic_year'] == 'All' && $input['college_school'] == 'All' &&
+      $input['full_half_term'] == 35 && $input['level_of_study'] == 'All') {
+      $input['default'] = 'default';
+      // Set the default date to the first option.
+      foreach ($form['academic_year']['#options'] as $tid => $option) {
+        if (is_numeric($tid)) {
+          $input['academic_year'] = $tid;
+          break;
+        }
+      }
     }
-
     $form_state->setUserInput($input);
+  }
+}
+
+/**
+ * Implements hook_validate().
+ */
+function ro_custom_tuition_fees_validate(array $form, FormStateInterface $form_state) {
+  // Only validate when the form has been submitted and we didn't set the first values.
+  if (!isset($form_state->getUserInput()['default'])) {
+    if ($form_state->getValue('academic_year') == 'All') {
+      $form_state->setErrorByName('academic_year', t('You must choose a valid selection'));
+    }
+    if ($form_state->getValue('college_school') == 'All') {
+      $form_state->setErrorByName('college_school', t('You must choose a valid selection'));
+    }
+    if ($form_state->getValue('full_half_term') == 'All') {
+      $form_state->setErrorByName('full_half_term', t('You must choose a valid selection'));
+    }
+    if ($form_state->getValue('level_of_study') == 'All') {
+      $form_state->setErrorByName('level_of_study', t('You must choose a valid selection'));
+    }
   }
 }
