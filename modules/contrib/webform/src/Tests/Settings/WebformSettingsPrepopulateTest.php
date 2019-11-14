@@ -13,12 +13,28 @@ use Drupal\webform\Tests\WebformTestBase;
  */
 class WebformSettingsPrepopulateTest extends WebformTestBase {
 
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  public static $modules = ['block', 'webform'];
+
   /**
    * Webforms to load.
    *
    * @var array
    */
   protected static $testWebforms = ['test_form_prepopulate'];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+    $this->placeBlocks();
+  }
 
   /**
    * Tests webform setting including confirmation.
@@ -32,13 +48,13 @@ class WebformSettingsPrepopulateTest extends WebformTestBase {
     $webform_prepopulate = Webform::load('test_form_prepopulate');
 
     // Check prepopulation of an element.
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['name' => 'John', 'colors' => ['red', 'white']]]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['name' => 'John', 'colors' => ['red', 'white']]]);
     $this->assertFieldByName('name', 'John');
     $this->assertFieldChecked('edit-colors-red');
     $this->assertFieldChecked('edit-colors-white');
     $this->assertNoFieldChecked('edit-colors-blue');
 
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['name' => 'John', 'colors' => 'red']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['name' => 'John', 'colors' => 'red']]);
     $this->assertFieldByName('name', 'John');
     $this->assertFieldChecked('edit-colors-red');
     $this->assertNoFieldChecked('edit-colors-white');
@@ -47,7 +63,7 @@ class WebformSettingsPrepopulateTest extends WebformTestBase {
     // Check disabling prepopulation of an element.
     $webform_prepopulate->setSetting('form_prepopulate', FALSE);
     $webform_prepopulate->save();
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['name' => 'John']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['name' => 'John']]);
     $this->assertFieldByName('name', '');
 
     /**************************************************************************/
@@ -79,25 +95,32 @@ class WebformSettingsPrepopulateTest extends WebformTestBase {
 
     // Check required prepopulated source entity displays error when no source
     // entity is defined.
-    $this->drupalGet('webform/test_form_prepopulate');
+    $this->drupalGet('/webform/test_form_prepopulate');
     $this->assertRaw('This webform is not available. Please contact the site administrator.');
 
     // Check required prepopulated source entity displays error when invalid
     // source entity is defined.
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'DOES_NOT_EXIST']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'DOES_NOT_EXIST']]);
     $this->assertRaw('This webform is not available. Please contact the site administrator.');
 
     // Check required prepopulated source entity loads when source entity is
     // valid.
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
     $this->assertNoRaw('This webform is not available. Please contact the site administrator.');
+
+    // Check that required prepopulated source entity can be updated (edit).
+    $this->drupalLogin($this->rootUser);
+    $sid = $this->postSubmission($webform_prepopulate, [], t('Submit'), ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
+    $this->drupalGet("/admin/structure/webform/manage/test_form_prepopulate/submission/$sid/edit");
+    $this->assertNoRaw('This webform is not available. Please contact the site administrator.');
+    $this->drupalLogout();
 
     // Set prepopulated source entity type to user.
     $webform_prepopulate->setSetting('form_prepopulate_source_entity_type', 'user');
     $webform_prepopulate->save();
 
     // Check invalid source entity type displays error.
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
     $this->assertRaw('This webform is not available. Please contact the site administrator.');
 
     // Set prepopulated source entity type to webform.
@@ -105,8 +128,20 @@ class WebformSettingsPrepopulateTest extends WebformTestBase {
     $webform_prepopulate->save();
 
     // Check invalid source entity type displays error.
-    $this->drupalGet('webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
+    $this->drupalGet('/webform/test_form_prepopulate', ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']]);
     $this->assertNoRaw('This webform is not available. Please contact the site administrator.');
+
+    /**************************************************************************/
+    /* Test webform_menu_local_tasks_alter() */
+    /**************************************************************************/
+
+    $this->drupalLogin($this->rootUser);
+
+    // Check query string parameters be be transfered from canonical to test.
+    // @see webform_menu_local_tasks_alter
+    $route_options = ['query' => ['source_entity_type' => 'webform', 'source_entity_id' => 'contact']];
+    $this->drupalGet('webform/test_form_prepopulate', $route_options);
+    $this->assertLinkByHref($webform_prepopulate->toUrl('canonical', $route_options)->toString());
   }
 
 }

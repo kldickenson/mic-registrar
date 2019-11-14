@@ -28,7 +28,7 @@ class WebformElementDateTest extends WebformElementTestBase {
     // Render date elements.
     /**************************************************************************/
 
-    $this->drupalGet('webform/test_element_date');
+    $this->drupalGet('/webform/test_element_date');
 
     // Check '#format' values.
     $this->assertFieldByName('date_default', '2009-08-18');
@@ -55,8 +55,13 @@ class WebformElementDateTest extends WebformElementTestBase {
     $this->drupalPostForm('webform/test_element_date', $edit, t('Submit'));
     $this->assertRaw('<em class="placeholder">date_min_max</em> must be on or after <em class="placeholder">2009-01-01</em>.');
 
+    // Check date #date_days validation.
+    $edit = ['date_datepicker_weekend' => '2010-08-18'];
+    $this->drupalPostForm('webform/test_element_date', $edit, t('Submit'));
+    $this->assertRaw('<em class="placeholder">date_datepicker_weekend</em> must be a <em class="placeholder">Sunday or Saturday</em>.');
+
     // Check dynamic date.
-    $this->drupalGet('webform/test_element_date');
+    $this->drupalGet('/webform/test_element_date');
     $min = \Drupal::service('date.formatter')->format(strtotime('-1 year'), 'html_date');
     $min_year = date('Y', strtotime('-1 year'));
     $max = \Drupal::service('date.formatter')->format(strtotime('+1 year'), 'html_date');

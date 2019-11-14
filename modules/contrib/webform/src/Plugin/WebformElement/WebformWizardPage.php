@@ -3,7 +3,10 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\webform\Plugin\WebformElementWizardPageInterface;
+use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\WebformInterface;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'webform_wizard_page' element.
@@ -15,7 +18,7 @@ use Drupal\webform\WebformInterface;
  *   category = @Translation("Wizard"),
  * )
  */
-class WebformWizardPage extends Details {
+class WebformWizardPage extends Details implements WebformElementWizardPageInterface {
 
   /**
    * {@inheritdoc}
@@ -64,6 +67,27 @@ class WebformWizardPage extends Details {
    */
   public function preview() {
     return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $build = parent::formatHtmlItem($element, $webform_submission, $options);
+
+    // Add edit page link container to preview.
+    // @see Drupal.behaviors.webformWizardPagesLink
+    if ($build && isset($options['view_mode']) && $options['view_mode'] === 'preview' && $webform_submission->getWebform()->getSetting('wizard_preview_link')) {
+      $build['#children']['wizard_page_link'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'data-webform-page' => $element['#webform_key'],
+          'class' => ['webform-wizard-page-edit'],
+        ],
+      ];
+    }
+
+    return $build;
   }
 
   /**
@@ -128,6 +152,24 @@ class WebformWizardPage extends Details {
       'visible' => $this->t('Visible'),
       'invisible' => $this->t('Hidden'),
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function showPage(array &$element) {
+    // When showing a wizard page, page render it as container instead of the
+    // default details element.
+    // @see \Drupal\webform\Element\WebformWizardPage
+    $element['#type'] = 'container';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hidePage(array &$element) {
+    // Set #access to FALSE which will suppresses webform #required validation.
+    WebformElementHelper::setPropertyRecursive($element, '#access', FALSE);
   }
 
 }

@@ -38,10 +38,11 @@ class WebformHandlerTest extends WebformTestBase {
     $webform_handler_test = Webform::load('test_handler_test');
 
     // Check new submission plugin invoking.
-    $this->drupalGet('webform/test_handler_test');
+    $this->drupalGet('/webform/test_handler_test');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
 
@@ -50,6 +51,7 @@ class WebformHandlerTest extends WebformTestBase {
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:validateForm');
@@ -62,6 +64,7 @@ class WebformHandlerTest extends WebformTestBase {
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:validateForm');
@@ -76,18 +79,20 @@ class WebformHandlerTest extends WebformTestBase {
     $this->assertRaw('<div class="webform-confirmation__message">::preprocessConfirmation</div>');
 
     // Check confirmation with token.
-    $this->drupalGet('webform/test_handler_test/confirmation', ['query' => ['token' => $webform_submission->getToken()]]);
+    $this->drupalGet('/webform/test_handler_test/confirmation', ['query' => ['token' => $webform_submission->getToken()]]);
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preSave');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postLoad');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preprocessConfirmation');
     $this->assertRaw('<div class="webform-confirmation__message">::preprocessConfirmation</div>');
 
     // Check confirmation with out token.
-    $this->drupalGet('webform/test_handler_test/confirmation');
+    $this->drupalGet('/webform/test_handler_test/confirmation');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postLoad');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preprocessConfirmation');
     $this->assertRaw('<div class="webform-confirmation__message">::preprocessConfirmation</div>');
@@ -101,7 +106,7 @@ class WebformHandlerTest extends WebformTestBase {
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postLoad');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preDelete');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postDelete');
-    $this->assertRaw('Submission #' . $webform_submission->serial() . ' has been deleted.');
+    $this->assertRaw('<em class="placeholder">Test: Handler: Test invoke methods: Submission #' . $webform_submission->serial() . '</em> has been deleted.');
 
     // Check configuration settings.
     $this->drupalPostForm('admin/structure/webform/manage/test_handler_test/handlers/test/edit', ['settings[message]' => '{message}'], t('Save'));
@@ -110,10 +115,11 @@ class WebformHandlerTest extends WebformTestBase {
 
     // Check disabling a handler.
     $this->drupalPostForm('admin/structure/webform/manage/test_handler_test/handlers/test/edit', ['status' => FALSE], t('Save'));
-    $this->drupalGet('webform/test_handler_test');
+    $this->drupalGet('/webform/test_handler_test');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
 
     // Enable the handler and disable the saving of results.
@@ -124,22 +130,24 @@ class WebformHandlerTest extends WebformTestBase {
     // Check webform disabled with saving of results is disabled and handler does
     // not process results.
     $this->drupalLogout();
-    $this->drupalGet('webform/test_handler_test');
+    $this->drupalGet('/webform/test_handler_test');
     $this->assertNoFieldByName('op', 'Submit');
     $this->assertNoRaw('This webform is not saving or handling any submissions. All submitted data will be lost.');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
 
     // Check admin can still post submission.
     $this->drupalLogin($this->rootUser);
-    $this->drupalGet('webform/test_handler_test');
+    $this->drupalGet('/webform/test_handler_test');
     $this->assertFieldByName('op', 'Submit');
     $this->assertRaw('This webform is currently not saving any submitted data.');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
 
     // Check submit submission plugin invoking when saving results is disabled.
@@ -149,6 +157,7 @@ class WebformHandlerTest extends WebformTestBase {
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:validateForm');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:submitForm');
@@ -176,6 +185,43 @@ class WebformHandlerTest extends WebformTestBase {
     $this->drupalPostForm('admin/structure/webform/manage/test_handler_test/handlers/add/test', ['handler_id' => 'test'], t('Save'));
     $this->assertRaw('The webform handler was successfully added.');
     $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:createHandler');
+
+    /**************************************************************************/
+    // Single handler.
+    /**************************************************************************/
+
+    // Check test handler is executed.
+    $this->drupalGet('/webform/test_handler_test/test');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
+    $this->assertRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterForm');
+
+    // Check test handler is enabled and debug handler is disabled.
+    $this->drupalPostForm('webform/test_handler_test/test', ['element' => ''], t('Submit'));
+    $this->assertRaw('One two one two this is just a test');
+    $this->assertNoRaw("element: ''");
+
+    // Check test handler is disabled.
+    $this->drupalGet('/webform/test_handler_test/test', ['query' => ['_webform_handler' => 'debug']]);
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:preCreate');
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:postCreate');
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElements');
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:alterElement');
+    $this->assertNoRaw('Invoked test: Drupal\webform_test_handler\Plugin\WebformHandler\TestWebformHandler:overrideSettings');
+    $this->assertRaw('Testing the <em class="placeholder">Test: Handler: Test invoke methods</em> webform <em class="placeholder">Debug</em> handler. <strong>All other emails/handlers are disabled.</strong>');
+
+    // Check test handler is now disabled and debug handler is enabled.
+    $this->drupalPostForm('webform/test_handler_test/test', ['element' => ''], t('Submit'), ['query' => ['_webform_handler' => 'debug']]);
+    $this->assertNoRaw('One two one two this is just a test');
+    $this->assertRaw("element: ''");
+
+    // Check 403 access denied for missing handler.
+    $this->drupalGet('/webform/test_handler_test/test', ['query' => ['_webform_handler' => 'missing']]);
+    $this->assertResponse(403);
+    $this->assertRaw('The <em class="placeholder">missing</em> email/handler for the <em class="placeholder">Test: Handler: Test invoke methods</em> webform does not exist.');
   }
 
   /**

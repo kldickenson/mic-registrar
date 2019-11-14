@@ -6,7 +6,9 @@ use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url as UrlGenerator;
 use Drupal\webform\Element\WebformEntityTrait;
+use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
@@ -40,7 +42,8 @@ trait WebformEntityReferenceTrait {
    */
   protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     $entity = $this->getTargetEntity($element, $webform_submission, $options);
-    if (!$entity) {
+
+    if (empty($entity)) {
       return '';
     }
 
@@ -55,11 +58,32 @@ trait WebformEntityReferenceTrait {
         return $this->formatTextItem($element, $webform_submission, $options);
 
       case 'link':
-        return [
-          '#type' => 'link',
-          '#title' => $entity->label(),
-          '#url' => $entity->toUrl()->setAbsolute(TRUE),
-        ];
+        if ($entity->hasLinkTemplate('canonical')) {
+          return [
+            '#type' => 'link',
+            '#title' => $entity->label(),
+            '#url' => $entity->toUrl()->setAbsolute(TRUE),
+          ];
+        }
+        else {
+          switch ($entity->getEntityTypeId()) {
+            case 'file':
+              /** @var \Drupal\file\FileInterface $entity */
+              if ($entity->access('download')) {
+                return [
+                  '#type' => 'link',
+                  '#title' => $entity->label(),
+                  '#url' => UrlGenerator::fromUri(file_create_url($entity->getFileUri())),
+                ];
+              }
+              else {
+                return $this->formatTextItem($element, $webform_submission, $options);
+              }
+
+            default:
+              return $this->formatTextItem($element, $webform_submission, $options);
+          }
+        }
 
       default:
         return \Drupal::entityTypeManager()->getViewBuilder($entity->getEntityTypeId())->view($entity, $format);
@@ -112,10 +136,10 @@ trait WebformEntityReferenceTrait {
    * {@inheritdoc}
    */
   public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
-    $this->setOptions($element);
-    $target_type = $this->getTargetType($element);
+    $this->setOptions($element, ['limit' => 10, 'random' => TRUE]);
     // Exclude 'anonymous' user.
-    if ($target_type == 'user') {
+    $target_type = $this->getTargetType($element);
+    if ($target_type === 'user') {
       unset($element['#options'][0]);
     }
     return array_keys($element['#options']);
@@ -322,9 +346,21 @@ trait WebformEntityReferenceTrait {
    *
    * @param array $element
    *   An element.
+   * @param array $settings
+   *   An array of settings used to limit and randomize options.
    */
-  protected function setOptions(array &$element) {
-    WebformEntityTrait::setOptions($element);
+  protected function setOptions(array &$element, array $settings = []) {
+    // Add the webform submission to entity reference selection settings.
+    if (!isset($settings['webform_submission']) && !empty($element['#webform_submission'])) {
+      $settings['webform_submission'] = WebformSubmission::load($element['#webform_submission']);
+    }
+
+    // Replace tokens element just in case entity selection settings use tokens.
+    if (isset($settings['webform_submission'])) {
+      $this->replaceTokens($element, $settings['webform_submission']);
+    }
+
+    WebformEntityTrait::setOptions($element, $settings);
   }
 
   /**
@@ -539,12 +575,12 @@ trait WebformEntityReferenceTrait {
         'wrapper' => 'webform-entity-reference-selection-wrapper',
         'progress' => ['type' => 'fullscreen'],
       ],
-      // Hide button, add submit button trigger class, and disable validation.
+      // Disable validation, hide button, add submit button trigger class.
       '#attributes' => [
+        'formnovalidate' => 'formnovalidate',
         'class' => [
           'js-hide',
           'js-webform-entity-reference-submit',
-          'js-webform-novalidate',
         ],
       ],
     ];
@@ -572,6 +608,11 @@ trait WebformEntityReferenceTrait {
           ':input[name="properties[multiple][container][cardinality_number]"]' => ['value' => 1],
         ],
       ];
+    }
+    // Disable tags in multiple is disabled.
+    if (!empty($form['element']['multiple']['#disabled'])) {
+      $form['element']['tags']['#disabled'] = $form['element']['multiple']['#disabled'];
+      $form['element']['tags']['#description'] = $form['element']['multiple']['#description'];
     }
 
     return $form;

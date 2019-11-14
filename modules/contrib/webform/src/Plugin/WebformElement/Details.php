@@ -21,19 +21,20 @@ class Details extends ContainerBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    $properties = [
+    return [
+      // Description/Help.
       'help' => '',
+      'help_title' => '',
+      'description' => '',
+      'more' => '',
+      'more_title' => '',
+      // Title.
+      'title_display' => '',
+      'help_display' => '',
+      // Details.
       'open' => FALSE,
+      'summary_attributes' => [],
     ] + parent::getDefaultProperties();
-
-    // Issue #2971848: [8.6.x] Details elements allow specifying attributes
-    // for the <summary> element.
-    // @todo Remove the below if/then when only 8.6.x is supported.
-    if ($this->elementInfo->getInfoProperty('details', '#summary_attributes') !== NULL) {
-      $properties['summary_attributes'] = [];
-    }
-
-    return $properties;
   }
 
   /**
@@ -45,6 +46,8 @@ class Details extends ContainerBase {
     if (isset($element['#webform_key'])) {
       $element['#attributes']['data-webform-key'] = $element['#webform_key'];
     }
+
+    $element['#attached']['library'][] = 'webform/webform.element.details';
   }
 
   /**

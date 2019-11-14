@@ -32,7 +32,7 @@
 
         // Skip if date inputs are supported by the browser and input is not a text field.
         // @see \Drupal\webform\Element\WebformDatetime
-        if (window.Modernizr && Modernizr.inputtypes.date === true && $input.attr('type') !== 'text') {
+        if (window.Modernizr && Modernizr.inputtypes && Modernizr.inputtypes.date === true && $input.attr('type') !== 'text') {
           return;
         }
 
@@ -41,6 +41,16 @@
           changeYear: true
         }, Drupal.webform.datePicker.options);
 
+        // Add datepicker button.
+        if ($input.hasData('datepicker-button')) {
+          options = $.extend({
+            showOn: 'both',
+            buttonImage: settings.webform.datePicker.buttonImage,
+            buttonImageOnly: true,
+            buttonText: Drupal.t('Select date')
+          }, Drupal.webform.datePicker.options);
+        }
+
         var dateFormat = $input.data('drupalDateFormat');
 
         // The date format is saved in PHP style, we need to convert to jQuery
@@ -48,7 +58,7 @@
         // @see http://stackoverflow.com/questions/16702398/convert-a-php-date-format-to-a-jqueryui-datepicker-date-format
         // @see http://php.net/manual/en/function.date.php
         options.dateFormat = dateFormat
-          // Year.
+        // Year.
           .replace('Y', 'yy') // A full numeric representation of a year, 4 digits (1999 or 2003)
           .replace('y', 'y') // A two digit representation of a year (99 or 03)
           // Month.
@@ -72,20 +82,40 @@
 
         // Add min/max year to data range.
         if (!options.yearRange && $input.data('min-year') && $input.data('max-year')) {
-          options.yearRange = $input.data('min-year') + ':' + $input.attr('data-max-year')
+          options.yearRange = $input.data('min-year') + ':' + $input.attr('data-max-year');
         }
 
         // First day of the week.
         options.firstDay = settings.webform.dateFirstDay;
 
+        // Days of the week.
+        // @see https://stackoverflow.com/questions/2968414/disable-specific-days-of-the-week-on-jquery-ui-datepicker
+        if ($input.attr('data-days')) {
+          var days = $input.attr('data-days').split(',');
+          options.beforeShowDay = function (date) {
+            var day = date.getDay().toString();
+            return [(days.indexOf(day) !== -1) ? true : false];
+          };
+        }
+
+        // Disable autocomplete.
+        // @see https://gist.github.com/niksumeiko/360164708c3b326bd1c8
+        var isChrome = (/chrom(e|ium)/.test(window.navigator.userAgent.toLowerCase()));
+        $input.attr('autocomplete', (isChrome) ? 'chrome-off' : 'off');
+
         $input.datepicker(options);
       });
+    }
+    // Issue #2983363: Datepicker is being detached when multiple files are
+    // uploaded.
+    /*
     },
     detach: function (context, settings, trigger) {
       if (trigger === 'unload') {
         $(context).find('input[data-drupal-date-format]').findOnce('datePicker').datepicker('destroy');
       }
     }
+    */
   };
 
 })(jQuery, Modernizr, Drupal);

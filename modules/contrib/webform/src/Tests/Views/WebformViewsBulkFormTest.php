@@ -21,23 +21,19 @@ class WebformViewsBulkFormTest extends WebformTestBase {
   public static $modules = ['webform', 'webform_test_views'];
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-
-    // Create users.
-    $this->createUsers();
-  }
-
-  /**
    * Tests the webform views bulk form.
    */
   public function testViewsBulkForm() {
-    $this->drupalLogin($this->adminSubmissionUser);
+    $admin_submission_user = $this->drupalCreateUser([
+      'administer webform submission',
+    ]);
+
+    /**************************************************************************/
+
+    $this->drupalLogin($admin_submission_user);
 
     // Check no submissions.
-    $this->drupalGet('admin/structure/webform/test/views_bulk_form');
+    $this->drupalGet('/admin/structure/webform/test/views_bulk_form');
     $this->assertRaw('No submissions available.');
 
     // Create a test submission.
@@ -46,7 +42,7 @@ class WebformViewsBulkFormTest extends WebformTestBase {
     $sid = $this->postSubmissionTest($webform);
     $webform_submission = $this->loadSubmission($sid);
 
-    $this->drupalLogin($this->adminSubmissionUser);
+    $this->drupalLogin($admin_submission_user);
 
     // Check make sticky action.
     $this->assertFalse($webform_submission->isSticky(), 'Webform submission is not sticky');
@@ -97,7 +93,7 @@ class WebformViewsBulkFormTest extends WebformTestBase {
     $this->assertNull($webform_submission, '1: Webform submission has been deleted');
 
     // Check no submissions.
-    $this->drupalGet('admin/structure/webform/test/views_bulk_form');
+    $this->drupalGet('/admin/structure/webform/test/views_bulk_form');
     $this->assertRaw('No submissions available.');
   }
 

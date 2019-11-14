@@ -26,12 +26,6 @@ entity.webform_submission.collection_purge:
   parent_id: entity.webform_submission.collection
   weight: 10
 
-entity.webform_submission.collection_log:
-  title: 'Log'
-  route_name: entity.webform_submission.collection_log
-  parent_id: entity.webform_submission.collection
-  weight: 20
-
 # Settings.
 
 webform.config:
@@ -86,19 +80,25 @@ webform.config.advanced:
   title: 'Advanced'
   route_name: webform.config.advanced
   parent_id: webform.config
-  weight: 80
+  weight: 100
 
 webform.addons:
   title: 'Add-ons'
   route_name: webform.addons
   base_route: entity.webform.collection
-  weight: 40
-
-webform.contribute:
-  title: 'Contribute'
-  route_name: webform.contribute
-  base_route: entity.webform.collection
   weight: 50
+
+webform.help:
+  title: 'Help'
+  route_name: webform.help
+  base_route: entity.webform.collection
+  weight: 60
+
+webform.help.videos:
+  title: 'Videos'
+  route_name: webform.help
+  parent_id: webform.help
+  weight: 0
 
 # Form
 
@@ -141,12 +141,6 @@ entity.webform.results_clear:
   route_name: entity.webform.results_clear
   parent_id: entity.webform.results
   weight: 20
-
-entity.webform.results_log:
-  title: 'Log'
-  route_name: entity.webform.results_log
-  parent_id: entity.webform.results
-  weight: 30
 
 # Webform edit (build).
 
@@ -204,6 +198,14 @@ entity.webform.settings_access:
   title: 'Access'
   route_name: entity.webform.settings_access
   parent_id: entity.webform.settings
+  weight: 60
+
+# Export
+
+entity.webform.export_form:
+  title: 'Export'
+  route_name: entity.webform.export_form
+  base_route: entity.webform.canonical
   weight: 60
 
 # Submission
@@ -268,18 +270,6 @@ entity.webform_submission.resend_form:
   base_route: entity.webform_submission.canonical
   weight: 30
 
-entity.webform_submission.delete_form:
-  title: 'Delete'
-  route_name: entity.webform_submission.delete_form
-  base_route: entity.webform_submission.canonical
-  weight: 40
-
-entity.webform_submission.log:
-  title: 'Log'
-  route_name: entity.webform_submission.log
-  base_route: entity.webform_submission.canonical
-  weight: 50
-
 # User Submission
 
 entity.webform.user.submission:
@@ -300,12 +290,6 @@ entity.webform.user.submission.duplicate:
   base_route: entity.webform.user.submission
   weight: 20
 
-entity.webform.user.submission.delete:
-  title: 'Delete'
-  route_name: entity.webform.user.submission.delete
-  base_route: entity.webform.user.submission
-  weight: 30
-
 # Webform Plugins.
 
 webform.reports_plugins.elements:
@@ -325,3 +309,10 @@ webform.reports_plugins.exporters:
   route_name: webform.reports_plugins.exporters
   base_route: webform.reports_plugins.elements
   weight: 20
+
+# User Submissions.
+
+entity.webform_submission.user:
+  title: 'Submissions'
+  route_name: entity.webform_submission.user
+  base_route: entity.user.canonical

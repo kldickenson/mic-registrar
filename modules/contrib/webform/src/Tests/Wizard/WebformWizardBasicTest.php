@@ -19,7 +19,7 @@ class WebformWizardBasicTest extends WebformWizardTestBase {
   protected static $testWebforms = ['test_form_wizard_basic'];
 
   /**
-   * Test webform advanced wizard.
+   * Test webform basic wizard.
    */
   public function testBasicWizard() {
     $this->drupalLogin($this->rootUser);
@@ -53,7 +53,7 @@ class WebformWizardBasicTest extends WebformWizardTestBase {
       ->save();
 
     // Check next page.
-    $this->drupalGet('webform/test_form_wizard_basic');
+    $this->drupalGet('/webform/test_form_wizard_basic');
     $this->assertNoRaw('data-webform-wizard-current-page');
     $this->assertRaw('data-webform-wizard-page="page_2" data-drupal-selector="edit-wizard-next"');
 
@@ -75,7 +75,7 @@ class WebformWizardBasicTest extends WebformWizardTestBase {
     $wizard_webform->setSetting('wizard_track', 'index')->save();
 
     // Check next page.
-    $this->drupalGet('webform/test_form_wizard_basic');
+    $this->drupalGet('/webform/test_form_wizard_basic');
     $this->assertRaw('data-webform-wizard-page="2" data-drupal-selector="edit-wizard-next"');
 
     // Check next and previous page.

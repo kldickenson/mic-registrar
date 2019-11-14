@@ -6,6 +6,7 @@ dependencies:
       - webform_test
 open: null
 close: null
+weight: 0
 uid: null
 template: false
 archive: false
@@ -18,6 +19,23 @@ elements: |
     '#type': datelist
     '#title': datelist_default
     '#default_value': '2009-08-18T01:00:00-05:00'
+  datelist_no_abbreviate:
+    '#type': datelist
+    '#title': datelist_no_abbreviate
+    '#default_value': '2009-08-18T01:00:00-05:00'
+    '#date_abbreviate': false
+  datelist_text_parts:
+    '#type': datelist
+    '#title': datelist_text_parts
+    '#default_value': '2009-08-18T01:00:00-05:00'
+    '#date_text_parts':
+      - month
+      - day
+      - year
+      - hour
+      - minute
+      - second
+      - ampm
   datelist_datetime:
     '#type': datelist
     '#title': datelist_datetime
@@ -42,28 +60,55 @@ elements: |
     '#type': datelist
     '#title': datelist_min_max
     '#description': '(2009-01-01 to 2009-12-31)'
-    '#min': '2009-01-01'
-    '#max': '2009-12-31'
+    '#date_date_min': '2009-01-01'
+    '#date_date_max': '2009-12-31'
     '#default_value': '2009-08-18'
+  datelist_min_max_time:
+    '#type': datelist
+    '#title': datelist_min_max_time
+    '#description': '(2009-01-01 09:00:00 to 2009-12-31 17:00:00)'
+    '#date_min': '2009-01-01 09:00:00'
+    '#date_max': '2009-12-31 17:00:00'
+    '#default_value': '2009-01-01 09:00:00'
   datelist_date_year_range_reverse:
     '#type': datelist
     '#title': datelist_date_year_range_reverse
     '#date_year_range': '2005:2010'
-    '#date_year_range_reverse': TRUE
+    '#date_year_range_reverse': true
   datelist_required_error:
     '#type': datelist
     '#title': datelist_required_error
     '#default_value': '2009-08-18T01:00:00-05:00'
     '#required': 'Custom required error'
     '#required_error': 'Custom required error'
+  datelist_multiple:
+    '#type': datelist
+    '#title': datelist_multiple
+    '#default_value': '2009-08-18T01:00:00-05:00'
+    '#multiple': true
+  datelist_custom_composite:
+    '#type': webform_custom_composite
+    '#title': datelist_custom_composite
+    '#element':
+      datelist:
+        '#type': datelist
+        '#title': datelist
+    '#default_value':
+      - datelist: '2009-08-18T01:00:00-05:00'
+  
 css: ''
 javascript: ''
 settings:
   ajax: false
   ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
   page: true
   page_submit_path: ''
   page_confirm_path: ''
+  page_admin_theme: false
+  form_title: source_entity_webform
   form_submit_once: false
   form_exception_message: ''
   form_open_message: ''
@@ -71,6 +116,7 @@ settings:
   form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
+  form_remote_addr: true
   form_convert_anonymous: false
   form_prepopulate: false
   form_prepopulate_source_entity: false
@@ -86,16 +132,26 @@ settings:
   form_submit_back: false
   form_autofocus: false
   form_details_toggle: false
-  form_login: false
-  form_login_message: ''
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
   submission_label: ''
   submission_log: false
+  submission_views: {  }
+  submission_views_replace: {  }
   submission_user_columns: {  }
   submission_user_duplicate: false
-  submission_login: false
-  submission_login_message: ''
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
   submission_exception_message: ''
   submission_locked_message: ''
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
   previous_submission_message: ''
   previous_submissions_message: ''
   autofill: false
@@ -104,7 +160,10 @@ settings:
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
   wizard_start_label: ''
+  wizard_preview_link: false
   wizard_confirmation: true
   wizard_confirmation_label: ''
   wizard_track: ''
@@ -121,6 +180,8 @@ settings:
   draft_auto_save: false
   draft_saved_message: ''
   draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
   confirmation_type: page
   confirmation_title: ''
   confirmation_message: ''
@@ -131,12 +192,15 @@ settings:
   confirmation_back_attributes: {  }
   confirmation_exclude_query: false
   confirmation_exclude_token: false
+  confirmation_update: false
   limit_total: null
   limit_total_interval: null
   limit_total_message: ''
+  limit_total_unique: false
   limit_user: null
   limit_user_interval: null
   limit_user_message: ''
+  limit_user_unique: false
   entity_limit_total: null
   entity_limit_total_interval: null
   entity_limit_user: null
@@ -189,4 +253,16 @@ access:
     roles: {  }
     users: {  }
     permissions: {  }
-handlers: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  debug:
+    id: debug
+    label: Debug
+    handler_id: debug
+    status: true
+    conditions: {  }
+    weight: 1
+    settings: {  }

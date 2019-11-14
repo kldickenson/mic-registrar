@@ -14,7 +14,7 @@
   background-image: url(../images/icons/info.svg);
   background-repeat: no-repeat;
   background-position: 10px 17px;
-  border-color: #0074bd #0074bd #0074bd transparent;  /* LTR */
+  border-color: #0074bd #0074bd #0074bd transparent; /* LTR */
   box-shadow: -8px 0 0 #0074bd; /* LTR */
 }
 [dir="rtl"] .messages.messages--info {
@@ -48,6 +48,12 @@ html.js .webform-message--close .webform-message__link {
   right: 10px;
   line-height: 24px;
   font-size: 24px;
+}
+
+html[dir="rtl"].js .webform-message--close .webform-message__link {
+  top: 11px;
+  right: inherit;
+  left: 10px;
 }
 
 .webform-message__link {

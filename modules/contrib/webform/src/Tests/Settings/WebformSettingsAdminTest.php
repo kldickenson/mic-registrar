@@ -2,7 +2,6 @@
 
 namespace Drupal\webform\Tests\Settings;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\webform\Tests\WebformTestBase;
 use Drupal\webform\Utility\WebformYaml;
 
@@ -18,7 +17,7 @@ class WebformSettingsAdminTest extends WebformTestBase {
    *
    * @var array
    */
-  public static $modules = ['block', 'node', 'webform', 'webform_ui'];
+  public static $modules = ['block', 'captcha', 'node', 'views', 'webform', 'webform_ui', 'webform_node'];
 
   /**
    * Webforms to load.
@@ -68,8 +67,8 @@ class WebformSettingsAdminTest extends WebformTestBase {
       $this->assertEqual($updated_data, $original_data, 'Updated admin settings via the UI did not lose or change any data');
 
       // DEBUG:
-      $original_yaml = WebformYaml::tidy(Yaml::encode($original_data));
-      $updated_yaml = WebformYaml::tidy(Yaml::encode($updated_data));
+      $original_yaml = WebformYaml::encode($original_data);
+      $updated_yaml = WebformYaml::encode($updated_data);
       $this->verbose('<pre>' . $original_yaml . '</pre>');
       $this->verbose('<pre>' . $updated_yaml . '</pre>');
       $this->debug(array_diff(explode(PHP_EOL, $original_yaml), explode(PHP_EOL, $updated_yaml)));
@@ -78,28 +77,28 @@ class WebformSettingsAdminTest extends WebformTestBase {
     /* Elements */
 
     // Check that description is 'after' the element.
-    $this->drupalGet('webform/test_element');
+    $this->drupalGet('/webform/test_element');
     $this->assertPattern('#\{item title\}.+\{item markup\}.+\{item description\}#ms');
 
     // Set the default description display to 'before'.
     $this->drupalPostForm('admin/structure/webform/config/elements', ['element[default_description_display]' => 'before'], t('Save configuration'));
 
     // Check that description is 'before' the element.
-    $this->drupalGet('webform/test_element');
+    $this->drupalGet('/webform/test_element');
     $this->assertNoPattern('#\{item title\}.+\{item markup\}.+\{item description\}#ms');
     $this->assertPattern('#\{item title\}.+\{item description\}.+\{item markup\}#ms');
 
     /* UI disable dialog */
 
     // Check that dialogs are enabled.
-    $this->drupalGet('admin/structure/webform');
+    $this->drupalGet('/admin/structure/webform');
     $this->assertRaw('<a href="' . $base_path . 'admin/structure/webform/add" class="webform-ajax-link button button-action" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:700,&quot;dialogClass&quot;:&quot;webform-ui-dialog&quot;}" data-drupal-link-system-path="admin/structure/webform/add">Add webform</a>');
 
     // Disable dialogs.
     $this->drupalPostForm('admin/structure/webform/config/advanced', ['ui[dialog_disabled]' => TRUE], t('Save configuration'));
 
     // Check that dialogs are disabled. (i.e. use-ajax is not included)
-    $this->drupalGet('admin/structure/webform');
+    $this->drupalGet('/admin/structure/webform');
     $this->assertNoRaw('<a href="' . $base_path . 'admin/structure/webform/add" class="webform-ajax-link button button-action" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:700,&quot;dialogClass&quot;:&quot;webform-ui-dialog&quot;}" data-drupal-link-system-path="admin/structure/webform/add">Add webform</a>');
     $this->assertRaw('<a href="' . $base_path . 'admin/structure/webform/add" class="button button-action" data-drupal-link-system-path="admin/structure/webform/add">Add webform</a>');
 
@@ -107,11 +106,11 @@ class WebformSettingsAdminTest extends WebformTestBase {
 
     // Check moving #description to #help for webform admin routes.
     $this->drupalPostForm('admin/structure/webform/config/advanced', ['ui[description_help]' => TRUE], t('Save configuration'));
-    $this->assertRaw('<a href="#help" title="If checked, all element descriptions will be moved to help text (tooltip)." data-webform-help="If checked, all element descriptions will be moved to help text (tooltip)." class="webform-element-help">?</a>');
+    $this->assertRaw('<span class="webform-element-help" role="tooltip" tabindex="0" data-webform-help="&lt;div class=&quot;webform-element-help--title&quot;&gt;Display element description as help text (tooltip)&lt;/div&gt;&lt;div class=&quot;webform-element-help--content&quot;&gt;If checked, all element descriptions will be moved to help text (tooltip).&lt;/div&gt;"><span aria-hidden="true">?</span></span>');
 
     // Check moving #description to #help for webform admin routes.
     $this->drupalPostForm('admin/structure/webform/config/advanced', ['ui[description_help]' => FALSE], t('Save configuration'));
-    $this->assertNoRaw('<a href="#help" title="If checked, all element descriptions will be moved to help text (tooltip)." data-webform-help="If checked, all element descriptions will be moved to help text (tooltip)." class="webform-element-help">?</a>');
+    $this->assertNoRaw('<span class="webform-element-help" role="tooltip" tabindex="0" data-webform-help="&lt;div class=&quot;webform-element-help--title&quot;&gt;Display element description as help text (tooltip)&lt;/div&gt;&lt;div class=&quot;webform-element-help--content&quot;&gt;If checked, all element descriptions will be moved to help text (tooltip).&lt;/div&gt;"><span aria-hidden="true">?</span></span>');
   }
 
   /**

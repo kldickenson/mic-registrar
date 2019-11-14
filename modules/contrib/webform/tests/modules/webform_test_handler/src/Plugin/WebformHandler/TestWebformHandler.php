@@ -62,6 +62,13 @@ class TestWebformHandler extends WebformHandlerBase {
   /**
    * {@inheritdoc}
    */
+  public function alterElement(array &$element, FormStateInterface $form_state, array $context) {
+    $this->displayMessage(__FUNCTION__);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function overrideSettings(array &$settings, WebformSubmissionInterface $webform_submission) {
     $this->displayMessage(__FUNCTION__);
   }
@@ -94,7 +101,7 @@ class TestWebformHandler extends WebformHandlerBase {
    * {@inheritdoc}
    */
   public function confirmForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission) {
-    drupal_set_message($this->configuration['message'], 'status', TRUE);
+    $this->messenger()->addStatus($this->configuration['message'], TRUE);
     \Drupal::logger('webform.test_form')->notice($this->configuration['message']);
     $this->displayMessage(__FUNCTION__);
   }
@@ -102,7 +109,7 @@ class TestWebformHandler extends WebformHandlerBase {
   /**
    * {@inheritdoc}
    */
-  public function preCreate(array $values) {
+  public function preCreate(array &$values) {
     $this->displayMessage(__FUNCTION__);
   }
 
@@ -214,7 +221,7 @@ class TestWebformHandler extends WebformHandlerBase {
         '@method_name' => $method_name,
         '@context1' => $context1,
       ];
-      drupal_set_message($this->t('Invoked @id: @class_name:@method_name @context1', $t_args), 'status', TRUE);
+      $this->messenger()->addStatus($this->t('Invoked @id: @class_name:@method_name @context1', $t_args), TRUE);
       \Drupal::logger('webform.test_form')->notice('Invoked: @class_name:@method_name @context1', $t_args);
     }
   }

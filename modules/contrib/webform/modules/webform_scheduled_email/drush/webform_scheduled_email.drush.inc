@@ -29,7 +29,7 @@ function webform_scheduled_email_drush_command() {
       'send_limit' => 'The maximum number of emails to be sent. If set to 0 no emails will be sent. (Default 500)',
     ],
     'callback' => 'webform_scheduled_email_cron_process',
-    'aliases' => ['wfsec'],
+    'aliases' => ['wfsec', 'webform:scheduled-email:cron'],
   ];
 
   return $items;
@@ -63,6 +63,8 @@ function webform_scheduled_email_help($section) {
  * callback to prevent conflicts with webform_scheduled_email_cron().
  *
  * @see webform_scheduled_email_cron()
+ * @see \Drupal\webform_scheduled_email\Commands\WebformScheduledEmailCommands::drush_webform_scheduled_email_cron_validate()
+ * @see \Drupal\webform_scheduled_email\Commands\WebformScheduledEmailCommands::drush_webform_scheduled_email_cron()
  */
 function webform_scheduled_email_cron_process($webform_id = NULL, $handler_id = NULL) {
   $schedule_limit = drush_get_option('schedule_limit') ?: 1000;

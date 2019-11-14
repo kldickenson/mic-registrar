@@ -6,7 +6,7 @@ use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Render\Element\Textarea;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Entity\WebformSubmission;
-use Drupal\webform\Twig\TwigExtension;
+use Drupal\webform\Twig\WebformTwigExtension;
 use Drupal\webform\Utility\WebformYaml;
 
 /**
@@ -48,6 +48,7 @@ class WebformCodeMirror extends Textarea {
       '#skip_validation' => FALSE,
       '#cols' => 60,
       '#rows' => 5,
+      '#wrap' => TRUE,
       '#resizable' => 'vertical',
       '#process' => [
         [$class, 'processWebformCodeMirror'],
@@ -70,7 +71,7 @@ class WebformCodeMirror extends Textarea {
     if ($input === FALSE && $element['#mode'] == 'yaml' && isset($element['#default_value'])) {
       // Convert associative array in default value to YAML.
       if (is_array($element['#default_value'])) {
-        $element['#default_value'] = WebformYaml::tidy(Yaml::encode($element['#default_value']));
+        $element['#default_value'] = WebformYaml::encode($element['#default_value']);
       }
       // Convert empty YAML into an empty string.
       if ($element['#default_value'] == '{  }') {
@@ -92,7 +93,7 @@ class WebformCodeMirror extends Textarea {
 
     // Check edit Twig template permission and complete disable editing.
     if ($element['#mode'] == 'twig') {
-      if (!TwigExtension::hasEditTwigAccess()) {
+      if (!WebformTwigExtension::hasEditTwigAccess()) {
         $element['#disable'] = TRUE;
         $element['#attributes']['disabled'] = 'disabled';
         $element['#field_prefix'] = [
@@ -101,6 +102,11 @@ class WebformCodeMirror extends Textarea {
           '#message_message' => t("Only webform administrators and user's assigned the 'Edit webform Twig templates' permission are allowed to edit this Twig template."),
         ];
       }
+    }
+
+    // Set wrap off.
+    if (empty($element['#wrap'])) {
+      $element['#attributes']['wrap'] = 'off';
     }
 
     // Add validate callback.
@@ -137,12 +143,11 @@ class WebformCodeMirror extends Textarea {
       $element['#value'] = $element['#default_value'];
       $form_state->setValueForElement($element, $element['#default_value']);
     }
-
     $errors = static::getErrors($element, $form_state, $complete_form);
     if ($errors) {
       $build = [
         'title' => [
-          '#markup' => t('%title is not valid.', ['%title' => (isset($element['#title']) ? $element['#title'] : t('YAML'))]),
+          '#markup' => t('%title is not valid.', ['%title' => static::getTitle($element)]),
         ],
         'errors' => [
           '#theme' => 'item_list',
@@ -186,6 +191,35 @@ class WebformCodeMirror extends Textarea {
 
       default:
         return NULL;
+    }
+  }
+
+  /**
+   * Get an element's title.
+   *
+   * @param array $element
+   *   An element.
+   *
+   * @return string
+   *   The element's title.
+   */
+  protected static function getTitle(array $element) {
+    if (isset($element['#title'])) {
+      return $element['#title'];
+    }
+
+    switch ($element['#mode']) {
+      case 'html':
+        return t('HTML');
+
+      case 'yaml':
+        return t('YAML');
+
+      case 'twig':
+        return t('Twig');
+
+      default:
+        return t('Code');
     }
   }
 
@@ -257,7 +291,7 @@ class WebformCodeMirror extends Textarea {
     $template = $element['#value'];
     $form_object = $form_state->getFormObject();
     try {
-      // If form object has getWebform mehthod. validate Twig template
+      // If form object has ::getWebform method validate Twig template
       // using a temporary webform submission context.
       if (method_exists($form_object, 'getWebform')) {
         /** @var \Drupal\webform\WebformInterface $webform */
@@ -266,10 +300,14 @@ class WebformCodeMirror extends Textarea {
         // Get a temporary webform submission.
         /** @var \Drupal\webform\WebformSubmissionGenerateInterface $webform_submission_generate */
         $webform_submission_generate = \Drupal::service('webform_submission.generate');
-        $values = ['webform_id' => $webform->id()] +
-          $webform_submission_generate->getData($webform);
+        $values = [
+          // Set sid to 0 to prevent validation errors.
+          'sid' => 0,
+          'webform_id' => $webform->id(),
+          'data' => $webform_submission_generate->getData($webform),
+        ];
         $webform_submission = WebformSubmission::create($values);
-        $build = TwigExtension::buildTwigTemplate($webform_submission, $template, []);
+        $build = WebformTwigExtension::buildTwigTemplate($webform_submission, $template, []);
       }
       else {
         $build = [

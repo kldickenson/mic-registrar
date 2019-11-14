@@ -163,8 +163,9 @@ class WebformElementManager extends DefaultPluginManager implements FallbackPlug
   public function buildElement(array &$element, array $form, FormStateInterface $form_state) {
     // Get the webform submission.
     $form_object = $form_state->getFormObject();
+    /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
     $webform_submission = ($form_object instanceof WebformSubmissionForm) ? $form_object->getEntity() : NULL;
-
+    $webform = ($webform_submission) ? $webform_submission->getWebform() : NULL;
     $element_plugin = $this->getElementInstance($element);
     $element_plugin->prepare($element, $webform_submission);
     $element_plugin->finalize($element, $webform_submission);
@@ -178,6 +179,23 @@ class WebformElementManager extends DefaultPluginManager implements FallbackPlug
     }
     $context = ['form' => $form];
     $this->moduleHandler->alter($hooks, $element, $form_state, $context);
+
+    // Allow handlers to alter the webform element.
+    if ($webform_submission) {
+      $webform->invokeHandlers('alterElement', $element, $form_state, $context);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function processElement(array &$element) {
+    $element_plugin = $this->getElementInstance($element);
+    $element_plugin->initialize($element);
+    $element_plugin->prepare($element);
+    $element_plugin->finalize($element);
+    $element_plugin->setDefaultValue($element);
+    return $element;
   }
 
   /**
@@ -303,6 +321,13 @@ class WebformElementManager extends DefaultPluginManager implements FallbackPlug
     }
     ksort($properties);
     return $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isExcluded($type) {
+    return $this->configFactory->get('webform.settings')->get('element.excluded_elements.' . $type) ? TRUE : FALSE;
   }
 
 }

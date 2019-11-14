@@ -20,20 +20,26 @@ class WebformElementMappingTest extends WebformElementTestBase {
    * Test mapping element.
    */
   public function testMappingElement() {
-    $this->drupalGet('webform/test_element_mapping');
+    $this->drupalGet('/webform/test_element_mapping');
 
     // Check default element.
-    $this->assertRaw('<th width="50%">Source &rarr;</th>');
-    $this->assertRaw('<th width="50%">Destination</th>');
+    $this->assertRaw('<th>Source &rarr;</th>');
+    $this->assertRaw('<th>Destination</th>');
     $this->assertRaw('<select data-drupal-selector="edit-webform-mapping-one" id="edit-webform-mapping-one" name="webform_mapping[one]" class="form-select"><option value="" selected="selected">- Select -</option><option value="four">Four</option><option value="five">Five</option><option value="six">Six</option></select>');
 
+    // Check source description.
+    $this->assertRaw('<td>One &rarr;<div class="description js-form-wrapper form-wrapper" data-drupal-selector="edit-table-one-source-data-description" id="edit-table-one-source-data-description">This is a description. This is a <a href="https://google.com">link</a></div>');
+
+    // Check source help.
+    $this->assertRaw('<td>One<span data-drupal-selector="edit-table-one-source-data-help" class="webform-element-help" role="tooltip" tabindex="0" data-webform-help="&lt;div class=&quot;webform-element-help--title&quot;&gt;One&lt;/div&gt;&lt;div class=&quot;webform-element-help--content&quot;&gt;This is help. This is a &lt;a href=&quot;https://google.com&quot;&gt;link&lt;/a&gt;&lt;/div&gt;"><span aria-hidden="true">?</span></span> &rarr;</td>');
+
     // Check custom element.
-    $this->assertRaw('<th width="50%">{Custom source} &raquo;</th>');
-    $this->assertRaw('<th width="50%">{Destination source}</th>');
+    $this->assertRaw('<th>{Custom source} &raquo;</th>');
+    $this->assertRaw('<th>{Destination source}</th>');
     $this->assertRaw('<select data-drupal-selector="edit-webform-mapping-one" id="edit-webform-mapping-one" name="webform_mapping[one]" class="form-select"><option value="" selected="selected">- Select -</option><option value="four">Four</option><option value="five">Five</option><option value="six">Six</option></select>');
 
     // Check custom select other element type.
-    $this->assertRaw('<input data-drupal-selector="edit-webform-mapping-select-other-one-other" type="text" id="edit-webform-mapping-select-other-one-other" name="webform_mapping_select_other[one][other]" value="" size="60" maxlength="128" placeholder="Enter other..." class="form-text" />');
+    $this->assertRaw('<input data-drupal-selector="edit-webform-mapping-select-other-one-other" type="text" id="edit-webform-mapping-select-other-one-other" name="webform_mapping_select_other[one][other]" value="" size="60" maxlength="255" placeholder="Enter other…" class="form-text" />');
 
     // Check custom textfield #size property.
     $this->assertRaw('<input data-drupal-selector="edit-webform-mapping-textfield-one" type="text" id="edit-webform-mapping-textfield-one" name="webform_mapping_textfield[one]" value="" size="10" maxlength="128" class="form-text" />');
@@ -53,8 +59,9 @@ class WebformElementMappingTest extends WebformElementTestBase {
     // Check processing.
     $edit = [
       'webform_mapping[one]' => 'four',
-      'webform_mapping[two]' => '',
       'webform_mapping[three]' => 'six',
+      'webform_mapping_description[two]' => 'five',
+      'webform_mapping_help[two]' => 'five',
       'webform_mapping_required[one]' => 'four',
       'webform_mapping_required_all[one]' => 'four',
       'webform_mapping_required_all[two]' => 'five',
@@ -77,10 +84,22 @@ class WebformElementMappingTest extends WebformElementTestBase {
       'webform_mapping_email_multiple[two]' => '',
       'webform_mapping_email_multiple[three]' => '',
     ];
+
+    // Check preview.
+    $this->drupalPostForm('webform/test_element_mapping', $edit, t('Preview'));
+
+    // Check that source description is not displayed.
+    $this->assertRaw('<li>Two &rarr; Five</li>');
+
+    // Check submitted values.
     $this->drupalPostForm('webform/test_element_mapping', $edit, t('Submit'));
     $this->assertRaw("webform_mapping:
   one: four
   three: six
+webform_mapping_description:
+  two: five
+webform_mapping_help:
+  two: five
 webform_mapping_custom:
   Sunday: four
   Monday: four

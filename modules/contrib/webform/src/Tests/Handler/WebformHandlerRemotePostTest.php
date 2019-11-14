@@ -2,6 +2,7 @@
 
 namespace Drupal\webform\Tests\Handler;
 
+use Drupal\file\Entity\File;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Tests\WebformTestBase;
@@ -27,6 +28,7 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
    */
   protected static $testWebforms = [
     'test_handler_remote_post',
+    'test_handler_remote_put',
     'test_handler_remote_get',
     'test_handler_remote_post_file',
   ];
@@ -46,6 +48,22 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
 
     // Check 'completed' operation.
     $sid = $this->postSubmission($webform);
+
+    // Check POST response.
+    $this->assertRaw("method: post
+status: success
+message: 'Processed completed request.'
+options:
+  headers:
+    Accept-Language: en
+    custom_header: 'true'
+  form_params:
+    custom_completed: true
+    custom_data: true
+    response_type: '200'
+    first_name: John
+    last_name: Smith");
+
     $webform_submission = WebformSubmission::load($sid);
     $this->assertRaw("form_params:
   custom_completed: true
@@ -60,7 +78,7 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
     $this->assertRaw('Your confirmation number is ' . $webform_submission->getElementData('confirmation_number') . '.');
 
     // Check custom header.
-    $this->assertRaw('{&quot;custom_header&quot;:&quot;true&quot;}');
+    $this->assertRaw('{&quot;headers&quot;:{&quot;Accept-Language&quot;:&quot;en&quot;,&quot;custom_header&quot;:&quot;true&quot;}');
 
     // Sleep for 1 second to make sure submission timestamp is updated.
     sleep(1);
@@ -91,12 +109,12 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
     // Check 'draft' operation.
     $this->postSubmission($webform, [], t('Save Draft'));
     $this->assertRaw("form_params:
-  custom_draft: true
+  custom_draft_created: true
   custom_data: true
   response_type: '200'
   first_name: John
   last_name: Smith");
-    $this->assertRaw('Processed draft request.');
+    $this->assertRaw('Processed draft_created request.');
 
     // Login root user.
     $this->drupalLogin($this->rootUser);
@@ -165,6 +183,41 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
     preg_match('/&quot;confirmation_number&quot;:&quot;([a-zA-z0-9]+)&quot;/', $this->getRawContent(), $match);
     $this->assertRaw('Your confirmation number is ' . $match[1] . '.');
 
+    // Set remote post error URL to homepage.
+    $handler = $webform->getHandler('remote_post');
+    $configuration = $handler->getConfiguration();
+    $configuration['settings']['error_url'] = $webform->toUrl('canonical', ['query' => ['error' => '1']])->toString();
+    $handler->setConfiguration($configuration);
+    $webform->save();
+
+    // Check 404 Not Found with custom error uri.
+    $this->postSubmission($webform, ['response_type' => '404']);
+    $this->assertNoRaw('This is a custom 404 not found message.');
+    $this->assertUrl($webform->toUrl('canonical', ['query' => ['error' => '1']])->setAbsolute()->toString());
+
+    /**************************************************************************/
+    // PUT.
+    /**************************************************************************/
+
+    /** @var \Drupal\webform\WebformInterface $webform */
+    $webform = Webform::load('test_handler_remote_put');
+
+    $this->postSubmission($webform);
+
+    // Check PUT response.
+    $this->assertRaw("method: put
+status: success
+message: 'Processed completed request.'
+options:
+  headers:
+    custom_header: 'true'
+  form_params:
+    custom_completed: true
+    custom_data: true
+    response_type: '200'
+    first_name: John
+    last_name: Smith");
+
     /**************************************************************************/
     // GET.
     /**************************************************************************/
@@ -174,11 +227,19 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
 
     $this->postSubmission($webform);
 
+    // Check GET response.
+    $this->assertRaw("method: get
+status: success
+message: 'Processed completed request.'
+options:
+  headers:
+    custom_header: 'true'");
+
     // Check request URL contains query string.
-    $this->assertRaw("http://webform-test-handler-remote-post/completed?custom_completed=1&amp;custom_data=1&amp;first_name=John&amp;last_name=Smith&amp;response_type=200");
+    $this->assertRaw("http://webform-test-handler-remote-post/completed?custom_completed=1&amp;custom_data=1&amp;response_type=200&amp;first_name=John&amp;last_name=Smith");
 
     // Check response data.
-    $this->assertRaw("message: 'Processed completed?custom_completed=1&amp;custom_data=1&amp;first_name=John&amp;last_name=Smith&amp;response_type=200 request.'");
+    $this->assertRaw("message: 'Processed completed request.'");
 
     // Get confirmation number from JSON packet.
     preg_match('/&quot;confirmation_number&quot;:&quot;([a-zA-z0-9]+)&quot;/', $this->getRawContent(), $match);
@@ -193,14 +254,43 @@ class WebformHandlerRemotePostTest extends WebformTestBase {
 
     $sid = $this->postSubmissionTest($webform);
     $webform_submission = WebformSubmission::load($sid);
-    $fid = $webform_submission->getElementData('file');
+
+    $file_data = $webform_submission->getElementData('file');
+    $file = File::load($file_data);
+    $file_id = $file->id();
+    $file_uuid = $file->uuid();
+
+    $files_data = $webform_submission->getElementData('files');
+    $file = File::load(reset($files_data));
+    $files_id = $file->id();
+    $files_uuid = $file->uuid();
 
     // Check the file name, uri, and data is appended to form params.
     $this->assertRaw("form_params:
-  file: $fid
+  file: 1
+  files:
+    - 2
+  _file:
+    id: $file_id
+    name: file.txt
+    uri: 'private://webform/test_handler_remote_post_file/$sid/file.txt'
+    mime: text/plain
+    uuid: $file_uuid
+    data: dGhpcyBpcyBhIHNhbXBsZSB0eHQgZmlsZQppdCBoYXMgdHdvIGxpbmVzCg==
+  file__id: $file_id
   file__name: file.txt
   file__uri: 'private://webform/test_handler_remote_post_file/$sid/file.txt'
-  file__data: dGhpcyBpcyBhIHNhbXBsZSB0eHQgZmlsZQppdCBoYXMgdHdvIGxpbmVzCg==");
+  file__mime: text/plain
+  file__uuid: $file_uuid
+  file__data: dGhpcyBpcyBhIHNhbXBsZSB0eHQgZmlsZQppdCBoYXMgdHdvIGxpbmVzCg==
+  _files:
+    -
+      id: $files_id
+      name: files.txt
+      uri: 'private://webform/test_handler_remote_post_file/$sid/files.txt'
+      mime: text/plain
+      uuid: $files_uuid
+      data: dGhpcyBpcyBhIHNhbXBsZSB0eHQgZmlsZQppdCBoYXMgdHdvIGxpbmVzCg==");
   }
 
 }

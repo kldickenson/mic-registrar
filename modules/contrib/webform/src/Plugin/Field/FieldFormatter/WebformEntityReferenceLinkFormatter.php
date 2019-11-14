@@ -7,6 +7,8 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\webform\Element\WebformMessage;
+use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\WebformMessageManagerInterface;
 use Drupal\webform\WebformTokenManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -73,9 +75,8 @@ class WebformEntityReferenceLinkFormatter extends WebformEntityReferenceFormatte
    *   The webform token manager.
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, RendererInterface $renderer, ConfigFactoryInterface $config_factory, WebformMessageManagerInterface $message_manager, WebformTokenManagerInterface $token_manager) {
-    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings, $renderer);
+    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings, $renderer, $config_factory);
 
-    $this->configFactory = $config_factory;
     $this->messageManager = $message_manager;
     $this->tokenManager = $token_manager;
   }
@@ -128,6 +129,17 @@ class WebformEntityReferenceLinkFormatter extends WebformEntityReferenceFormatte
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
+
+    if ($this->fieldDefinition->getTargetEntityTypeId() === 'paragraph') {
+      $form['message'] = [
+        '#type' => 'webform_message',
+        '#message_type' => 'warning',
+        '#message_message' => $this->t("This paragraph field's main entity will be used as the webform submission's source entity."),
+        '#message_close' => TRUE,
+        '#message_storage' => WebformMessage::STORAGE_SESSION,
+      ];
+    }
+
     $form['label'] = [
       '#title' => $this->t('Label'),
       '#type' => 'textfield',
@@ -175,6 +187,20 @@ class WebformEntityReferenceLinkFormatter extends WebformEntityReferenceFormatte
       }
 
       if ($entity->isOpen()) {
+        $link_label = $this->getSetting('label');
+        if (strpos($link_label, '[webform_submission') !== FALSE) {
+          $link_entity = WebformSubmission::create([
+            'webform_id' => $entity->id(),
+            'entity_type' => $source_entity->getEntityTypeId(),
+            'entity_id' => $source_entity->id(),
+          ]);
+          // Invoke override settings to all webform handlers to adjust any
+          // form settings.
+          $link_entity->getWebform()->invokeHandlers('overrideSettings', $link_entity);
+        }
+        else {
+          $link_entity = $entity;
+        }
         $link_options = [
           'query' => [
             'source_entity_type' => $source_entity->getEntityTypeId(),
@@ -183,7 +209,7 @@ class WebformEntityReferenceLinkFormatter extends WebformEntityReferenceFormatte
         ];
         $link = [
           '#type' => 'link',
-          '#title' => $this->tokenManager->replace($this->getSetting('label'), $entity),
+          '#title' => ['#markup' => $this->tokenManager->replace($link_label, $link_entity)],
           '#url' => $entity->toUrl('canonical', $link_options),
           '#attributes' => $this->getSetting('attributes') ?: [],
         ];

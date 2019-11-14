@@ -18,11 +18,16 @@
    *   Attaches the behavior for unsaved changes.
    */
   Drupal.behaviors.webformUnsaved = {
+    clear: function () {
+      // Allow Ajax refresh/redirect to clear unsaved flag.
+      // @see Drupal.AjaxCommands.prototype.webformRefresh
+      unsaved = false;
+    },
     attach: function (context) {
-      // Look for the 'data-webform-unsaved' attribute which indicates that the
-      // multi-step webform has unsaved data.
+      // Look for the 'data-webform-unsaved' attribute which indicates that
+      // a multi-step webform has unsaved data.
       // @see \Drupal\webform\WebformSubmissionForm::buildForm
-      if ($('.js-webform-unsaved[data-webform-unsaved]').length) {
+      if ($('.js-webform-unsaved[data-webform-unsaved]').once('data-webform-unsaved').length) {
         unsaved = true;
       }
       else {
@@ -47,6 +52,27 @@
 
         unsaved = false;
       });
+
+      // Add submit handler to form.beforeSend.
+      // Update Drupal.Ajax.prototype.beforeSend only once.
+      if (typeof Drupal.Ajax !== 'undefined' && typeof Drupal.Ajax.prototype.beforeSubmitWebformUnsavedOriginal === 'undefined') {
+        Drupal.Ajax.prototype.beforeSubmitWebformUnsavedOriginal = Drupal.Ajax.prototype.beforeSubmit;
+        Drupal.Ajax.prototype.beforeSubmit = function (form_values, element_settings, options) {
+          unsaved = false;
+          return this.beforeSubmitWebformUnsavedOriginal.apply(this, arguments);
+        };
+      }
+
+      // Track all CKEditor change events.
+      // @see https://ckeditor.com/old/forums/Support/CKEditor-jQuery-change-event
+      if (window.CKEDITOR && !CKEDITOR.webformUnsaved) {
+        CKEDITOR.webformUnsaved = true;
+        CKEDITOR.on('instanceCreated', function (event) {
+          event.editor.on('change', function (evt) {
+            unsaved = true;
+          });
+        });
+      }
     }
   };
 
@@ -73,7 +99,7 @@
     }
     $('a').bind('click', function (evt) {
       var href = $(evt.target).closest('a').attr('href');
-      if (href !== undefined && !(href.match(/^#/) || href.trim() === '')) {
+      if (typeof href !== 'undefined' && !(href.match(/^#/) || href.trim() === '')) {
         if ($(window).triggerHandler('beforeunload')) {
           if (!window.confirm(Drupal.t('Changes you made may not be saved.') + '\n\n' + Drupal.t('Press OK to leave this page or Cancel to stay.'))) {
             return false;

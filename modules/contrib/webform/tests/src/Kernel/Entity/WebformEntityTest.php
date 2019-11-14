@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\webform\Kernel\Entity;
 
-use Drupal\Core\Serialization\Yaml;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\Utility\WebformYaml;
 use Drupal\webform\WebformException;
 use Drupal\webform\WebformInterface;
 
@@ -27,6 +27,10 @@ class WebformEntityTest extends KernelTestBase {
    * Tests some of the methods.
    */
   public function testWebformMethods() {
+    // @todo Remove once Drupal 8.8.x is only supported.
+    if (floatval(\Drupal::VERSION) >= 8.8) {
+      $this->installEntitySchema('path_alias');
+    }
     $this->installSchema('webform', ['webform']);
     $this->installConfig('webform');
 
@@ -187,13 +191,14 @@ class WebformEntityTest extends KernelTestBase {
         'child' => [
           '#type' => 'textfield',
           '#title' => 'child',
+          '#default_value' => '{default value}',
         ],
       ],
     ];
     $webform->setElements($elements);
 
     // Check that elements are serialized to YAML.
-    $this->assertTrue($webform->getElementsRaw(), Yaml::encode($elements));
+    $this->assertTrue($webform->getElementsRaw(), WebformYaml::encode($elements));
 
     // Check elements decoded and flattened.
     $flattened_elements = [
@@ -208,15 +213,17 @@ class WebformEntityTest extends KernelTestBase {
       'child' => [
         '#type' => 'textfield',
         '#title' => 'child',
+        '#default_value' => '{default value}',
       ],
     ];
     $this->assertEquals($webform->getElementsDecodedAndFlattened(), $flattened_elements);
 
-    // Check elements initialized  and flattened.
+    // Check elements initialized and flattened.
     $elements_initialized_and_flattened = [
       'root' => [
         '#type' => 'textfield',
         '#title' => 'root',
+        '#webform' => 'webform_test',
         '#webform_id' => 'webform_test--root',
         '#webform_key' => 'root',
         '#webform_parent_key' => '',
@@ -231,6 +238,7 @@ class WebformEntityTest extends KernelTestBase {
       'container' => [
         '#type' => 'container',
         '#title' => 'container',
+        '#webform' => 'webform_test',
         '#webform_id' => 'webform_test--container',
         '#webform_key' => 'container',
         '#webform_parent_key' => '',
@@ -245,6 +253,8 @@ class WebformEntityTest extends KernelTestBase {
       'child' => [
         '#type' => 'textfield',
         '#title' => 'child',
+        '#default_value' => '{default value}',
+        '#webform' => 'webform_test',
         '#webform_id' => 'webform_test--child',
         '#webform_key' => 'child',
         '#webform_parent_key' => 'container',
@@ -263,6 +273,9 @@ class WebformEntityTest extends KernelTestBase {
     $elements_initialized_flattened_and_has_value = $elements_initialized_and_flattened;
     unset($elements_initialized_flattened_and_has_value['container']);
     $this->assertEquals($webform->getElementsInitializedFlattenedAndHasValue(), $elements_initialized_flattened_and_has_value);
+
+    // Check elements default data.
+    $this->assertEquals($webform->getElementsDefaultData(), ['child' => '{default value}']);
 
     // Check invalid elements.
     $webform->set('elements', 'invalid')->save();
@@ -322,13 +335,23 @@ class WebformEntityTest extends KernelTestBase {
    * Test paths.
    */
   public function testPaths() {
+    // @todo Remove once Drupal 8.8.x is only supported.
+    if (floatval(\Drupal::VERSION) >= 8.8) {
+      $this->installEntitySchema('path_alias');
+    }
     $this->installSchema('webform', ['webform']);
     $this->installConfig('webform');
 
     /** @var \Drupal\webform\WebformInterface $webform */
     $webform = Webform::create(['id' => 'webform_test']);
     $webform->save();
-    $aliases = \Drupal::database()->query('SELECT source, alias FROM {url_alias}')->fetchAllKeyed();
+    // @todo Remove once Drupal 8.8.x is only supported.
+    if (floatval(\Drupal::VERSION) >= 8.8) {
+      $aliases = \Drupal::database()->query('SELECT path, alias FROM {path_alias}')->fetchAllKeyed();
+    }
+    else {
+      $aliases = \Drupal::database()->query('SELECT source, alias FROM {url_alias}')->fetchAllKeyed();
+    }
     $this->assertEquals($aliases['/webform/webform_test'], '/form/webform-test');
     $this->assertEquals($aliases['/webform/webform_test/confirmation'], '/form/webform-test/confirmation');
     $this->assertEquals($aliases['/webform/webform_test/submissions'], '/form/webform-test/submissions');
@@ -338,6 +361,10 @@ class WebformEntityTest extends KernelTestBase {
    * Test elements CRUD operations.
    */
   public function testElementsCrud() {
+    // @todo Remove once Drupal 8.8.x is only supported.
+    if (floatval(\Drupal::VERSION) >= 8.8) {
+      $this->installEntitySchema('path_alias');
+    }
     $this->installSchema('webform', ['webform']);
     $this->installEntitySchema('webform_submission');
 
@@ -353,7 +380,7 @@ class WebformEntityTest extends KernelTestBase {
       ],
     ];
     $webform->setElementProperties('root', $elements['root']);
-    $this->assertEquals($webform->getElementsRaw(), Yaml::encode($elements));
+    $this->assertEquals($webform->getElementsRaw(), WebformYaml::encode($elements));
 
     // Check add new container to root.
     $elements['root']['container'] = [
@@ -361,7 +388,7 @@ class WebformEntityTest extends KernelTestBase {
       '#title' => 'container',
     ];
     $webform->setElementProperties('container', $elements['root']['container'], 'root');
-    $this->assertEquals($webform->getElementsRaw(), Yaml::encode($elements));
+    $this->assertEquals($webform->getElementsRaw(), WebformYaml::encode($elements));
 
     // Check add new element to container.
     $elements['root']['container']['element'] = [
@@ -369,7 +396,7 @@ class WebformEntityTest extends KernelTestBase {
       '#title' => 'element',
     ];
     $webform->setElementProperties('element', $elements['root']['container']['element'], 'container');
-    $this->assertEquals($webform->getElementsRaw(), Yaml::encode($elements));
+    $this->assertEquals($webform->getElementsRaw(), WebformYaml::encode($elements));
 
     // Check delete container with al recursively delete all children.
     $elements = [
@@ -379,7 +406,7 @@ class WebformEntityTest extends KernelTestBase {
       ],
     ];
     $webform->deleteElement('container');
-    $this->assertEquals($webform->getElementsRaw(), Yaml::encode($elements));
+    $this->assertEquals($webform->getElementsRaw(), WebformYaml::encode($elements));
   }
 
 }

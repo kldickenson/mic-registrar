@@ -32,10 +32,10 @@ class WebformCompositePluginTest extends WebformTestBase {
 
     /* Display */
 
-    $this->drupalGet('webform/test_element_composite_plugin');
+    $this->drupalGet('/webform/test_element_composite_plugin');
 
     // Check fieldset with nested elements is rendered.
-    $this->assertRaw('<fieldset data-drupal-selector="edit-webform-test-composite-fieldset" id="edit-webform-test-composite-fieldset" class="js-form-item form-item js-form-wrapper form-wrapper">');
+    $this->assertRaw('<fieldset data-drupal-selector="edit-webform-test-composite-fieldset" id="edit-webform-test-composite-fieldset" class="js-webform-type-fieldset webform-type-fieldset js-form-item form-item js-form-wrapper form-wrapper">');
     $this->assertRaw('<span class="fieldset-legend">fieldset</span>');
 
     /* Processing */

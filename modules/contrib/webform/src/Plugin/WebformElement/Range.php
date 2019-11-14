@@ -57,8 +57,6 @@ class Range extends NumericBase {
       '#max' => $this->getDefaultProperty('max'),
     ];
 
-    $element['#element_validate'][] = [get_class($this), 'validateRange'];
-
     // If no custom range output is defined then exit.
     if (empty($element['#output'])) {
       return;
@@ -83,6 +81,9 @@ class Range extends NumericBase {
       // Create output (number) element.
       $output = [
         '#type' => 'number',
+        '#title' => $element['#title'],
+        '#title_display' => 'invisible',
+        '#id' => $webform_key . '__output',
         '#name' => $webform_key . '__output',
       ];
 
@@ -90,7 +91,7 @@ class Range extends NumericBase {
       $properties = ['#min', '#max', '#step', '#disabled'];
       $output += array_intersect_key($element, array_combine($properties, $properties));
 
-      // Copy custom output properties to ouput element.
+      // Copy custom output properties to output element.
       foreach ($element as $key => $value) {
         if (strpos($key, '#output__') === 0) {
           $output_key = str_replace('#output__', '#', $key);
@@ -147,6 +148,14 @@ class Range extends NumericBase {
     }
 
     $element['#attached']['library'][] = 'webform/webform.element.range';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareElementValidateCallbacks(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+    parent::prepareElementValidateCallbacks($element, $webform_submission);
+    $element['#element_validate'][] = [get_class($this), 'validateRange'];
   }
 
   /**
@@ -223,10 +232,9 @@ class Range extends NumericBase {
    * @see \Drupal\Core\Render\Element\Range::valueCallback
    */
   public static function validateRange(array &$element, FormStateInterface $form_state, array &$completed_form) {
-    $name = $element['#name'];
-    $value = $form_state->getValue($name);
+    $value = $element['#value'];
     $value = ($value === 0) ? '0' : (string) $value;
-    $form_state->setValue($name, $value);
+    $form_state->setValueForElement($element, $value);
   }
 
 }

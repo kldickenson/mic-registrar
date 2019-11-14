@@ -26,14 +26,22 @@ trait WebformEntityTrait {
    *
    * @param array $element
    *   An element.
+   * @param array $settings
+   *   An array of settings used to limit and randomize options.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
    *   Thrown when the current user doesn't have access to the specified entity.
    *
    * @see \Drupal\system\Controller\EntityAutocompleteController
    */
-  public static function setOptions(array &$element) {
+  public static function setOptions(array &$element, array $settings = []) {
     if (!empty($element['#options'])) {
+      return;
+    }
+
+    // Make sure #target_type is not empty.
+    if (empty($element['#target_type'])) {
+      $element['#options'] = [];
       return;
     }
 
@@ -41,12 +49,18 @@ trait WebformEntityTrait {
       'target_type' => $element['#target_type'],
       'handler' => $element['#selection_handler'],
       'handler_settings' => (isset($element['#selection_settings'])) ? $element['#selection_settings'] : [],
+      // Set '_webform_settings' used to limit and randomize options.
+      // @see webform_query_entity_reference_alter()
+      '_webform_settings' => $settings,
     ];
+
+    // Make sure settings has a limit.
+    $settings += ['limit' => 0];
 
     /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $selection_manager */
     $selection_manager = \Drupal::service('plugin.manager.entity_reference_selection');
     $handler = $selection_manager->getInstance($selection_handler_options);
-    $referenceable_entities = $handler->getReferenceableEntities();
+    $referenceable_entities = $handler->getReferenceableEntities(NULL, 'CONTAINS', $settings['limit']);
 
     // Flatten all bundle grouping since they are not applicable to
     // WebformEntity elements.

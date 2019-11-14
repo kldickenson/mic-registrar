@@ -1,10 +1,13 @@
-webform.webform.*:
+'webform.webform.*':
   type: config_entity
-  label: 'Webforms'
+  label: Webforms
   mapping:
     status:
       type: string
-      label: 'Status'
+      label: Status
+    weight:
+      type: integer
+      label: Weight
     open:
       type: string
       label: 'Open date/time'
@@ -13,25 +16,25 @@ webform.webform.*:
       label: 'Close date/time'
     uid:
       type: integer
-      label: 'Author'
+      label: Author
     template:
       type: boolean
-      label: 'Template'
+      label: Template
     archive:
       type: boolean
-      label: 'Archive'
+      label: Archive
     id:
       type: string
       label: 'Machine name'
     title:
       type: label
-      label: 'Title'
+      label: Title
     description:
       type: label
       label: 'Administrative description'
     category:
       type: label
-      label: 'Category'
+      label: Category
     elements:
       type: text
       label: 'Elements (YAML)'
@@ -40,12 +43,10 @@ webform.webform.*:
       label: 'CSS (Cascading Style Sheets)'
     javascript:
       type: string
-      label: 'JavaScript'
+      label: JavaScript
     settings:
       type: mapping
-      label: 'Settings'
-      # Below mapping is copied to: webform.handler.settings
-      #@see webform.plugin.handler.schema.yml
+      label: Settings
       mapping:
         ajax:
           type: boolean
@@ -53,6 +54,15 @@ webform.webform.*:
         ajax_scroll_top:
           type: string
           label: 'Ajax scroll top'
+        ajax_progress_type:
+          type: string
+          label: 'Ajax progress type'
+        ajax_effect:
+          type: string
+          label: 'Ajax effect'
+        ajax_speed:
+          type: integer
+          label: 'Ajax speed'
         page:
           type: boolean
           label: 'Enable page'
@@ -62,6 +72,12 @@ webform.webform.*:
         page_confirm_path:
           type: string
           label: 'Page confirm URL alias'
+        page_admin_theme:
+          type: boolean
+          label: 'Use admin theme for page'
+        form_title:
+          type: string
+          label: 'Form title display'
         form_submit_once:
           type: boolean
           label: 'Prevent duplicate submissions'
@@ -83,6 +99,9 @@ webform.webform.*:
         form_confidential_message:
           type: text
           label: 'Form confidential message'
+        form_remote_addr:
+          type: boolean
+          label: 'Track user IP address'
         form_convert_anonymous:
           type: boolean
           label: 'Convert anonymous drafts and submissions to authenticated'
@@ -121,19 +140,28 @@ webform.webform.*:
           label: 'Display required indicator'
         form_autofocus:
           type: boolean
-          label: 'Autofocus'
+          label: Autofocus
         form_details_toggle:
           type: boolean
           label: 'Display collapse/expand all details link'
         form_reset:
           type: boolean
           label: 'Display reset button'
-        form_login:
-          type: boolean
-          label: 'Redirect to login when access denied to webform'
-        form_login_message:
+        form_access_denied:
+          type: string
+          label: 'Form access denied action'
+        form_access_denied_title:
+          type: label
+          label: 'Form access denied title'
+        form_access_denied_message:
           type: text
-          label: 'Login message when access denied to webform'
+          label: 'Form access denied message'
+        form_access_denied_attributes:
+          type: ignore
+          label: 'Form access denied message attributes'
+        form_file_limit:
+          type: string
+          label: 'Form file upload limit'
         submission_label:
           type: label
           label: 'Default submission label'
@@ -146,6 +174,65 @@ webform.webform.*:
         submission_log:
           type: boolean
           label: 'Submission logging'
+        submission_excluded_elements:
+          type: sequence
+          label: 'Submission excluded elements'
+          sequence:
+            type: string
+            label: 'Element key'
+        submission_exclude_empty:
+          type: boolean
+          label: 'Submission exclude empty elements'
+        submission_exclude_empty_checkbox:
+          type: boolean
+          label: 'Submission exclude unselected checkboxes'
+        submission_views:
+          type: sequence
+          label: 'Submission views'
+          sequence:
+            type: mapping
+            label: 'Submission view'
+            mapping:
+              title:
+                type: text
+                label: Title
+              view:
+                type: string
+                label: 'View name / Display ID'
+              webform_routes:
+                type: sequence
+                label: 'Apply to webform'
+                sequence:
+                  type: string
+                  label: Route
+              node_routes:
+                type: sequence
+                label: 'Apply to node'
+                sequence:
+                  type: string
+                  label: Route
+        submission_views_replace:
+          type: mapping
+          label: 'Submission view replace'
+          mapping:
+            global_routes:
+              type: sequence
+              label: 'Replace to global'
+              sequence:
+                type: string
+                label: Route
+            webform_routes:
+              type: sequence
+              label: 'Replace to webform'
+              sequence:
+                type: string
+                label: Route
+            node_routes:
+              type: sequence
+              label: 'Replace to node'
+              sequence:
+                type: string
+                label: Route
         submission_user_columns:
           type: sequence
           label: 'Submission user columns'
@@ -155,12 +242,18 @@ webform.webform.*:
         submission_user_duplicate:
           type: boolean
           label: 'Submission user duplicate'
-        submission_login:
-          type: boolean
-          label: 'Redirect to login when access denied to submission'
-        submission_login_message:
+        submission_access_denied:
+          type: string
+          label: 'Submission access denied action'
+        submission_access_denied_title:
+          type: label
+          label: 'Submission access denied title'
+        submission_access_denied_message:
           type: text
-          label: 'Login message when access denied to submission'
+          label: 'Submission access denied message'
+        submission_access_denied_attributes:
+          type: ignore
+          label: 'Submission access denied message attributes'
         previous_submission_message:
           type: text
           label: 'Previous submission message'
@@ -188,12 +281,21 @@ webform.webform.*:
         wizard_progress_percentage:
           type: boolean
           label: 'Show wizard progress pages'
+        wizard_progress_link:
+          type: boolean
+          label: 'Link to previous pages in progress bar'
+        wizard_progress_states:
+          type: boolean
+          label: 'Update wizard progress bar''s pages based on conditions'
         wizard_start_label:
           type: label
           label: 'Wizard start label'
         wizard_start_attributes:
           type: ignore
           label: 'Wizard start attributes'
+        wizard_preview_link:
+          type: boolean
+          label: 'Link to previous pages in preview'
         wizard_confirmation:
           type: boolean
           label: 'Include confirmation page in progress'
@@ -245,6 +347,12 @@ webform.webform.*:
         draft_loaded_message:
           type: text
           label: 'Draft loaded message'
+        draft_pending_single_message:
+          type: text
+          label: 'Draft pending single draft message'
+        draft_pending_multiple_message:
+          type: text
+          label: 'Draft pending multiple drafts message'
         confirmation_type:
           type: string
           label: 'Confirmation type'
@@ -252,7 +360,7 @@ webform.webform.*:
           type: string
           label: 'Confirmation URL'
         confirmation_title:
-          type: text
+          type: label
           label: 'Confirmation title'
         confirmation_message:
           type: text
@@ -275,6 +383,9 @@ webform.webform.*:
         confirmation_exclude_token:
           type: boolean
           label: 'Exclude token from confirmation URL'
+        confirmation_update:
+          type: boolean
+          label: 'Display confirmation when submission is updated'
         limit_total:
           type: integer
           label: 'Limit total submissions'
@@ -284,6 +395,9 @@ webform.webform.*:
         limit_total_message:
           type: text
           label: 'Limit total message'
+        limit_total_unique:
+          type: boolean
+          label: 'Limit total to one submission per source entity'
         limit_user:
           type: integer
           label: 'Limit user submissions'
@@ -293,6 +407,9 @@ webform.webform.*:
         limit_user_message:
           type: text
           label: 'Limit user message'
+        limit_user_unique:
+          type: boolean
+          label: 'Limit user to one submission per source entity'
         entity_limit_total:
           type: integer
           label: 'Entity limit total submissions'
@@ -321,229 +438,30 @@ webform.webform.*:
           type: boolean
           label: 'Allow updates using token'
     access:
-      type: mapping
-      label: 'Access'
-      mapping:
-        create:
-          type: mapping
-          label: 'Create webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        view_any:
-          type: mapping
-          label: 'View any webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        update_any:
-          type: mapping
-          label: 'Update any webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        delete_any:
-          type: mapping
-          label: 'Delete any webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        purge_any:
-          type: mapping
-          label: 'Purge any webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        view_own:
-          type: mapping
-          label: 'View own webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        update_own:
-          type: mapping
-          label: 'Update own webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        delete_own:
-          type: mapping
-          label: 'Delete own webform submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        administer:
-          type: mapping
-          label: 'Administer webform and submissions'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
-        test:
-          type: mapping
-          label: 'Test webform'
-          mapping:
-            roles:
-              type: sequence
-              label: 'Roles'
-              sequence:
-                type: string
-                label: 'Role'
-            users:
-              type: sequence
-              label: 'Users'
-              sequence:
-                type: integer
-                label: 'User IDs'
-            permissions:
-              type: sequence
-              label: 'Permissions'
-              sequence:
-                type: string
-                label: 'Permission'
+      type: sequence
+      label: 'Access Rules'
+      sequence:
+        type: mapping
+        label: 'Access Rule'
+        mapping:
+          roles:
+            type: sequence
+            label: Roles
+            sequence:
+              type: string
+              label: Role
+          users:
+            type: sequence
+            label: Users
+            sequence:
+              type: integer
+              label: 'User IDs'
+          permissions:
+            type: sequence
+            label: Permissions
+            sequence:
+              type: string
+              label: Permission
     handlers:
       type: sequence
       label: 'Webform handlers'
@@ -558,20 +476,20 @@ webform.webform.*:
             label: 'Handler instance ID'
           label:
             type: label
-            label: 'Label'
+            label: Label
           status:
             type: boolean
-            label: 'Status'
+            label: Status
           conditions:
             type: ignore
             label: 'Conditional logic'
           weight:
             type: integer
-            label: 'Weight'
+            label: Weight
           settings:
-            type: webform.handler.[%parent.id]
+            type: 'webform.handler.[%parent.id]'
     third_party_settings:
       type: sequence
       label: 'Third party settings'
       sequence:
-        type: webform.settings.third_party.[%key]
+        type: 'webform.settings.third_party.[%key]'

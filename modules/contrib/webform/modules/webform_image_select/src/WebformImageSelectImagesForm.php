@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
+use Drupal\webform\Utility\WebformDialogHelper;
 use Drupal\webform\Utility\WebformOptionsHelper;
 use Drupal\webform\Utility\WebformArrayHelper;
 
@@ -72,7 +73,7 @@ class WebformImageSelectImagesForm extends EntityForm {
         'label' => '<br/>' . $this->t('Machine name'),
       ],
       '#maxlength' => 32,
-      '#field_suffix' => ' (' . $this->t('Maximum @max characters', ['@max' => 32]) . ')',
+      '#field_suffix' => ($webform_images->isNew()) ? ' (' . $this->t('Maximum @max characters', ['@max' => 32]) . ')' : '',
       '#required' => TRUE,
       '#disabled' => !$webform_images->isNew(),
       '#default_value' => $webform_images->id(),
@@ -90,6 +91,7 @@ class WebformImageSelectImagesForm extends EntityForm {
         '#type' => 'webform_codemirror',
         '#mode' => 'yaml',
         '#title' => $this->t('Images (YAML)'),
+        '#attributes' => ['style' => 'min-height: 200px'],
         '#default_value' => $this->getImages(),
       ];
     }
@@ -99,7 +101,7 @@ class WebformImageSelectImagesForm extends EntityForm {
         '#title' => $this->t('Images'),
         '#title_display' => 'invisible',
         '#empty_options' => 10,
-        '#add_more' => 10,
+        '#add_more_items' => 10,
         '#default_value' => $this->getImages(),
       ];
     }
@@ -120,11 +122,26 @@ class WebformImageSelectImagesForm extends EntityForm {
           '%module_names' => WebformArrayHelper::toString($module_names),
           '@module' => new PluralTranslatableMarkup(count($module_names), $this->t('module'), $this->t('modules')),
         ];
-        drupal_set_message($this->t('The %title images are being altered by the %module_names @module.', $t_args), 'warning');
+        $this->messenger()->addWarning($this->t('The %title images are being altered by the %module_names @module.', $t_args));
       }
     }
 
     return parent::form($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function actions(array $form, FormStateInterface $form_state) {
+    $actions = parent::actions($form, $form_state);
+
+    // Open delete button in a modal dialog.
+    if (isset($actions['delete'])) {
+      $actions['delete']['#attributes'] = WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_NARROW, $actions['delete']['#attributes']['class']);
+      WebformDialogHelper::attachLibraries($actions['delete']);
+    }
+
+    return $actions;
   }
 
   /**
@@ -154,7 +171,9 @@ class WebformImageSelectImagesForm extends EntityForm {
     ];
     $this->logger('webform_image_select')->notice('Images @label saved.', $context);
 
-    drupal_set_message($this->t('Images %label saved.', ['%label' => $images->label()]));
+    $this->messenger()->addStatus($this->t('Images %label saved.', [
+      '%label' => $images->label(),
+    ]));
 
     $form_state->setRedirect('entity.webform_image_select_images.collection');
   }

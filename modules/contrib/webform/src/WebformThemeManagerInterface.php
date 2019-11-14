@@ -8,12 +8,36 @@ namespace Drupal\webform;
 interface WebformThemeManagerInterface {
 
   /**
+   * Get a theme's name.
+   *
+   * @return string
+   *   A theme's name
+   */
+  public function getThemeName($name);
+
+  /**
+   * Get themes as associative array.
+   *
+   * @return array
+   *   An associative array containing theme name.
+   */
+  public function getThemeNames();
+
+  /**
    * Get all active theme names.
    *
    * @return array
    *   An array containing the active theme and base theme names.
    */
   public function getActiveThemeNames();
+
+  /**
+   * Determine if the current request has an active theme.
+   *
+   * @return bool
+   *   TRUE if the current request has an active theme.
+   */
+  public function hasActiveTheme();
 
   /**
    * Determine if a theme name is being used the active or base theme.
@@ -27,9 +51,12 @@ interface WebformThemeManagerInterface {
   public function isActiveTheme($theme_name);
 
   /**
-   * Sets the current theme the default theme.
+   * Sets the current theme the theme.
+   *
+   * @param string $theme_name
+   *   (optional) A theme name. Defaults the default theme.
    */
-  public function setDefaultTheme();
+  public function setCurrentTheme($theme_name = NULL);
 
   /**
    * Sets the current theme the active theme.

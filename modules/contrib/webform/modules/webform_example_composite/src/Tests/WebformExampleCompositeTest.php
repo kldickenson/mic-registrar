@@ -27,7 +27,7 @@ class WebformExampleCompositeTest extends WebformTestBase {
     $webform = Webform::load('webform_example_composite');
 
     // Check form element rendering.
-    $this->drupalGet('webform/webform_example_composite');
+    $this->drupalGet('/webform/webform_example_composite');
     // NOTE:
     // This is a very lazy but easy way to check that the element is rendering
     // as expected.
@@ -61,10 +61,10 @@ class WebformExampleCompositeTest extends WebformTestBase {
     ]);
     $this->assertEqual($webform_submission->getElementData('webform_example_composite_multiple'), [
       [
-      'first_name' => 'Jane',
-      'last_name' => 'Doe',
-      'gender' => 'Female',
-      'date_of_birth' => '1920-12-01',
+        'first_name' => 'Jane',
+        'last_name' => 'Doe',
+        'gender' => 'Female',
+        'date_of_birth' => '1920-12-01',
       ],
     ]);
   }

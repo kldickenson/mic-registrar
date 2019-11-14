@@ -61,7 +61,7 @@ class WebformRating extends Range {
     static::setAttributes($element, ['form-webform-rating']);
 
     // If value is an empty string set it the min.
-    if ($element['#attributes']['value'] == '') {
+    if (isset($element['#attributes']['value']) && $element['#attributes']['value'] === '') {
       $element['#attributes']['value'] = $element['#attributes']['min'];
     }
 
@@ -76,8 +76,8 @@ class WebformRating extends Range {
    * @param array $element
    *   A rating element.
    *
-   * @return string
-   *   The RateIt div tag.
+   * @return array
+   *   A renderable array containing the RateIt div tag.
    *
    * @see https://github.com/gjunge/rateit.js/wiki
    */
@@ -103,9 +103,9 @@ class WebformRating extends Range {
       'data-rateit-readonly' => $is_readonly ? 'true' : 'false',
     ];
 
-    // Set range element's #id.
-    if (isset($element['#id'])) {
-      $attributes['data-rateit-backingfld'] = '#' . $element['#id'];
+    // Set range element's selector based on its parents.
+    if (isset($element['#attributes']['data-drupal-selector'])) {
+      $attributes['data-rateit-backingfld'] = '[data-drupal-selector="' . $element['#attributes']['data-drupal-selector'] . '"]';
     }
 
     // Set value for HTML preview.

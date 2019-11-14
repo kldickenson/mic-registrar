@@ -2,16 +2,22 @@
 
 namespace Drupal\webform\Form;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\webform\Ajax\WebformAnnounceCommand;
 use Drupal\webform\Ajax\WebformCloseDialogCommand;
+use Drupal\webform\Ajax\WebformConfirmReloadCommand;
 use Drupal\webform\Ajax\WebformRefreshCommand;
 use Drupal\webform\Ajax\WebformScrollTopCommand;
 use Drupal\webform\Ajax\WebformSubmissionAjaxResponse;
+use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\WebformSubmissionForm;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -46,7 +52,7 @@ trait WebformAjaxFormTrait {
    * Get default ajax callback settings.
    *
    * @return array
-   *   An associative array containing  default ajax callback settings.
+   *   An associative array containing default ajax callback settings.
    */
   protected function getDefaultAjaxSettings() {
     return [
@@ -87,7 +93,7 @@ trait WebformAjaxFormTrait {
     $wrapper_format = $this->getRequest()
       ->get(MainContentViewSubscriber::WRAPPER_FORMAT);
     return (in_array($wrapper_format, [
-      'drupal_dialog_off_canvas',
+      'drupal_dialog.off_canvas',
     ])) ? TRUE : FALSE;
   }
 
@@ -98,7 +104,8 @@ trait WebformAjaxFormTrait {
    *   The form's Ajax wrapper id.
    */
   protected function getWrapperId() {
-    return $this->getFormId() . '-ajax';
+    $form_id = (method_exists($this, 'getBaseFormId') ? $this->getBaseFormId() : $this->getFormId());
+    return Html::getId($form_id . '-ajax');
   }
 
   /**
@@ -122,30 +129,48 @@ trait WebformAjaxFormTrait {
     // Apply default settings.
     $settings += $this->getDefaultAjaxSettings();
 
-    // Make sure the form has (submit) actions.
-    if (!isset($form['actions'])) {
-      return $form;
-    }
-
     // Add Ajax callback to all submit buttons.
-    foreach (Element::children($form['actions']) as $key) {
-      $is_submit_button = (isset($form['actions'][$key]['#type']) && $form['actions'][$key]['#type'] == 'submit');
-      if ($is_submit_button) {
-        $form['actions'][$key]['#ajax'] = [
-          'callback' => '::submitAjaxForm',
-          'event' => 'click',
-        ] + $settings;
+    foreach (Element::children($form) as $element_key) {
+      if (!WebformElementHelper::isType($form[$element_key], 'actions')) {
+        continue;
+      }
+
+      $actions =& $form[$element_key];
+      foreach (Element::children($actions) as $action_key) {
+        if (WebformElementHelper::isType($actions[$action_key], 'submit')) {
+          $actions[$action_key]['#ajax'] = [
+            'callback' => '::submitAjaxForm',
+            'event' => 'click',
+          ] + $settings;
+        }
       }
     }
 
-    // Add Ajax wrapper around the form.
-    $form['#form_wrapper_id'] = $this->getWrapperId();
-    $form['#prefix'] = '<div id="' . $this->getWrapperId() . '">';
+    // Add Ajax wrapper with wrapper content bookmark around the form.
+    // @see Drupal.AjaxCommands.prototype.webformScrollTop
+    $wrapper_id = $this->getWrapperId();
+    $wrapper_attributes = [];
+    $wrapper_attributes['id'] = $wrapper_id;
+    $wrapper_attributes['class'] = ['webform-ajax-form-wrapper'];
+    if (isset($settings['effect'])) {
+      $wrapper_attributes['data-effect'] = $settings['effect'];
+    }
+    if (isset($settings['progress']['type'])) {
+      $wrapper_attributes['data-progress-type'] = $settings['progress']['type'];
+    }
+    $wrapper_attributes = new Attribute($wrapper_attributes);
+
+    $form['#form_wrapper_id'] = $wrapper_id;
+    $form['#prefix'] = '<a id="' . $wrapper_id . '-content" tabindex="-1" aria-hidden="true"></a>';
+    $form['#prefix'] .= '<div' . $wrapper_attributes . '>';
     $form['#suffix'] = '</div>';
 
     // Add Ajax library which contains 'Scroll to top' Ajax command and
     // Ajax callback for confirmation back to link.
     $form['#attached']['library'][] = 'webform/webform.ajax';
+
+    // Add validate Ajax form.
+    $form['#validate'][] = '::validateAjaxForm';
 
     return $form;
   }
@@ -164,13 +189,16 @@ trait WebformAjaxFormTrait {
    */
   public function submitAjaxForm(array &$form, FormStateInterface $form_state) {
     $scroll_top_target = (isset($form['#webform_ajax_scroll_top'])) ? $form['#webform_ajax_scroll_top'] : 'form';
+
     if ($form_state->hasAnyErrors()) {
       // Display validation errors and scroll to the top of the page.
       $response = $this->replaceForm($form, $form_state);
       if ($scroll_top_target) {
         $response->addCommand(new WebformScrollTopCommand('#' . $this->getWrapperId(), $scroll_top_target));
       }
-      return $response;
+
+      // Announce validation errors.
+      $this->announce($this->t('Form validation errors have been found.'));
     }
     elseif ($form_state->isRebuilding()) {
       // Rebuild form.
@@ -178,18 +206,76 @@ trait WebformAjaxFormTrait {
       if ($scroll_top_target) {
         $response->addCommand(new WebformScrollTopCommand('#' . $this->getWrapperId(), $scroll_top_target));
       }
-      return $response;
     }
     elseif ($redirect_url = $this->getFormStateRedirectUrl($form_state)) {
       // Redirect to URL.
       $response = $this->createAjaxResponse($form, $form_state);
       $response->addCommand(new WebformCloseDialogCommand());
       $response->addCommand(new WebformRefreshCommand($redirect_url));
-      return $response;
     }
     else {
-      return $this->cancelAjaxForm($form, $form_state);
+      $response = $this->cancelAjaxForm($form, $form_state);
     }
+
+    // Add announcements to Ajax response and then reset the announcements.
+    // @see \Drupal\webform\Form\WebformAjaxFormTrait::announce
+    $announcements = $this->getAnnouncements();
+    foreach ($announcements as $announcement) {
+      $response->addCommand(new WebformAnnounceCommand($announcement['text'], $announcement['priority']));
+    }
+    $this->resetAnnouncements();
+
+    return $response;
+  }
+
+  /**
+   * Validate form #ajax callback.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public function validateAjaxForm(array &$form, FormStateInterface $form_state) {
+    if (!$this->isCallableAjaxCallback($form, $form_state)) {
+      $this->missingAjaxCallback($form, $form_state);
+    }
+  }
+
+  /**
+   * Determine if Ajax callback is callable.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return bool
+   *   TRUE if if Ajax callback exists.
+   */
+  protected function isCallableAjaxCallback(array &$form, FormStateInterface $form_state) {
+    // Make sure the ajax callback exists.
+    // @see \Drupal\Core\Form\FormAjaxResponseBuilder::buildResponse
+    $callback = NULL;
+    if (($triggering_element = $form_state->getTriggeringElement()) && isset($triggering_element['#ajax']['callback'])) {
+      $callback = $triggering_element['#ajax']['callback'];
+    }
+    $callback = $form_state->prepareCallback($callback);
+    return (empty($callback) || !is_callable($callback)) ? FALSE : TRUE;
+  }
+
+  /**
+   * Handle missing Ajax callback.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  protected function missingAjaxCallback(array &$form, FormStateInterface $form_state) {
+    $command = new WebformConfirmReloadCommand($this->t('We are unable to complete the current request.') . PHP_EOL . PHP_EOL . $this->t('Do you want to reload the current page?'));
+    print Json::encode([$command->render()]);
+    exit;
   }
 
   /**
@@ -292,6 +378,68 @@ trait WebformAjaxFormTrait {
     else {
       return FALSE;
     }
+  }
+
+  /****************************************************************************/
+  // Drupal.announce handling.
+  //
+  // Announcements are stored in the user session because the $form_state
+  // is already serialized (and can't be altered) when announcements
+  // are added to Ajax response.
+  // @see \Drupal\webform\Form\WebformAjaxFormTrait::submitAjaxForm
+  /****************************************************************************/
+
+  /**
+   * Queue announcement with Ajax response.
+   *
+   * @param string $text
+   *   A string to be read by the UA.
+   * @param string $priority
+   *   A string to indicate the priority of the message. Can be either
+   *   'polite' or 'assertive'.
+   *
+   * @see \Drupal\webform\Ajax\WebformAnnounceCommand
+   * @see \Drupal\webform\Form\WebformAjaxFormTrait::submitAjaxForm
+   */
+  protected function announce($text, $priority = 'polite') {
+    $announcements = $this->getAnnouncements();
+    $announcements[] = [
+      'text' => $text,
+      'priority' => $priority,
+    ];
+    $this->setAnnouncements($announcements);
+  }
+
+  /**
+   * Get announcements.
+   *
+   * @return array
+   *   An associative array of announcements.
+   */
+  protected function getAnnouncements() {
+    $session = $this->getRequest()->getSession();
+    return $session->get('announcements') ?: [];
+  }
+
+  /**
+   * Set announcements.
+   *
+   * @param array $announcements
+   *   An associative array of announcements.
+   */
+  protected function setAnnouncements(array $announcements) {
+    $session = $this->getRequest()->getSession();
+    $session->set('announcements', $announcements);
+    $session->save();
+  }
+
+  /**
+   * Reset announcements.
+   */
+  protected function resetAnnouncements() {
+    $session = $this->getRequest()->getSession();
+    $session->remove('announcements');
+    $session->save();
   }
 
 }

@@ -25,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   cardinality = \Drupal\webform\Plugin\WebformHandlerInterface::CARDINALITY_UNLIMITED,
  *   results = \Drupal\webform\Plugin\WebformHandlerInterface::RESULTS_PROCESSED,
  *   submission = \Drupal\webform\Plugin\WebformHandlerInterface::SUBMISSION_OPTIONAL,
+ *   tokens = TRUE,
  * )
  */
 class ActionWebformHandler extends WebformHandlerBase {
@@ -65,17 +66,18 @@ class ActionWebformHandler extends WebformHandlerBase {
    */
   public function getSummary() {
     $configuration = $this->getConfiguration();
-    $this->configuration = $configuration['settings'];
+    $settings = $configuration['settings'];
 
     // Get state labels.
     $states = [
-      WebformSubmissionInterface::STATE_DRAFT => $this->t('Draft Saved'),
+      WebformSubmissionInterface::STATE_DRAFT_CREATED => $this->t('Draft created'),
+      WebformSubmissionInterface::STATE_DRAFT_UPDATED => $this->t('Draft updated'),
       WebformSubmissionInterface::STATE_CONVERTED => $this->t('Converted'),
       WebformSubmissionInterface::STATE_COMPLETED => $this->t('Completed'),
       WebformSubmissionInterface::STATE_UPDATED => $this->t('Updated'),
       WebformSubmissionInterface::STATE_LOCKED => $this->t('Locked'),
     ];
-    $this->configuration['states'] = array_intersect_key($states, array_combine($this->configuration['states'], $this->configuration['states']));
+    $settings['states'] = array_intersect_key($states, array_combine($settings['states'], $settings['states']));
 
     // Get message type.
     $message_types = [
@@ -84,15 +86,15 @@ class ActionWebformHandler extends WebformHandlerBase {
       'warning' => t('Warning'),
       'info' => t('Info'),
     ];
-    $this->configuration['message'] = $this->configuration['message'] ? WebformHtmlEditor::checkMarkup($this->configuration['message']) : NULL;
-    $this->configuration['message_type'] = $message_types[$this->configuration['message_type']];
+    $settings['message'] = $settings['message'] ? WebformHtmlEditor::checkMarkup($settings['message']) : NULL;
+    $settings['message_type'] = $message_types[$settings['message_type']];
 
     // Get data element keys.
-    $data = Yaml::decode($this->configuration['data']) ?: [];
-    $this->configuration['data'] = array_keys($data);
+    $data = Yaml::decode($settings['data']) ?: [];
+    $settings['data'] = array_keys($data);
 
     return [
-      '#settings' => $this->configuration,
+      '#settings' => $settings,
     ] + parent::getSummary();
   }
 
@@ -126,10 +128,11 @@ class ActionWebformHandler extends WebformHandlerBase {
       '#type' => 'checkboxes',
       '#title' => $this->t('Execute'),
       '#options' => [
-        WebformSubmissionInterface::STATE_DRAFT => $this->t('...when <b>draft</b> is saved.'),
-        WebformSubmissionInterface::STATE_CONVERTED => $this->t('...when anonymous submission is <b>converted</b> to authenticated.'),
-        WebformSubmissionInterface::STATE_COMPLETED => $this->t('...when submission is <b>completed</b>.'),
-        WebformSubmissionInterface::STATE_UPDATED => $this->t('...when submission is <b>updated</b>.'),
+        WebformSubmissionInterface::STATE_DRAFT_CREATED => $this->t('…when <b>draft is created</b>.'),
+        WebformSubmissionInterface::STATE_DRAFT_UPDATED => $this->t('…when <b>draft is updated</b>.'),
+        WebformSubmissionInterface::STATE_CONVERTED => $this->t('…when anonymous <b>submission is converted</b> to authenticated.'),
+        WebformSubmissionInterface::STATE_COMPLETED => $this->t('…when <b>submission is completed</b>.'),
+        WebformSubmissionInterface::STATE_UPDATED => $this->t('…when <b>submission is updated</b>.'),
       ],
       '#required' => TRUE,
       '#access' => $results_disabled ? FALSE : TRUE,
@@ -208,7 +211,7 @@ class ActionWebformHandler extends WebformHandlerBase {
         '#rows' => $elements_rows,
       ],
     ];
-    $form['actions']['token_tree_link'] = $this->tokenManager->buildTreeLink();
+    $form['actions']['token_tree_link'] = $this->buildTokenTreeElement();
 
     // Development.
     $form['development'] = [
@@ -223,9 +226,9 @@ class ActionWebformHandler extends WebformHandlerBase {
       '#default_value' => $this->configuration['debug'],
     ];
 
-    $this->tokenManager->elementValidate($form);
+    $this->elementTokenValidate($form);
 
-    return $this->setSettingsParentsRecursively($form);
+    return $this->setSettingsParents($form);
   }
 
   /**
@@ -261,9 +264,6 @@ class ActionWebformHandler extends WebformHandlerBase {
 
     // Cleanup locked.
     $this->configuration['locked'] = ($this->configuration['locked'] === '') ? NULL : (bool) $this->configuration['locked'];
-
-    // Cast debug.
-    $this->configuration['debug'] = (bool) $this->configuration['debug'];
   }
 
   /**
@@ -300,14 +300,14 @@ class ActionWebformHandler extends WebformHandlerBase {
     // Append notes.
     if ($this->configuration['notes']) {
       $notes = rtrim($webform_submission->getNotes());
-      $notes .= ($notes ? PHP_EOL . PHP_EOL : '') . $this->tokenManager->replace($this->configuration['notes'], $webform_submission);
+      $notes .= ($notes ? PHP_EOL . PHP_EOL : '') . $this->replaceTokens($this->configuration['notes'], $webform_submission);
       $webform_submission->setNotes($notes);
     }
 
     // Set data.
     if ($this->configuration['data']) {
       $data = Yaml::decode($this->configuration['data']);
-      $data = $this->tokenManager->replace($data, $webform_submission);
+      $data = $this->replaceTokens($data, $webform_submission);
       foreach ($data as $key => $value) {
         $webform_submission->setElementData($key, $value);
       }
@@ -316,10 +316,10 @@ class ActionWebformHandler extends WebformHandlerBase {
     // Display message.
     if ($this->configuration['message']) {
       $message = WebformHtmlEditor::checkMarkup(
-        $this->tokenManager->replace($this->configuration['message'], $webform_submission)
+        $this->replaceTokens($this->configuration['message'], $webform_submission)
       );
       $message_type = $this->configuration['message_type'];
-      drupal_set_message(\Drupal::service('renderer')->renderPlain($message), $message_type);
+      $this->messenger()->addMessage(\Drupal::service('renderer')->renderPlain($message), $message_type);
     }
 
     // Resave the webform submission without trigger any hooks or handlers.
@@ -396,7 +396,7 @@ class ActionWebformHandler extends WebformHandlerBase {
       '#wrapper_attributes' => ['class' => ['container-inline'], 'style' => 'margin: 0'],
     ];
 
-    drupal_set_message(\Drupal::service('renderer')->renderPlain($build), 'warning', TRUE);
+    $this->messenger()->addWarning(\Drupal::service('renderer')->renderPlain($build), TRUE);
   }
 
 }

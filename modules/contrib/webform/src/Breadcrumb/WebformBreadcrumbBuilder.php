@@ -82,14 +82,17 @@ class WebformBreadcrumbBuilder implements BreadcrumbBuilderInterface {
       $path = '';
     }
 
-    if ((count($args) > 2) && $args[0] == 'entity' && ($args[2] == 'webform' ||  $args[2] == 'webform_submission')) {
+    /** @var \Drupal\webform\WebformInterface $webform */
+    $webform = ($route_match->getParameter('webform') instanceof WebformInterface) ? $route_match->getParameter('webform') : NULL;
+
+    /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
+    $webform_submission = ($route_match->getParameter('webform_submission') instanceof WebformSubmissionInterface) ? $route_match->getParameter('webform_submission') : NULL;
+
+    if ((count($args) > 2) && $args[0] == 'entity' && ($args[2] == 'webform' || $args[2] == 'webform_submission')) {
       $this->type = 'webform_source_entity';
     }
     elseif ($route_name === 'webform.reports_plugins.elements.test') {
       $this->type = 'webform_plugins_elements';
-    }
-    elseif (strpos($route_name, 'webform.contribute') === 0) {
-      $this->type = 'webform_contribute';
     }
     elseif (strpos($route_name, 'webform.help.') === 0) {
       $this->type = 'webform_help';
@@ -100,21 +103,19 @@ class WebformBreadcrumbBuilder implements BreadcrumbBuilderInterface {
     elseif (strpos($route_name, 'entity.webform.handler.') === 0) {
       $this->type = 'webform_handler';
     }
-    elseif ($route_match->getParameter('webform_submission') instanceof WebformSubmissionInterface && strpos($route_name, 'webform.user.submission') !== FALSE) {
+    elseif ($webform_submission && strpos($route_name, '.webform.user.submission') !== FALSE) {
       $this->type = 'webform_user_submission';
     }
-    elseif (strpos($route_match->getRouteName(), 'webform.user.submissions') !== FALSE) {
+    elseif (strpos($route_name, '.webform.user.submissions') !== FALSE) {
       $this->type = 'webform_user_submissions';
     }
-    elseif (strpos($route_match->getRouteName(), 'webform.user.drafts') !== FALSE) {
+    elseif (strpos($route_name, '.webform.user.drafts') !== FALSE) {
       $this->type = 'webform_user_drafts';
     }
-    elseif ($route_match->getParameter('webform_submission') instanceof WebformSubmissionInterface && $route_match->getParameter('webform_submission')->access('admin')) {
+    elseif ($webform_submission && $webform_submission->access('admin')) {
       $this->type = 'webform_submission';
     }
-    elseif (($route_match->getParameter('webform') instanceof WebformInterface  && $route_match->getParameter('webform')->access('admin'))) {
-      /** @var \Drupal\webform\WebformInterface $webform */
-      $webform = $route_match->getParameter('webform');
+    elseif ($webform && $webform->access('admin')) {
       $this->type = ($webform->isTemplate() && $this->moduleHandler->moduleExists('webform_templates')) ? 'webform_template' : 'webform';
     }
     elseif (strpos($path, 'admin/structure/webform/test/') !== FALSE) {
@@ -126,7 +127,6 @@ class WebformBreadcrumbBuilder implements BreadcrumbBuilderInterface {
     else {
       $this->type = NULL;
     }
-
     return ($this->type) ? TRUE : FALSE;
   }
 
@@ -182,11 +182,13 @@ class WebformBreadcrumbBuilder implements BreadcrumbBuilderInterface {
           if (strpos($route_name, 'config_translation.item.') === 0 && $route_name != 'config_translation.item.overview.webform.config') {
             $breadcrumb->addLink(Link::createFromRoute($this->t('Translate'), 'config_translation.item.overview.webform.config'));
           }
+          elseif (strpos($route_name, 'entity.webform_options_custom') === 0 && $route_name !== 'entity.webform_options_custom.collection') {
+            $breadcrumb->addLink(Link::createFromRoute($this->t('Custom options'), 'entity.webform_options_custom.collection'));
+          }
           elseif (strpos($route_name, 'entity.webform_options') === 0 && $route_name !== 'entity.webform_options.collection') {
             $breadcrumb->addLink(Link::createFromRoute($this->t('Options'), 'entity.webform_options.collection'));
           }
           elseif (strpos($route_name, 'entity.webform_image_select_images') === 0 && $route_name !== 'entity.webform_image_select_imagess.collection') {
-            // @todo Refactor or move to webform_image_select.module.
             // @see webform_image_select.module.
             $breadcrumb->addLink(Link::createFromRoute($this->t('Images'), 'entity.webform_image_select_images.collection'));
           }

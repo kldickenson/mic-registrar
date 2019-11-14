@@ -3,7 +3,7 @@
  * JavaScript behaviors for admin pages.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, debounce) {
 
   'use strict';
 
@@ -62,4 +62,4 @@
     }
   };
 
-})(jQuery, Drupal);
+})(jQuery, Drupal, Drupal.debounce);
